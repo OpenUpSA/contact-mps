@@ -26,7 +26,7 @@ else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # XXX set me
-GOOGLE_ANALYTICS_ID = "set this to something"
+GOOGLE_ANALYTICS_ID = "UA-93649482-2"
 
 ALLOWED_HOSTS = ['*']
 
@@ -66,7 +66,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 import dj_database_url
-db_config = dj_database_url.config(default='sqlite:///db.sqlite3')
+db_config = dj_database_url.config(default='postgres://contactmps@localhost:5432/contactmps')
 db_config['ATOMIC_REQUESTS'] = True
 DATABASES = {
     'default': db_config,
@@ -183,3 +183,11 @@ LOGGING = {
         }
     }
 }
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'code4sa-general'
+EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+
+# use this to stop sending emails
+SEND_EMAILS = os.environ.get('DJANGO_SEND_EMAILS') == 'True'

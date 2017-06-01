@@ -1,8 +1,27 @@
 {% extends "layout.html" %}
 
-{% block title %}Page Title{% endblock %}
+{% block title %}Send a message to an MP!{% endblock %}
 {% block content %}
 
-<h1>Hi!</h1>
+<h1>Send a message to an MP!</h1>
+
+<form action="email/" method="post">
+  {% csrf_token %}
+
+  <div>
+    {% for person in persons %}
+    <div><input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>{{ person.name }}</div>
+    {% endfor %}
+  </div>
+  <div>Subject: <input type="text" name="subject" value="Message to you rudy"></div>
+  <div>
+    <textarea name="body" rows="4" cols="50">I feel very strongly.</textarea>
+  </div>
+
+  <div>Your name: <input type="text" name="from_name"></div>
+  <div>Your email address: <input type="text" name="from_email"></div>
+
+  <div><input type="submit" value="Submit"></div>
+</form>
 
 {% endblock %}

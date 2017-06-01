@@ -14,6 +14,17 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
+```
+$ sudo su postgres
+$ psql
+postgres=# create role contactmps;
+CREATE ROLE
+postgres=# alter role contactmps login;
+ALTER ROLE
+postgres=# create database contactmps owner contactmps;
+CREATE DATABASE
+postgres=#
+```
 
 ```
 python manage.py migrate

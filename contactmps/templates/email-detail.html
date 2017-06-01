@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ email.from_name }} sent a message to {{ email.to_person.name }} MP!{% endblock %}
+{% block content %}
+
+<h1>{{ email.from_name }} sent a message to {{ email.to_person.name }} MP!</h1>
+
+
+<div><a href="/">Contact your MP</a></div>
+
+<div>From: {{ email.from_name }} &lt;{{ email.from_email }}&gt;</div>
+<div>
+  To: {{ email.to_person.name }} &lt;{{ email.to_addresses }}&gt;
+</div>
+<div>Subject: <input type="text" name="subject" value="Message to you rudy"></div>
+<div>
+  <textarea rows="4" cols="50" readonly>{{ email.body }}</textarea>
+</div>
+
+<div><a href="/">Contact your MP</a></div>
+
+
+{% endblock %}
