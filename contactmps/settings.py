@@ -25,7 +25,6 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-# XXX set me
 GOOGLE_ANALYTICS_ID = "UA-93649482-2"
 
 ALLOWED_HOSTS = ['*']
@@ -95,7 +94,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "contactmps.context_processors.google_analytics",
+    "contactmps.context_processors.general",
 )
 
 
