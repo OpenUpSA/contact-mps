@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.http import HttpResponse
 
 from .models import (
     Email,
@@ -63,3 +64,10 @@ def email_detail(request, uuid):
     return render(request, 'email-detail.html', {
         'email': email,
     })
+
+
+def robots(request):
+    """
+    Programmatic robots.txt so we can avoid indexing except for via domains
+    """
+    return HttpResponse("User-agent: *\nDisallow: /", content_type="text/plain")

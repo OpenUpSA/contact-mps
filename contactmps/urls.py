@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     url(r'^email/(?P<uuid>[\a-z0-0-]+)$', 'contactmps.views.email_detail', name='email-detail'),
 
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^robots.txt$', 'contactmps.views.robots'),
 )
