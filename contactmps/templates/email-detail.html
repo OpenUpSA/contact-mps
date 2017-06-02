@@ -1,13 +1,14 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ email.from_name }} sent a message to {{ email.to_person.name }} MP!{% endblock %}
-{% block og_title %}{{ email.from_name }} sent a message to {{ email.to_person.name }} MP!{% endblock %}
+{% block title %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
+{% block og_title %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
+{% block tweet %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
 
 {% block content %}
 
 <div><a href="/">Contact your MP</a></div>
 
-<h1>{{ email.from_name }} sent a message to {{ email.to_person.name }} MP</h1>
+<h1>I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP</h1>
 
 <div class="row">
   <img src="/static/images/parliament-empty-michael-hebb-1024x478.jpg" class="img-responsive">
