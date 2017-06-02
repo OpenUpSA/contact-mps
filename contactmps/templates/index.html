@@ -1,11 +1,20 @@
 {% extends "layout.html" %}
 
+{% block js %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+  function onSubmit(token) {
+    document.getElementById("email-form").submit();
+  }
+</script>
+{% endblock %}
+
 {% block title %}Send a message to an MP!{% endblock %}
 {% block content %}
 
 <h1>Send a message to an MP!</h1>
 
-<form action="email/" method="post">
+<form id="email-form" action="email/" method="post">
   {% csrf_token %}
 
   <div>
@@ -20,8 +29,14 @@
 
   <div>Your name: <input type="text" name="from_name"></div>
   <div>Your email address: <input type="text" name="from_email"></div>
-
-  <div><input type="submit" value="Submit"></div>
+  <div>
+    <button
+      class="g-recaptcha"
+      data-sitekey="{{ recaptcha_key }}"
+      data-callback="onSubmit">
+      Submit
+    </button>
+  </div>
 </form>
 
 {% endblock %}

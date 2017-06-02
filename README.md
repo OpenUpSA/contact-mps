@@ -57,7 +57,9 @@ dokku config:set  DJANGO_DEBUG=false \
                   NEW_RELIC_APP_NAME=cool app name \
                   NEW_RELIC_LICENSE_KEY=new relic license key \
                   DJANGO_EMAIL_HOST_PASSOWRD=the sendgrind password \
-                  EMAIL_SEND_EMAILS=True
+                  DJANGO_SEND_EMAILS=True \
+                  RECAPTCHA_KEY=... \
+                  RECAPTCHA_SECRET=...
 git push dokku master
 ```
 
