@@ -44,9 +44,10 @@ class Email(models.Model):
     def send(self):
         if not EMAIL_RE.match(self.from_email):
             self.from_email = "noreply@openup.org.za"
+        sender = "%s <%s>" % (self.from_name, self.from_email)
         recipients = [c.value for c in self.to_person.contactdetails.filter(type='email').all()]
         if settings.SEND_EMAILS:
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
-            send_mail(self.subject, self.body, self.from_email, recipients)
+            send_mail(self.subject, self.body, sender, recipients)
         self.to_addresses = ", ".join(recipients)
         self.save()
