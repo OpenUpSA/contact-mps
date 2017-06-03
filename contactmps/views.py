@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.http import HttpResponse
-from django.db.models import Count
+from django.db.models import Count, Case
 
 from .models import (
     Email,
@@ -16,7 +16,13 @@ log = logging.getLogger(__name__)
 
 
 def home(request):
-    persons = Person.objects.annotate(num_emails=Count('email')).order_by('num_emails')[:5]
+    # Only retuns persons with at least one email address
+    # Count the number of emails we've sent them
+    persons = Person.objects \
+                    .filter(contactdetails__type='email') \
+                    .annotate(num_email_addresses=Count('contactdetails')) \
+                    .annotate(num_emails=Count('email')) \
+                    .order_by('num_emails')[:5]
     return render(request, 'index.html', {
         'persons': persons,
         'recaptcha_key': settings.RECAPTCHA_KEY,
