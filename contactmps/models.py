@@ -17,8 +17,8 @@ class Person(models.Model):
     name = models.CharField(max_length=70, null=False, blank=False)
     pa_url = models.TextField(null=False, blank=False)
     in_national_assembly = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_at = models.DateTimeField(auto_now=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -28,11 +28,11 @@ class ContactDetail(models.Model):
     person = models.ForeignKey(Person, related_name="contactdetails")
     type = models.CharField(max_length=40, help_text="Type of contact detail")
     value = models.CharField(max_length=255, help_text="The actual detail")
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_at = models.DateTimeField(auto_now=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.value
+        return "%s (%s) %s" % (self.person.name, self.type, self.value,)
 
 
 class Email(models.Model):
@@ -44,8 +44,8 @@ class Email(models.Model):
     body = models.TextField(null=False, blank=False)
     from_name = models.CharField(max_length=70, null=False, blank=False)
     from_email = models.EmailField(null=False, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_at = models.DateTimeField(auto_now=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     uuid = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4)
 
     def send(self):
