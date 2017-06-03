@@ -2,6 +2,10 @@ from django.core.management.base import BaseCommand, CommandError
 from contactmps.models import Person
 import json
 import requests
+import logging
+
+log = logging.getLogger(__name__)
+POMBOLA_URL = 'http://www.pa.org.za/media_root/popolo_json/pombola.json'
 
 class Command(BaseCommand):
     help = 'Loads data from Peoples Assembly'
@@ -24,10 +28,15 @@ class Command(BaseCommand):
         removed_person_count = 0
 
         if options['filename']:
-            print "Loading Peoples Assembly data from %s" % options['filename']
+            log.debug("Loading MP data from %s", options['filename'])
             with open(options['filename']) as json_file:
                 pombola = json.load(json_file)
-
+        else:
+            log.debug("Downloading MP data from %s", POMBOLA_URL)
+            r = requests.get(POMBOLA_URL)
+            log.debug("Finished downloading MP data")
+            r.raise_for_status()
+            pombola = r.json()
 
         for person in pombola['persons']:
             person_count += 1

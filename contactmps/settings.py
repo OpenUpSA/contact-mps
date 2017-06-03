@@ -180,7 +180,10 @@ LOGGING = {
         # },
         'django': {
             'level': 'DEBUG' if DEBUG else 'INFO',
-        }
+        },
+        'contactmps': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+        },
     }
 }
 
