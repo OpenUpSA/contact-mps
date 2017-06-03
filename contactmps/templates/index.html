@@ -24,7 +24,7 @@
 
   <div>
     {% for person in persons %}
-    <div><input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>{{ person.name }}</div>
+    <div><input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>{{ person.name }} (emailed {{ person.num_emails }} times)</div>
     {% endfor %}
   </div>
   <div>Subject: <input type="text" name="subject" value="Message to you rudy"></div>

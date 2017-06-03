@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.http import HttpResponse
+from django.db.models import Count
 
 from .models import (
     Email,
@@ -15,7 +16,7 @@ log = logging.getLogger(__name__)
 
 
 def home(request):
-    persons = Person.objects.all()
+    persons = Person.objects.annotate(num_emails=Count('email')).order_by('num_emails')[:5]
     return render(request, 'index.html', {
         'persons': persons,
         'recaptcha_key': settings.RECAPTCHA_KEY,
@@ -31,7 +32,9 @@ def email(request):
         r = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)
         r.raise_for_status()
         if r.json()['success']:
-            person = Person.objects.get(id=request.POST['person'][0])
+            print
+            print "person", int(request.POST['person'])
+            person = Person.objects.get(id=int(request.POST['person']))
             if 'HTTP_X_FORWARDED_FOR' in request.META:
                 remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
             else:
@@ -49,11 +52,11 @@ def email(request):
             email.send()
             return redirect(reverse('email-detail', kwargs={'uuid': email.uuid}))
         else:
-            log.error("Error validating reCaptcha for %s <%s>: %s", (
-                request.POST['from_name'],
-                request.POST['from_email'],
-                r.json()
-            ))
+            log.error("Error validating reCaptcha for %s <%s>: %s",
+                      request.POST['from_name'],
+                      request.POST['from_email'],
+                      r.json(),
+            )
             return redirect('/')
     else:
         return redirect('/')
