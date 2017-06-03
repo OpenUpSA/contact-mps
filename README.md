@@ -3,10 +3,22 @@ Contact MPs
 
 This is a project intended to make it easier to contact Members of Parliament.
 
+## Data updates
+
+Member of Parliament data is downloaded from (People's Assembly)[pa.org.za].
+
+You can manually download the data and update the database with
+```
+python manage.py loadpa
+```
+
+You can manually update the database from a file on the server using
+```
+python manage.py loadpa --file=path/to/pombola.json
+```
 
 Setting up dev env
 -----------------------
-
 
 ```
 virtualenv --no-site-packages env
@@ -61,6 +73,13 @@ dokku config:set  DJANGO_DEBUG=false \
                   RECAPTCHA_KEY=... \
                   RECAPTCHA_SECRET=...
 git push dokku master
+```
+
+## Nightly data updates
+
+Looks like People's Assembly produces a dump around 01:30 GMT so set a cron job for around 02:00 GMT
+```
+0 0 0 0 0 dokku run --rm ...
 ```
 
 License

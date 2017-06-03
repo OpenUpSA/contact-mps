@@ -16,16 +16,23 @@ class Person(models.Model):
     pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
     name = models.CharField(max_length=70, null=False, blank=False)
     pa_url = models.TextField(null=False, blank=False)
+    in_national_assembly = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    def __unicode__(self):
+        return self.name
 
 
 class ContactDetail(models.Model):
     person = models.ForeignKey(Person, related_name="contactdetails")
-    type = models.CharField(max_length=20, help_text="Type of contact detail")
+    type = models.CharField(max_length=40, help_text="Type of contact detail")
     value = models.CharField(max_length=255, help_text="The actual detail")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    def __unicode__(self):
+        return self.value
 
 
 class Email(models.Model):
@@ -51,3 +58,6 @@ class Email(models.Model):
             send_mail(self.subject, self.body, sender, recipients)
         self.to_addresses = ", ".join(recipients)
         self.save()
+
+    def __unicode__(self):
+        return u"From: %s To: %s" % (self.from_email, self.to_addresses)
