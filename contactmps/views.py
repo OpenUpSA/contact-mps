@@ -15,7 +15,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-def home(request):
+def create_mail(request):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
     persons = Person.objects \
@@ -23,7 +23,7 @@ def home(request):
                     .annotate(num_email_addresses=Count('contactdetails')) \
                     .annotate(num_emails=Count('email')) \
                     .order_by('num_emails')[:5]
-    return render(request, 'index.html', {
+    return render(request, 'create_mail.html', {
         'persons': persons,
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })

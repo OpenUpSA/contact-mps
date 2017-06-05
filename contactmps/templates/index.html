@@ -1,58 +1,12 @@
 {% extends "layout.html" %}
+{% load pipeline %}
 
-{% block js %}
-{{ block.super }}
-<script src='https://www.google.com/recaptcha/api.js'></script>
-<script>
-  function onSubmit(token) {
-    document.getElementById("email-form").submit();
-  }
-</script>
-{% endblock %}
+{% block title %}Embed example{% endblock %}
 
-{% block title %}Send a message to a Member of Parliament{% endblock %}
 {% block content %}
-
-<h1>Send a message to a Member of Parliament</h1>
-
-<div class="row">
-  <img src="/static/images/parliament-empty-michael-hebb-1024x478.jpg" class="img-responsive">
-</div>
-
-<form id="email-form" action="email/" method="post">
-  {% csrf_token %}
-
-  <div>
-    {% for person in persons %}
-    <div><input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>{{ person.name }} (emailed {{ person.num_emails }} times)</div>
-    {% endfor %}
-  </div>
-  <div>Subject: <input type="text" name="subject" value="Message to you rudy"></div>
-  <div>
-    <textarea name="body"  class="form-control">I feel very strongly.</textarea>
-  </div>
-
-  <div>Your name: <input type="text" name="from_name"></div>
-  <div>Your email address: <input type="text" name="from_email"></div>
-  <div>
-    <button
-      class="g-recaptcha"
-      data-sitekey="{{ recaptcha_key }}"
-      data-callback="onSubmit">
-      Submit
-    </button>
-  </div>
-</form>
-
-<br>
+<script type="text/javascript" src="/static/javascript/embed.js"></script>
 {% endblock content%}
 
-{% block attribution %}
-<div>
-  <ul>
-    <li><a href="https://www.flickr.com/photos/michaelhebb/5701999088/in/photolist-6hsFjU-AoRjc-8nh5Q4-Ei6m71-snzer1-6X1Hmi-5qNmgc-dR3XzP-dR9vS3-8D9MUS-o4gXBt-6X8zLZ-i7CXHn-dpirUa-d59QMG-5x36Di-Rk6sq5-RDE4gy-den4Ck-bUtToB-51XW6w-9dA2fi-brAo43-f81cpu-nM6SXn-aqhWae-8NtUJA-o4tMVU-hcRBHM-KRXgC-p8F6Yf-nJsf5S-9hhpEr-o4thB1-s6bgRP-o6nz9v-ia7fFM-BLJjRH-ky2WRx-8ebe5L-9FSeF7-6Up7gM-qw5s5D-s84xhT-sp2iLu-iKDgoU-kCi7r9-8boVRg-aJ4ex4-i7QhBe">Photo by Michael Hebb</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>
-    <li><a href="https://www.flickr.com/photos/richardatuct/5425424966/in/photolist-9gqHPL-s9Jtk1-soZY9q-RDE4gy-sri5yx-aqhWae-sri6Yg-9FSeF7-p8F6Yf-s9HPJ9-as7CnR-8dtafz-sp1A89-ruidiu-s9JUth-ruuYSr-s9HQeh-sp18Ph-s7YCmD-s9RAba-s9RLeB-s9Jna5-ruvpAe-s9HTtb-srgspr-sp2i8L-s9HSnA-pNKkWy-s7YH68-ruhLxS-6o1EuJ-srizy6-aqkAEE-s9QZxx-aqkErw-hcdkfu-sp1HXN-322Eji-7BHKcp-55AJso-9ASXva-s9J8zj-7DT1Pr-s7Y3bV-6RzaL3-aqkJ5b-8faxN7-sp1uWh-etpXGk-xZ5h84">"Parliaments Behind" by Richard Atkinson</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>
-    <li><a href="http://www.pa.org.za/help/api">Member of Parliament data compiled by People's Assembly</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA 4.0</a>
-  </ul>
-</div>
-{% endblock attribution %}
+{% block social_sharing %}{% endblock social_sharing %}
+{% block attribution_heading %}{% endblock attribution_heading %}
+{% block attribution %}{% endblock attribution %}

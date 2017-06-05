@@ -140,6 +140,18 @@ PIPELINE_JS = {
         ),
         'output_filename': 'app.js',
     },
+    'pym.js': {
+        'source_filenames': (
+            'javascript/pym.v1.min.js',
+        ),
+        'output_filename': 'pym.js',
+    },
+    'embed.js': {
+        'source_filenames': (
+            'javascript/embed.js',
+        ),
+        'output_filename': 'embed.js',
+    },
 }
 PIPELINE_CSS_COMPRESSOR = None
 PIPELINE_JS_COMPRESSOR = None
