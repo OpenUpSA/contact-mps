@@ -41,12 +41,21 @@ class Command(BaseCommand):
 
             if current_mp:
                 self.assembly_person_count += 1
+                member_constituency_offices = get_current_memberships_by_organizations(
+                    pa_person['memberships'], constituency_offices.keys())
+                if member_constituency_offices:
+                    self.assembly_constituency_count += 1
 
             print current_mp is not None, pa_person['name']
-        print "Assembly count:  %d" % self.assembly_person_count
-        print "New persons:     %d" % self.new_person_count
-        print "Removed persons: %d" % self.removed_person_count
-        print "Total persons:   %d" % self.person_count
+            if current_mp:
+                print "    %s" % [constituency_offices[m['organization_id']]['name'] for m in member_constituency_offices]
+
+        print
+        print "Assembly count:                  %d" % self.assembly_person_count
+        print "Assembly in constituency count:  %d" % self.assembly_constituency_count
+        print "New persons:                     %d" % self.new_person_count
+        print "Removed persons:                 %d" % self.removed_person_count
+        print "Total persons:                   %d" % self.person_count
 
     def get_pombola(self, options):
         if options['filename']:
@@ -71,7 +80,8 @@ class Command(BaseCommand):
         """
         # currently in national assembly
         in_national_assembly = False
-        if get_current_membership_by_ids(pa_person['memberships'], set(['core_organisation:70'])):
+        if get_current_memberships_by_organizations(
+                pa_person['memberships'], ['core_organisation:70']):
             in_national_assembly = True
 
         person = None
@@ -109,17 +119,12 @@ class Command(BaseCommand):
             return person
 
 
-def get_current_membership_by_ids(memberships, ids):
+def get_current_memberships_by_organizations(memberships, organization_ids):
+    matching_memberships = []
     for membership in memberships:
         # There might be multiple periods in that organization.
         # we only return if we find one that is current.
-        if membership.get('organization_id', None) in ids:
+        if membership.get('organization_id', None) in organization_ids:
             if not membership.get('end_date', False):
-                return membership
-
-
-def get_current_membership_by_classifications(memberships, classifications):
-    for membership in memberships:
-        if membership.get('classification', None) in classifications:
-            if not membership.get('end_date', False):
-                return membership
+                matching_memberships.append(membership)
+    return matching_memberships
