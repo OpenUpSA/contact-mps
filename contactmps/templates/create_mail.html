@@ -2,6 +2,15 @@
 
 {% block head_js %}
 <script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+var gReCaptchaValidated = function() {
+  $("input[type=submit]").removeAttr('disabled');
+};
+
+var gReCaptchaExpired = function() {
+  $("input[type=submit]").attr('disabled','disabled');
+};
+</script>
 {% endblock head_js %}
 
 {% block title %}Send a message to a Member of Parliament{% endblock %}
