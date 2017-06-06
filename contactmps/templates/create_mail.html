@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 
-{% block js %}
+{% block head_js %}
 <script src='https://www.google.com/recaptcha/api.js'></script>
-{{ block.super }}
-{% endblock %}
+{% endblock head_js %}
 
 {% block title %}Send a message to a Member of Parliament{% endblock %}
 {% block content %}
