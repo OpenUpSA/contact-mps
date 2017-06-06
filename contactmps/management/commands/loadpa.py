@@ -84,6 +84,11 @@ class Command(BaseCommand):
                 pa_person['memberships'], ['core_organisation:70']):
             in_national_assembly = True
 
+        if 'images' in pa_person:
+            portrait_url = pa_person['images'][0].get('url', None)
+        else:
+            portrait_url = None
+
         person = None
         try:
             person = Person.objects.get(pa_id=pa_person['id'])
@@ -93,6 +98,7 @@ class Command(BaseCommand):
             person.name = pa_person['name']
             person.pa_url = pa_person['pa_url']
             person.in_national_assembly = in_national_assembly
+            person.portrait_url = portrait_url
             person.save()
             # Easiest just to delete and recreate contacts
             for contact in person.contactdetails.all():
@@ -103,6 +109,7 @@ class Command(BaseCommand):
                     pa_id=pa_person['id'],
                     name=pa_person['name'],
                     pa_url=pa_person['pa_url'],
+                    portrait_url=portrait_url,
                 )
                 person.save()
                 self.new_person_count += 1

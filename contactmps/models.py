@@ -14,6 +14,7 @@ class Person(models.Model):
     name = models.CharField(max_length=70, null=False, blank=False)
     pa_url = models.TextField(null=False, blank=False)
     in_national_assembly = models.BooleanField(default=True)
+    portrait_url = models.CharField(max_length=300, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
