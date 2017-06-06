@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -69,8 +69,9 @@ def email(request):
             )
             email.save()
             email.send()
-            email_url = reverse('email-detail', kwargs={'uuid': email.uuid})
-            return redirect(email_url)
+            # Manually generate URL because Django<1.9 produces absolute URLs
+            # which might produce wrong scheme without annoying config
+            return redirect("/email/%s/" % email.uuid)
         else:
             log.error("Error validating reCaptcha for %s <%s>: %s",
                       request.POST['from_name'],
@@ -95,16 +96,3 @@ def robots(request):
     Programmatic robots.txt so we can avoid indexing except for via domains
     """
     return HttpResponse("User-agent: *\nDisallow: /", content_type="text/plain")
-
-
-def redirect(url):
-    """
-    Manually generate Response because Django<1.9 redirect produces absolute URLs
-    which might produce wrong scheme without annoying config
-    """
-    resp = HttpResponse(
-        '<meta http-equiv="refresh" content="2;url=%s">' % url,
-        status=302
-    )
-    resp['Location'] = url
-    return resp
