@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 
 {% block js %}
-{{ block.super }}
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script>
   function onSubmit(token) {
     document.getElementById("email-form").submit();
   }
 </script>
+{{ block.super }}
 {% endblock %}
 
 {% block title %}Send a message to a Member of Parliament{% endblock %}

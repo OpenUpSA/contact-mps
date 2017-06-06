@@ -84,7 +84,7 @@
     {% block js %}
     {% javascript "pym.js" %}
     <script>
-      var pymChild = new pym.Child();
+      var pymChild = new pym.Child({ polling: 2000 });
     </script>
 
     {% javascript "js" %}
