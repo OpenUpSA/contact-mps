@@ -55,6 +55,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+X_FRAME_OPTIONS = 'ALLOW'
+
 ROOT_URLCONF = 'contactmps.urls'
 
 WSGI_APPLICATION = 'contactmps.wsgi.application'
