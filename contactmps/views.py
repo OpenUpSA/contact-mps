@@ -69,7 +69,9 @@ def email(request):
             )
             email.save()
             email.send()
-            return redirect(reverse('email-detail', kwargs={'uuid': email.uuid}))
+            # Manually generate URL because Django<1.9 produces absolute URLs
+            # which might produce wrong scheme without annoying config
+            return redirect("/email/%s/" % email.uuid)
         else:
             log.error("Error validating reCaptcha for %s <%s>: %s",
                       request.POST['from_name'],
