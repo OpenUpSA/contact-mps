@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
-from contactmps.models import Person, ContactDetail
+from contactmps.models import Person, ContactDetail, Party
 import json
 import requests
 import logging
@@ -33,6 +33,10 @@ class Command(BaseCommand):
         for org in pombola['organizations']:
             if org['classification'] in ('Constituency Office', 'Constituency Area'):
                 constituency_offices[org['id']] = org
+        parties = {}
+        for org in pombola['organizations']:
+            if org['classification'] in ('Party'):
+                parties[org['id']] = org
 
         for pa_person in pombola['persons']:
             self.person_count += 1
@@ -45,10 +49,23 @@ class Command(BaseCommand):
                     pa_person['memberships'], constituency_offices.keys())
                 if member_constituency_offices:
                     self.assembly_constituency_count += 1
+                member_parties = get_current_memberships_by_organizations(
+                    pa_person['memberships'], parties.keys())
+                if member_parties:
+                    pa_party = parties[member_parties[0]['organization_id']]
+                    party, created = Party.objects.update_or_create(
+                        pa_id=pa_party['id'],
+                        defaults={
+                            'name': pa_party['name'],
+                            'slug': pa_party['slug'],
+                        })
+                    current_mp.party = party
+                    current_mp.save()
 
             print current_mp is not None, pa_person['name']
             if current_mp:
                 print "    %s" % [constituency_offices[m['organization_id']]['name'] for m in member_constituency_offices]
+                print "    %s" % [parties[m['organization_id']]['name'] for m in member_parties]
 
         print
         print "Assembly count:                  %d" % self.assembly_person_count
@@ -90,31 +107,30 @@ class Command(BaseCommand):
             portrait_url = None
 
         person = None
-        try:
-            person = Person.objects.get(pa_id=pa_person['id'])
-            if person.in_national_assembly and not in_national_assembly:
+        if in_national_assembly:
+            person, created = Person.objects.update_or_create(
+                pa_id=pa_person['id'],
+                defaults={
+                    'name': pa_person['name'],
+                    'pa_url': pa_person['pa_url'],
+                    'in_national_assembly': True,
+                    'portrait_url': portrait_url,
+                })
+            if created:
+                self.new_person_count += 1
+        else:
+            try:
+                person = Person.objects.get(pa_id=pa_person['id'])
+                person.in_national_assembly = False
                 self.removed_person_count += 1
-            # update
-            person.name = pa_person['name']
-            person.pa_url = pa_person['pa_url']
-            person.in_national_assembly = in_national_assembly
-            person.portrait_url = portrait_url
+            except ObjectDoesNotExist:
+                pass
+
+        if person:
             person.save()
             # Easiest just to delete and recreate contacts
             for contact in person.contactdetails.all():
                 contact.delete()
-        except ObjectDoesNotExist:
-            if in_national_assembly:
-                person = Person(
-                    pa_id=pa_person['id'],
-                    name=pa_person['name'],
-                    pa_url=pa_person['pa_url'],
-                    portrait_url=portrait_url,
-                )
-                person.save()
-                self.new_person_count += 1
-
-        if person:
             for pa_contact_detail in pa_person['contact_details']:
                 ContactDetail.objects.create(
                     person=person,

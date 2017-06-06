@@ -32,7 +32,17 @@ var gReCaptchaExpired = function() {
       {% if person.portrait_url %}
       <img src="{{ person.portrait_url }}" alt="portrait of {{ person.name }}" height="45">
       {% endif %}
-      {{ person.name }} (emailed {{ person.num_emails }} times)
+      {{ person.name }}
+      <p>(emailed {{ person.num_emails }} times)</p>
+      <p>
+        {% if person.party %}
+        <img src="http://www.pa.org.za/static/images/party-map-icons/{{ person.party.slug }}.png" alt="Logo of {{ person.party.name }}">
+        {{ person.party.name }}
+        {% else %}
+        Not a member of a political party
+        {% endif %}
+      </p>
+
     </div>
     {% endfor %}
   </div>

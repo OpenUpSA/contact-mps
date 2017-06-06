@@ -9,12 +9,19 @@ EMAIL_RE = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 log = logging.getLogger(__name__)
 
 
+class Party(models.Model):
+    pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
+    name = models.CharField(max_length=200, null=False, blank=False)
+    slug = models.CharField(max_length=70, null=False, blank=False)
+
+
 class Person(models.Model):
     pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
     name = models.CharField(max_length=70, null=False, blank=False)
     pa_url = models.TextField(null=False, blank=False)
     in_national_assembly = models.BooleanField(default=True)
     portrait_url = models.CharField(max_length=300, null=True, blank=True)
+    party = models.ForeignKey(Party, null=True, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
