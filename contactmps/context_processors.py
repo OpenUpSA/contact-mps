@@ -17,3 +17,17 @@ def general(request):
     if not settings.DEBUG and ga_tracking_id:
         info['GOOGLE_ANALYTICS_ID'] = ga_tracking_id
     return info
+
+
+def is_mobile(request):
+    useragent = request.META.get('HTTP_USER_AGENT', '').lower()
+    mobiles = [
+        'ipad',
+        'ipod',
+        'iphone',
+        'android',
+        'blackberry',
+    ]
+    return {
+        'is_mobile': any(mobile in useragent for mobile in mobiles),
+    }
