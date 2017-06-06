@@ -1,11 +1,8 @@
-from django.core.urlresolvers import reverse
 from django.db import models
-from django.utils import timezone
-from django.utils.text import slugify
 import re
 import uuid
 import logging
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.conf import settings
 
 EMAIL_RE = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
@@ -52,10 +49,17 @@ class Email(models.Model):
         if not EMAIL_RE.match(self.from_email):
             self.from_email = "noreply@openup.org.za"
         sender = "%s <%s>" % (self.from_name, self.from_email)
-        recipients = [c.value for c in self.to_person.contactdetails.filter(type='email').all()]
+        recipients = ["%s <%s>" % (self.to_person.name, c.value) for c in self.to_person.contactdetails.filter(type='email').all()]
         if settings.SEND_EMAILS:
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
-            send_mail(self.subject, self.body, sender, recipients)
+            email = EmailMessage(
+                self.subject,
+                self.body,
+                sender,
+                recipients,
+                cc=[sender],
+            )
+            email.send()
         self.to_addresses = ", ".join(recipients)
         self.save()
 
