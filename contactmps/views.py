@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.http import HttpResponse
 from django.db.models import Count, Case
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .models import (
     Email,
@@ -15,6 +16,17 @@ import logging
 log = logging.getLogger(__name__)
 
 
+@xframe_options_exempt
+def home(request):
+    return render(request, 'index.html')
+
+
+@xframe_options_exempt
+def embed(request):
+    return render(request, 'embed.html')
+
+
+@xframe_options_exempt
 def create_mail(request):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
@@ -29,6 +41,7 @@ def create_mail(request):
     })
 
 
+@xframe_options_exempt
 def email(request):
     if request.method == 'POST':
         payload = {
@@ -68,6 +81,7 @@ def email(request):
         return redirect('/')
 
 
+@xframe_options_exempt
 def email_detail(request, uuid):
     email = get_object_or_404(Email, uuid=uuid)
     return render(request, 'email-detail.html', {
