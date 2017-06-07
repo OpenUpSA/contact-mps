@@ -27,7 +27,7 @@ var gReCaptchaExpired = function() {
 
   <div>
     {% for person in persons %}
-    <div>
+    <div class="person-button">
       <input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>
       {% if person.portrait_url %}
       <img src="{{ person.portrait_url }}" alt="portrait of {{ person.name }}" height="45">
@@ -42,7 +42,9 @@ var gReCaptchaExpired = function() {
         Not a member of a political party
         {% endif %}
       </p>
-
+      {% for branch in person.constituency_branches.all %}
+      <p>{{ branch.name }}</p>
+      {% endfor %}
     </div>
     {% endfor %}
   </div>

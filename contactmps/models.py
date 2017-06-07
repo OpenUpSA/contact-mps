@@ -15,6 +15,11 @@ class Party(models.Model):
     slug = models.CharField(max_length=70, null=False, blank=False)
 
 
+class ConstituencyBranch(models.Model):
+    pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
+    name = models.CharField(max_length=200, null=False, blank=False)
+
+
 class Person(models.Model):
     pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
     name = models.CharField(max_length=70, null=False, blank=False)
@@ -22,6 +27,7 @@ class Person(models.Model):
     in_national_assembly = models.BooleanField(default=True)
     portrait_url = models.CharField(max_length=300, null=True, blank=True)
     party = models.ForeignKey(Party, null=True, blank=False)
+    constituency_branches = models.ManyToManyField(ConstituencyBranch)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

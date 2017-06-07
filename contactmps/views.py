@@ -34,7 +34,7 @@ def create_mail(request):
                     .filter(contactdetails__type='email') \
                     .annotate(num_email_addresses=Count('contactdetails')) \
                     .annotate(num_emails=Count('email')) \
-                    .order_by('num_emails')[:5]
+                    .order_by('num_emails')[:3]
     return render(request, 'create_mail.html', {
         'persons': persons,
         'recaptcha_key': settings.RECAPTCHA_KEY,

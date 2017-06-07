@@ -1,12 +1,13 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
-from contactmps.models import Person, ContactDetail, Party
+from contactmps.models import Person, ContactDetail, Party, ConstituencyBranch
 import json
 import requests
 import logging
 
 log = logging.getLogger(__name__)
 POMBOLA_URL = 'http://www.pa.org.za/media_root/popolo_json/pombola.json'
+
 
 class Command(BaseCommand):
     help = 'Loads data from Peoples Assembly'
@@ -29,10 +30,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         pombola = self.get_pombola(options)
 
-        constituency_offices = {}
+        constituency_branches = {}
         for org in pombola['organizations']:
             if org['classification'] in ('Constituency Office', 'Constituency Area'):
-                constituency_offices[org['id']] = org
+                constituency_branches[org['id']] = org
         parties = {}
         for org in pombola['organizations']:
             if org['classification'] in ('Party'):
@@ -45,10 +46,21 @@ class Command(BaseCommand):
 
             if current_mp:
                 self.assembly_person_count += 1
-                member_constituency_offices = get_current_memberships_by_organizations(
-                    pa_person['memberships'], constituency_offices.keys())
-                if member_constituency_offices:
+                member_constituency_branches = get_current_memberships_by_organizations(
+                    pa_person['memberships'], constituency_branches.keys())
+                if member_constituency_branches:
                     self.assembly_constituency_count += 1
+                    current_mp.constituency_branches.clear()
+                    for pa_branch_membership in member_constituency_branches:
+                        pa_branch = constituency_branches[pa_branch_membership['organization_id']]
+                        branch, created = ConstituencyBranch.objects.update_or_create(
+                            pa_id=pa_branch['id'],
+                            defaults={
+                                'name': pa_branch['name'],
+                            })
+                        current_mp.constituency_branches.add(branch)
+
+
                 member_parties = get_current_memberships_by_organizations(
                     pa_person['memberships'], parties.keys())
                 if member_parties:
@@ -64,7 +76,7 @@ class Command(BaseCommand):
 
             print current_mp is not None, pa_person['name']
             if current_mp:
-                print "    %s" % [constituency_offices[m['organization_id']]['name'] for m in member_constituency_offices]
+                print "    %s" % [constituency_branches[m['organization_id']]['name'] for m in member_constituency_branches]
                 print "    %s" % [parties[m['organization_id']]['name'] for m in member_parties]
 
         print
