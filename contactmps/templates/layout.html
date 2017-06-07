@@ -104,7 +104,10 @@
     {% endif %}
 
     <script>
-      pymChild.sendHeight();
+      window.onload = ((function() {
+        pymChild.sendHeight();
+        console.info("contactmps loaded");
+      }))();
     </script>
     {% endblock %}
 
