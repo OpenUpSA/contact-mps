@@ -17,8 +17,8 @@ This is a project intended to make it easier to contact Members of Parliament.
 
 ## Embed examples
 
-- [Standard embed code](https://jsfiddle.net/jbothma_openup/mdu1dfzp/)
-- [Embedded result](https://jsfiddle.net/jbothma_openup/1ommh6qn/)
+- [Standard embed code](https://jsfiddle.net/jbothma_openup/mdu1dfzp/1/)
+- [Embedded result](https://jsfiddle.net/jbothma_openup/1ommh6qn/3/)
 
 ## Data updates
 
