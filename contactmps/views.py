@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
+from urllib import urlencode
 
 from .models import (
     Email,
@@ -70,8 +71,6 @@ def email(request):
     r = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)
     r.raise_for_status()
     if r.json()['success']:
-        print
-        print "person", int(request.POST['person'])
         person = Person.objects.get(id=int(request.POST['person']))
         if 'HTTP_X_FORWARDED_FOR' in request.META:
             remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -106,6 +105,19 @@ def email_detail(request, secure_id):
     })
 
 
+@xframe_options_exempt
+def add_utm(request, utm_medium):
+    params = {
+        'utm_source': 'site',
+        'utm_channel': utm_medium,
+        'utm_campaign': 'site-share-buttons',
+    }
+    query_string = urlencode(params, doseq=True)
+    path = "/".join(request.path.split("/")[:-2])
+    return redirect("%s/?%s" % (path, query_string))
+
+
+@xframe_options_exempt
 def robots(request):
     """
     Programmatic robots.txt so we can avoid indexing except for via domains
