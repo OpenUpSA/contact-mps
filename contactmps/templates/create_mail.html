@@ -17,7 +17,7 @@ var recaptchaLoaded = function() {
     'callback': gReCaptchaValidated,
     'expired-callback': gReCaptchaExpired
   });
-
+  console.info("recaptcha rendered");
   pymChild.sendHeight();
 };
 
