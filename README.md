@@ -17,12 +17,12 @@ This is a project intended to make it easier to contact Members of Parliament.
 
 ## Embed examples
 
-- (Standard embed code)[https://jsfiddle.net/jbothma_openup/mdu1dfzp/]
-- (Embedded result)[https://jsfiddle.net/jbothma_openup/1ommh6qn/]
+- [Standard embed code](https://jsfiddle.net/jbothma_openup/mdu1dfzp/)
+- [Embedded result](https://jsfiddle.net/jbothma_openup/1ommh6qn/)
 
 ## Data updates
 
-Member of Parliament data is downloaded from (People's Assembly)[pa.org.za].
+Member of Parliament data is downloaded from [People's Assembly](pa.org.za).
 
 You can manually download the data and update the database with
 ```
