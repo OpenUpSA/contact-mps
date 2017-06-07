@@ -89,7 +89,7 @@ def email(request):
         email.save()
         email.send()
 
-        return redirect(reverse('email-detail', kwargs={'uuid': email.uuid}))
+        return redirect(reverse('email-detail', kwargs={'secure_id': email.secure_id}))
     else:
         raise(Exception("Error validating reCaptcha for %s <%s>: %s" % (
             request.POST['from_name'],
@@ -99,8 +99,8 @@ def email(request):
 
 
 @xframe_options_exempt
-def email_detail(request, uuid):
-    email = get_object_or_404(Email, uuid=uuid)
+def email_detail(request, secure_id):
+    email = get_object_or_404(Email, secure_id=secure_id)
     return render(request, 'email-detail.html', {
         'email': email,
     })

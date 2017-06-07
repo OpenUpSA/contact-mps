@@ -3,6 +3,23 @@ Contact MPs
 
 This is a project intended to make it easier to contact Members of Parliament.
 
+## Principles
+
+- The public should learn that they are directly represented by MPs via constituency time, and can easily contact their MPs
+- It should be as quick and easy as possible to contact your MP for legitimate relevant conversation
+- Embedding is important for distribution, especially via online news outlets
+- Sharing on social media and mobile chat apps like WhatsApp is another important marketing mechanism
+  - Allowing users to share pages with relevant, personal OG metadata improves the quality of this
+- Athough they are publicly accessible if you know the URL, It shouldn't be trivial to iterate through all the sent messages.
+  - Users and MPs should get to choose whether they share it and where
+  - Search engines shouldn't index them
+  - We use secure random email IDs to be difficult to guess, but anyone who knows the secure ID can view it.
+
+## Embed examples
+
+- (Standard embed code)[https://jsfiddle.net/jbothma_openup/mdu1dfzp/]
+- (Embedded result)[https://jsfiddle.net/jbothma_openup/1ommh6qn/]
+
 ## Data updates
 
 Member of Parliament data is downloaded from (People's Assembly)[pa.org.za].

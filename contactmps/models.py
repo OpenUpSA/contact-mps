@@ -1,12 +1,16 @@
-from django.db import models
-import re
-import uuid
-import logging
-from django.core.mail import EmailMessage
 from django.conf import settings
+from django.core.mail import EmailMessage
+from django.db import models
+import logging
+import os
+import re
 
 EMAIL_RE = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 log = logging.getLogger(__name__)
+
+
+def secure_id():
+    return os.urandom(24).encode('hex')
 
 
 class Party(models.Model):
@@ -95,7 +99,7 @@ class Email(models.Model):
     from_email = models.EmailField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    uuid = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4)
+    secure_id = models.CharField(max_length=100, blank=True, unique=True, default=secure_id)
 
     def as_dict(self):
         return {
@@ -106,7 +110,7 @@ class Email(models.Model):
             'body': self.body,
             'from_name': self.from_name,
             'from_email': self.from_email,
-            'uuid': self.uuid,
+            'secure_id': self.secure_id,
         }
 
     def send(self):
