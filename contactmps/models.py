@@ -13,11 +13,28 @@ class Party(models.Model):
     pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
     name = models.CharField(max_length=200, null=False, blank=False)
     slug = models.CharField(max_length=70, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def as_dict(self):
+        return {
+            'pa_id': self.pa_id,
+            'name': self.name,
+            'slug': self.slug,
+        }
 
 
 class ConstituencyBranch(models.Model):
     pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
     name = models.CharField(max_length=200, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def as_dict(self):
+        return {
+            'pa_id': self.pa_id,
+            'name': self.name,
+        }
 
 
 class Person(models.Model):
@@ -31,6 +48,17 @@ class Person(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def as_dict(self):
+        return {
+            'pa_id': self.pa_id,
+            'name': self.name,
+            'contactdetails': [d.as_dict() for d in self.contactdetails.all()],
+            'pa_url': self.pa_url,
+            'portrait_url': self.portrait_url,
+            'party': self.party.as_dict() if self.party else None,
+            'constituency_branches': [b.as_dict() for b in self.constituency_branches.all()],
+        }
+
     def __unicode__(self):
         return self.name
 
@@ -41,6 +69,12 @@ class ContactDetail(models.Model):
     value = models.CharField(max_length=255, help_text="The actual detail")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def as_dict(self):
+        return {
+            'type': self.type,
+            'value': self.value,
+        }
 
     def __unicode__(self):
         return "%s (%s) %s" % (self.person.name, self.type, self.value,)
@@ -58,6 +92,17 @@ class Email(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     uuid = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4)
+
+    def as_dict(self):
+        return {
+            'to_person': self.to_person.as_dict(),
+            'to_addresses': self.to_addresses,
+            'subject': self.subject,
+            'body': self.body,
+            'from_name': self.from_name,
+            'from_email': self.from_email,
+            'uuid': self.uuid,
+        }
 
     def send(self):
         if not EMAIL_RE.match(self.from_email):

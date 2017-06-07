@@ -10,6 +10,8 @@ var gReCaptchaValidated = function() {
 var gReCaptchaExpired = function() {
   $("input[type=submit]").attr('disabled','disabled');
 };
+
+var persons = {{ persons_json|safe }};
 </script>
 {% endblock head_js %}
 

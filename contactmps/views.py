@@ -1,17 +1,18 @@
-from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404
 from django.conf import settings
-from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 from django.db.models import Count, Case
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .models import (
     Email,
     Person,
 )
-import requests
+import json
 import logging
+import requests
 
 log = logging.getLogger(__name__)
 
@@ -35,8 +36,10 @@ def create_mail(request):
                     .annotate(num_email_addresses=Count('contactdetails')) \
                     .annotate(num_emails=Count('email')) \
                     .order_by('num_emails')[:3]
+    persons_json = json.dumps([p.as_dict() for p in Person.objects.all()])
     return render(request, 'create_mail.html', {
         'persons': persons,
+        'persons_json': persons_json,
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
 
