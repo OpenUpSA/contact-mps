@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block head_js %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>
 <script>
 var gReCaptchaValidated = function() {
   $("input[type=submit]").removeAttr('disabled');
@@ -9,6 +9,16 @@ var gReCaptchaValidated = function() {
 
 var gReCaptchaExpired = function() {
   $("input[type=submit]").attr('disabled','disabled');
+};
+
+var recaptchaLoaded = function() {
+  grecaptcha.render('recaptcha', {
+    'sitekey': '{{ recaptcha_key }}',
+    'callback': gReCaptchaValidated,
+    'expired-callback': gReCaptchaExpired
+  });
+
+  pymChild.sendHeight();
 };
 
 var persons = {{ persons_json|safe }};
@@ -69,14 +79,14 @@ var persons = {{ persons_json|safe }};
 
   <div>Your name: <input type="text" name="from_name"></div>
   <div>Your email address: <input type="text" name="from_email"></div>
-  <div class="g-recaptcha" data-sitekey="6LciTiQUAAAAAOgLfeG5UCnhqK87RqLOG_wEmJFJ" data-callback="gReCaptchaValidated" data-expired-callback="gReCaptchaExpired"></div>
+  <div id="recaptcha"></div>
   <div>
     <input type="submit" value="Submit" disabled="disabled">
   </div>
 </form>
 
 <br>
-{% endblock content%}
+{% endblock content %}
 
 {% block attribution %}
 <div>

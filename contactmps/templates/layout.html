@@ -93,7 +93,9 @@
     {% block js %}
     {% javascript "pym.js" %}
     <script>
-      var pymChild = new pym.Child({ polling: 2000 });
+      var pymChild = new pym.Child({
+        id: "contactmps-embed-parent"
+      });
     </script>
 
     {% javascript "js" %}

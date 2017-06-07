@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.http import require_POST
 
 from .models import (
     Email,
@@ -15,6 +16,19 @@ import logging
 import requests
 
 log = logging.getLogger(__name__)
+
+
+# https://github.com/django/django/blob/master/tests/decorators/tests.py
+def compose(*functions):
+    # compose(f, g)(*args, **kwargs) == f(g(*args, **kwargs))
+    functions = list(reversed(functions))
+
+    def _inner(*args, **kwargs):
+        result = functions[0](*args, **kwargs)
+        for f in functions[1:]:
+            result = f(result)
+        return result
+    return _inner
 
 
 @xframe_options_exempt
@@ -46,45 +60,42 @@ def create_mail(request):
     })
 
 
+@require_POST
 @xframe_options_exempt
 def email(request):
-    if request.method == 'POST':
-        payload = {
-            'secret': settings.RECAPTCHA_SECRET,
-            'response': request.POST['g-recaptcha-response'],
-        }
-        r = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)
-        r.raise_for_status()
-        if r.json()['success']:
-            print
-            print "person", int(request.POST['person'])
-            person = Person.objects.get(id=int(request.POST['person']))
-            if 'HTTP_X_FORWARDED_FOR' in request.META:
-                remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
-            else:
-                remote_ip = request.META.get('REMOTE_ADDR', '')
-            email = Email(
-                to_person=person,
-                from_name=request.POST['from_name'],
-                from_email=request.POST['from_email'],
-                body=request.POST['body'],
-                subject=request.POST['subject'],
-                remote_ip=remote_ip,
-                user_agent=request.META.get('HTTP_USER_AGENT')
-            )
-            email.save()
-            email.send()
-
-            return redirect(reverse('email-detail', kwargs={'uuid': email.uuid}))
+    payload = {
+        'secret': settings.RECAPTCHA_SECRET,
+        'response': request.POST['g-recaptcha-response'],
+    }
+    r = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)
+    r.raise_for_status()
+    if r.json()['success']:
+        print
+        print "person", int(request.POST['person'])
+        person = Person.objects.get(id=int(request.POST['person']))
+        if 'HTTP_X_FORWARDED_FOR' in request.META:
+            remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
         else:
-            log.error("Error validating reCaptcha for %s <%s>: %s",
-                      request.POST['from_name'],
-                      request.POST['from_email'],
-                      r.json(),
-            )
-            return redirect('/')
+            remote_ip = request.META.get('REMOTE_ADDR', '')
+        email = Email(
+            to_person=person,
+            from_name=request.POST['from_name'],
+            from_email=request.POST['from_email'],
+            body=request.POST['body'],
+            subject=request.POST['subject'],
+            remote_ip=remote_ip,
+            user_agent=request.META.get('HTTP_USER_AGENT')
+        )
+        email.save()
+        email.send()
+
+        return redirect(reverse('email-detail', kwargs={'uuid': email.uuid}))
     else:
-        return redirect('/')
+        raise(Exception("Error validating reCaptcha for %s <%s>: %s" % (
+            request.POST['from_name'],
+            request.POST['from_email'],
+            r.json(),
+        )))
 
 
 @xframe_options_exempt
