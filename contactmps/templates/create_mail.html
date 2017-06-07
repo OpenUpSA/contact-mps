@@ -28,7 +28,7 @@ var persons = {{ persons_json|safe }};
   {% csrf_token %}
 
   <div>
-    {% for person in persons %}
+    {% for person in neglected_persons %}
     <div class="person-button">
       <input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>
       {% if person.portrait_url %}
@@ -49,6 +49,18 @@ var persons = {{ persons_json|safe }};
       {% endfor %}
     </div>
     {% endfor %}
+  </div>
+  <div>
+    <select class="selectpicker" data-live-search="true" title="Choose MP by name or Party">
+      {% for person in persons %}
+      <option value="{{ person.id }}">
+        {{ person.name }}
+        {% if person.party %}
+        - {{ person.party.name }}
+        {% endif %}
+      </option>
+      {% endfor %}
+    </select>
   </div>
   <div>Subject: <input type="text" name="subject" value="Message to you rudy"></div>
   <div>

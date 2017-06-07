@@ -18,6 +18,7 @@ class Party(models.Model):
 
     def as_dict(self):
         return {
+            'id': self.id,
             'pa_id': self.pa_id,
             'name': self.name,
             'slug': self.slug,
@@ -32,6 +33,7 @@ class ConstituencyBranch(models.Model):
 
     def as_dict(self):
         return {
+            'id': self.id,
             'pa_id': self.pa_id,
             'name': self.name,
         }
@@ -50,6 +52,7 @@ class Person(models.Model):
 
     def as_dict(self):
         return {
+            'id': self.id,
             'pa_id': self.pa_id,
             'name': self.name,
             'contactdetails': [d.as_dict() for d in self.contactdetails.all()],
@@ -72,6 +75,7 @@ class ContactDetail(models.Model):
 
     def as_dict(self):
         return {
+            'id': self.id,
             'type': self.type,
             'value': self.value,
         }
@@ -95,6 +99,7 @@ class Email(models.Model):
 
     def as_dict(self):
         return {
+            'id': self.id,
             'to_person': self.to_person.as_dict(),
             'to_addresses': self.to_addresses,
             'subject': self.subject,

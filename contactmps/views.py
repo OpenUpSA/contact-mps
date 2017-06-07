@@ -31,14 +31,16 @@ def embed(request):
 def create_mail(request):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
-    persons = Person.objects \
-                    .filter(contactdetails__type='email') \
-                    .annotate(num_email_addresses=Count('contactdetails')) \
-                    .annotate(num_emails=Count('email')) \
-                    .order_by('num_emails')[:3]
-    persons_json = json.dumps([p.as_dict() for p in Person.objects.all()])
+    neglected_persons = Person.objects \
+                              .filter(contactdetails__type='email') \
+                              .annotate(num_email_addresses=Count('contactdetails')) \
+                              .annotate(num_emails=Count('email')) \
+                              .order_by('num_emails')[:3]
+    persons = Person.objects.all()
+    persons_json = json.dumps([p.as_dict() for p in persons])
     return render(request, 'create_mail.html', {
         'persons': persons,
+        'neglected_persons': neglected_persons,
         'persons_json': persons_json,
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
