@@ -58,57 +58,62 @@
   </head>
 
   <body {% block body-attributes %}{% endblock %} class='{% block body-class %}{% endblock %}'>
-    {% block content %}
-    {% endblock content %}
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        {% block content %}
+        {% endblock content %}
 
-    {% block social_sharing %}
+        {% block social_sharing %}
 
-    {% if is_mobile %}
-      <a href="whatsapp://send?text={% block whatsapp_msg %}{{ request.build_absolute_uri|strip_qs|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
-    {% endif %}
+        {% if is_mobile %}
+          <a href="whatsapp://send?text={% block whatsapp_msg %}{{ request.build_absolute_uri|strip_qs|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
+        {% endif %}
 
-    <iframe src="https://www.facebook.com/plugins/share_button.php?href={{ request.build_absolute_uri|strip_qs|urlencode }}fb/&layout=button_count&size=small&mobile_iframe=true&appId=1879108499081905&width=88&height=20" width="88" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+        <iframe src="https://www.facebook.com/plugins/share_button.php?href={{ request.build_absolute_uri|strip_qs|urlencode }}fb/&layout=button_count&size=small&mobile_iframe=true&appId=1879108499081905&width=88&height=20" width="88" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 
-    <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ request.build_absolute_uri|strip_qs }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ request.build_absolute_uri|strip_qs }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-    <div><a href="/embed.html">Embed this on your site</a></div>
-    {% endblock social_sharing %}
-    
-    <footer>
-      {% block attribution_heading %}
-      <h2>Attribution</h2>
-      {% endblock attribution_heading %}
-      {% block attribution %}{% endblock attribution %}
-    </footer>
+        <div><a href="/embed.html">Embed this on your site</a></div>
+        {% endblock social_sharing %}
 
-    {% block js %}
-    {% javascript "pym.js" %}
-    <script>
-      var pymChild = new pym.Child({
-        id: "contactmps-embed-parent"
-      });
-    </script>
+        <footer>
+          {% block attribution_heading %}
+          <h2>Attribution</h2>
+          {% endblock attribution_heading %}
+          {% block attribution %}{% endblock attribution %}
+        </footer>
 
-    {% javascript "js" %}
+        {% block js %}
+        {% javascript "pym.js" %}
+        <script>
+          var pymChild = new pym.Child({
+            id: "contactmps-embed-parent"
+          });
+        </script>
 
-    {% if GOOGLE_ANALYTICS_ID %}
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        {% javascript "js" %}
 
-      ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');
-      ga('send', 'pageview');
-    </script>
-    {% endif %}
+        {% if GOOGLE_ANALYTICS_ID %}
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    <script>
-      window.onload = ((function() {
-        pymChild.sendHeight();
-        console.info("contactmps loaded");
-      }))();
-    </script>
-    {% endblock %}
+          ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');
+          ga('send', 'pageview');
+        </script>
+        {% endif %}
+
+        <script>
+          window.onload = ((function() {
+            pymChild.sendHeight();
+            console.info("contactmps loaded");
+          }))();
+        </script>
+        {% endblock %}
+        
+      </div>
+    </div>
   </body>
 </html>

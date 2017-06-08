@@ -12,15 +12,14 @@ $(".choose .single-mp").click(function() {
   $(".selected-mp .mp-img-wrapper").css({"background-image": selectedImage});
   var selectedParty = $(".mp-img-wrapper .party-logo", this).attr("src");
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedParty);
-	var d = new Date();
-	var month = d.getMonth()+1;
-	var day = d.getDate();
-	var today = 
-	    ((''+day).length<2 ? '0' : '') + day + '-' +
-	    ((''+month).length<2 ? '0' : '') + month + '-' +
-	    d.getFullYear();
-	$("#current-date").text(today);
   pymChild.sendHeight();
 });
 
-
+var d = new Date();
+var month = d.getMonth()+1;
+var day = d.getDate();
+var today = 
+    ((''+day).length<2 ? '0' : '') + day + '-' +
+    ((''+month).length<2 ? '0' : '') + month + '-' +
+    d.getFullYear();
+$("#current-date").text(today);
