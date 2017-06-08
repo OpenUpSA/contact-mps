@@ -4,7 +4,8 @@
 {% block title %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
 {% block og_title %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
 {% block tweet %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
-{% block whatsapp_msg %}I, {{ email.from_name|urlencode }}, sent a message to {{ email.to_person.name|urlencode }} MP! Will you? {{ BASE_URL|urlencode }}wa/{% endblock %}
+{# whatsapp_msg must be urlencoded #}
+{% block whatsapp_msg %}I,%20{{ email.from_name|urlencode }},%20sent%20a%20message%20to%20{{ email.to_person.name|urlencode }}%20MP!%20Will%20you?%20{{ BASE_URL }}{{ request.path }}wa/{% endblock %}
 
 {% block content %}
 
