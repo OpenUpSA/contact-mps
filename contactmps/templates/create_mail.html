@@ -1,99 +1,117 @@
 {% extends "layout.html" %}
-
-{% block head_js %}
-<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>
-<script>
-var gReCaptchaValidated = function() {
-  $("input[type=submit]").removeAttr('disabled');
-};
-
-var gReCaptchaExpired = function() {
-  $("input[type=submit]").attr('disabled','disabled');
-};
-
-var recaptchaLoaded = function() {
-  grecaptcha.render('recaptcha', {
-    'sitekey': '{{ recaptcha_key }}',
-    'callback': gReCaptchaValidated,
-    'expired-callback': gReCaptchaExpired
-  });
-  console.info("recaptcha rendered");
-  pymChild.sendHeight();
-};
-
-var persons = {{ persons_json|safe }};
-</script>
-{% endblock head_js %}
+{% load pipeline %}
+{% load staticfiles %}
 
 {% block title %}Send a message to a Member of Parliament{% endblock %}
+{% block body-class %}create-email-page{% endblock %}
+
+{% block js %}
+  <script>
+  var persons = {{ persons_json|safe }};
+  </script>
+
+  {{ block.super }}
+  {% javascript "js" %}
+  <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>
+{% endblock %}
+
 {% block content %}
-
-<h1>Send a message to a Member of Parliament</h1>
-
-<div class="row">
-  <img src="/static/images/parliament-empty-michael-hebb-1024x478.jpg" class="img-responsive">
-</div>
+<section class="hero">
+  <h1>Statement</h1>
+  <h3>Send a message to a member of parliament</h3>
+</section>
 
 <form id="email-form" action="/email/" method="post">
   {% csrf_token %}
 
-  <div>
+  <section class="choose">
+    <div class="row">
     {% for person in neglected_persons %}
-    <div class="person-button">
-      <input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>
-      {% if person.portrait_url %}
-      <img src="{{ person.portrait_url }}" alt="portrait of {{ person.name }}" height="45">
-      {% endif %}
-      {{ person.name }}
-      <p>(emailed {{ person.num_emails }} times)</p>
-      <p>
-        {% if person.party %}
-        <img src="http://www.pa.org.za/static/images/party-map-icons/{{ person.party.slug }}.png" alt="Logo of {{ person.party.name }}">
-        {{ person.party.name }}
-        {% else %}
-        Not a member of a political party
-        {% endif %}
-      </p>
-      {% for branch in person.constituency_branches.all %}
-      <p>{{ branch.name }}</p>
+      <div class="col-xs-6 col-sm-3 mp-wrap">
+        <div class="single-mp" data-id="{{ person.id }}">
+          <div class="mp-img-wrapper center-block" {% if person.portrait_url %}style="background-image:url({{ person.portrait_url }})"{% endif %}>
+            {% if person.party %}
+            <img class="party-logo" src="{{ person.party.icon_url }}" alt="Logo of {{ person.party.name }}">
+            {% endif %}
+          </div>
+          <div class="mp-name">{{ person.name }}</div>
+          <div class="email-count">
+            <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+          </div>
+        </div>
+      </div>
       {% endfor %}
     </div>
-    {% endfor %}
-  </div>
+  </section>
+
   <div>
-    <select class="selectpicker" data-live-search="true" title="Choose MP by name or Party">
-      {% for person in persons %}
-      <option value="{{ person.id }}">
-        {{ person.name }}
-        {% if person.party %}
-        - {{ person.party.name }}
-        {% endif %}
-      </option>
-      {% endfor %}
-    </select>
-  </div>
-  <div>Subject: <input type="text" name="subject" value="Message to you rudy"></div>
-  <div>
-    <textarea name="body"  class="form-control">I feel very strongly.</textarea>
+    <select id="select-dropdown" class="use-select2"></select>
   </div>
 
-  <div>Your name: <input type="text" name="from_name"></div>
-  <div>Your email address: <input type="text" name="from_email"></div>
-  <div id="recaptcha"></div>
-  <div>
-    <input type="submit" value="Submit" disabled="disabled">
-  </div>
+  <section class="send-block">
+    <div class="row top">
+      <div class="col-xs-3">
+        <div class="selected-mp">
+          <div class="mp-img-wrapper center-block">
+            <img class="party-logo">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-9">
+        <div class="mp-address">
+          Honourable Member <span id="recipient"></span><br>
+          Parliament of the Republic of South Africa<br>
+          Parliament Street<br>
+          Cape Town<br>
+        </div>
+      </div>
+    </div>
+    <div class="row bottom">
+      <div class="col-xs-12">
+        <div class="email-wrapper">
+          <div class="email-textarea">
+            <p id="current-date"></p>
+            <p>Sent care of Parliament Watch by email to: <a href="mailto:noconfidence2017@gmail.com">Noconfidence2017@gmail.com</a></p>
+            <p><b>Re: Motion of No Confidence in the President of the Republic</b></p>
+            <p>As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.</p>
+            <p>I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue(s) that are important to me:</p>
+          </div>
+          <textarea></textarea>
+          <div class="email-textarea">
+            <p>It is for these reasons that I do not have confidence in the President of the Republic and his cabinet.</p>
+            <p>I trust that you will make my voice heard and vote to make sure the President and his Cabinet are held to account. I trust you will vote to represent the people, ensuring government by us under the Constitution.</p>
+          </div>
+          <textarea rows="1">I live in </textarea>
+          <div class="email-textarea">
+            <p>I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.</p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <input type="text" name="from_name"  placeholder="Your name">
+            </div>
+            <div class="col-md-6">
+              <input type="email" name="from_email"  placeholder="Your email address">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div id="recaptcha"></div>
+            </div>
+            <div class="col-md-6">
+              <input type="submit" value="Submit" disabled="disabled">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </form>
-
-<br>
 {% endblock content %}
 
 {% block attribution %}
-<div>
   <ul>
     <li><a target="_blank" href="https://www.flickr.com/photos/michaelhebb/5701999088/in/photolist-6hsFjU-AoRjc-8nh5Q4-Ei6m71-snzer1-6X1Hmi-5qNmgc-dR3XzP-dR9vS3-8D9MUS-o4gXBt-6X8zLZ-i7CXHn-dpirUa-d59QMG-5x36Di-Rk6sq5-RDE4gy-den4Ck-bUtToB-51XW6w-9dA2fi-brAo43-f81cpu-nM6SXn-aqhWae-8NtUJA-o4tMVU-hcRBHM-KRXgC-p8F6Yf-nJsf5S-9hhpEr-o4thB1-s6bgRP-o6nz9v-ia7fFM-BLJjRH-ky2WRx-8ebe5L-9FSeF7-6Up7gM-qw5s5D-s84xhT-sp2iLu-iKDgoU-kCi7r9-8boVRg-aJ4ex4-i7QhBe">Photo by Michael Hebb</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>
     <li><a target="_blank" href="https://www.flickr.com/photos/richardatuct/5425424966/in/photolist-9gqHPL-s9Jtk1-soZY9q-RDE4gy-sri5yx-aqhWae-sri6Yg-9FSeF7-p8F6Yf-s9HPJ9-as7CnR-8dtafz-sp1A89-ruidiu-s9JUth-ruuYSr-s9HQeh-sp18Ph-s7YCmD-s9RAba-s9RLeB-s9Jna5-ruvpAe-s9HTtb-srgspr-sp2i8L-s9HSnA-pNKkWy-s7YH68-ruhLxS-6o1EuJ-srizy6-aqkAEE-s9QZxx-aqkErw-hcdkfu-sp1HXN-322Eji-7BHKcp-55AJso-9ASXva-s9J8zj-7DT1Pr-s7Y3bV-6RzaL3-aqkJ5b-8faxN7-sp1uWh-etpXGk-xZ5h84">"Parliaments Behind" by Richard Atkinson</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>
     <li><a target="_blank" href="http://www.pa.org.za/help/api">Member of Parliament data compiled by People's Assembly</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA 4.0</a>
   </ul>
-</div>
 {% endblock attribution %}

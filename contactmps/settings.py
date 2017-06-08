@@ -157,7 +157,9 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
-                'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
+                'javascript/select2.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/underscore-min.js',
                 'javascript/app.js',
             ),
             'output_filename': 'app.js',
@@ -179,14 +181,15 @@ PIPELINE = {
         'css': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
+                'stylesheets/select2.min.css',
                 'stylesheets/app.scss',
-                'bower_components/bootstrap-select/sass/bootstrap-select.scss'
             ),
             'output_filename': 'app.css',
         },
     },
     'CSS_COMPRESSOR': None,
     'JS_COMPRESSOR': None,
+    'DISABLE_WRAPPER': True,
     'COMPILERS': (
         'contactmps.pipeline.PyScssCompiler',
     ),

@@ -30,6 +30,11 @@
 <br>
 {% endblock content %}
 
+{% block js %}
+{{ block.super }}
+{% javascript "campaign" %}
+{% endblock %}
+
 {% block attribution %}
 <div>
   The headline image is a derivative work of a <a target="_blank" href="https://www.flickr.com/photos/michaelhebb/5701999088/in/photolist-6hsFjU-AoRjc-8nh5Q4-Ei6m71-snzer1-6X1Hmi-5qNmgc-dR3XzP-dR9vS3-8D9MUS-o4gXBt-6X8zLZ-i7CXHn-dpirUa-d59QMG-5x36Di-Rk6sq5-RDE4gy-den4Ck-bUtToB-51XW6w-9dA2fi-brAo43-f81cpu-nM6SXn-aqhWae-8NtUJA-o4tMVU-hcRBHM-KRXgC-p8F6Yf-nJsf5S-9hhpEr-o4thB1-s6bgRP-o6nz9v-ia7fFM-BLJjRH-ky2WRx-8ebe5L-9FSeF7-6Up7gM-qw5s5D-s84xhT-sp2iLu-iKDgoU-kCi7r9-8boVRg-aJ4ex4-i7QhBe">photo by Michael Hebb</a>, licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>

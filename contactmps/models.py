@@ -20,12 +20,17 @@ class Party(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def icon_url(self):
+        return 'http://www.pa.org.za/static/images/party-map-icons/%s.png' % self.slug
+
     def as_dict(self):
         return {
             'id': self.id,
             'pa_id': self.pa_id,
             'name': self.name,
             'slug': self.slug,
+            'icon_url': self.icon_url,
         }
 
 
@@ -63,7 +68,6 @@ class Person(models.Model):
             'pa_url': self.pa_url,
             'portrait_url': self.portrait_url,
             'party': self.party.as_dict() if self.party else None,
-            'constituency_branches': [b.as_dict() for b in self.constituency_branches.all()],
         }
 
     def __unicode__(self):

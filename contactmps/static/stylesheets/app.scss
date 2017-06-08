@@ -5,10 +5,132 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 
 // put application-specific styles here
 
+body {
+  background-color: #333;
+  color: #bbb;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Slabo 27px', serif;
+  }
+}
+.hero {
+  background-image: url(/static/images/parliament-empty-michael-hebb-1024x478.jpg);
+  height: 300px;
+  background-position: right bottom;
+  background-size: cover;
+  color: #fff;
+  text-align: right;
+}
+.choose {
+  padding-top: 40px;
+  .mp-wrap {
+    padding: 10px;
+    .single-mp {
+      padding: 10px;
+      background-color: #a1a1a1;
+      border: 3px solid #a1a1a1;
+      margin: 6px;
+      color: #424242;
+      cursor: pointer;
+      &.selected {
+        border-color: green;
+      }
+      .mp-name {
+        font-size: 20px;
+        font-family: 'Slabo 27px', serif;
+        text-align: center;
+        margin-top: 15px;
+        min-height: 58px;
+      }
+      .email-count {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.mp-img-wrapper {
+  background-image: url('/static/images/shadow.svg');
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  .party-logo {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    max-width: 35px;
+    max-height: 35px;
+  }
+}
+
+.selected-mp {
+  background-color: #a1a1a1;
+  padding: 20px 0;
+}
+
+.send-block {
+  padding-top: 40px;
+  input {
+    width: 100%;
+    border: 1px solid #a1a1a1;
+    border-radius: 3px;
+    background-color: #333;
+    color: #a1a1a1;
+    height: 40px;
+    margin-top: 10px;
+    padding: 3px 10px;
+    font-size: 16px;
+  }
+  .email-wrapper {
+      background-color: #a1a1a1;
+      padding: 15px;
+    .email-textarea {
+      background-color: #a1a1a1;
+      color: #424242;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      margin-top: -1px;
+    }
+    textarea {
+      background-color: #a1a1a1;
+      color: #424242;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      resize: none;
+      width: 100%;
+    }
+  }
+  .top {
+    div[class^="col-"]:first-of-type {
+      padding-right: 0;
+    }
+    div[class^="col-"]:last-of-type {
+      padding-left: 0;
+    }
+    .mp-address {
+      padding: 20px 0;
+      background-color: #a1a1a1;
+      color: #424242;
+      min-height: 150px;
+    }
+    .selected-mp {
+      min-height: 150px;
+    }
+  }
+}
+
+.select2-results__option {
+  color: #424242;
+}
+
 #contactmps-embed-parent {
-    border: 1px solid black
+  border: 1px solid black;
 }
 
 .person-button {
-    border: 1px solid black
+  border: 1px solid black;
 }
