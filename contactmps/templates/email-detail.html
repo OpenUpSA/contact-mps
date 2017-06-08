@@ -4,11 +4,11 @@
 {% block title %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
 {% block og_title %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
 {% block tweet %}I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP!{% endblock %}
-{% block whatsapp_msg %}I, {{ email.from_name|urlencode }}, sent a message to {{ email.to_person.name|urlencode }} MP! Will you? {{ request.build_absolute_uri|strip_qs|urlencode }}{% endblock %}
+{% block whatsapp_msg %}I, {{ email.from_name|urlencode }}, sent a message to {{ email.to_person.name|urlencode }} MP! Will you? {{ request.build_absolute_uri|strip_qs|urlencode }}wa/{% endblock %}
 
 {% block content %}
 
-<div><a href="/">Contact your MP</a></div>
+<div><a href="/campaign/noconfidence/">Contact your MP</a></div>
 
 <h1>I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP</h1>
 
@@ -18,14 +18,14 @@
 
 <div>From: {{ email.from_name }} &lt;{{ email.from_email }}&gt;</div>
 <div>
-  To: {{ email.to_person.name }} &lt;{{ email.to_addresses }}&gt;
+  To: &lt;{{ email.to_addresses }}&gt;
 </div>
 <div>Subject: {{ email.subject }}</div>
 <div>
   <textarea class="form-control" readonly>{{ email.body }}</textarea>
 </div>
 
-<div><a href="/">Contact your MP</a></div>
+<div><a href="/campaign/noconfidence/">Contact your MP</a></div>
 <br>
 {% endblock content %}
 
