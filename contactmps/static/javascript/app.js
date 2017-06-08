@@ -41,15 +41,16 @@ if ($('.create-email-page').length > 0) {
 }
 
 $(".choose .single-mp").click(function() {
+  var selectedId = parseInt($(this).data('id')),
+      mp = _.find(persons, function(p) { return p.id == selectedId;});
+
   $(".choose .single-mp").removeClass("selected");
   $(this).addClass("selected");
-  var selectedMember = $(".mp-name", this).text();
-  $("#recipient").text(selectedMember);
-  var selectedImage = $(".mp-img-wrapper", this).css("background-image");
-  console.log(selectedImage);
-  $(".selected-mp .mp-img-wrapper").css({"background-image": selectedImage});
-  var selectedParty = $(".mp-img-wrapper .party-logo", this).attr("src");
-  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedParty);
+
+  $("#recipient").text(mp.name);
+  $(".selected-mp .mp-img-wrapper").css({"background-image": 'url(' + mp.portrait_url + ')'});
+  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
+
   pymChild.sendHeight();
 });
 
