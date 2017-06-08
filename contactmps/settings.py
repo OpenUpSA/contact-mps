@@ -72,6 +72,23 @@ DATABASES = {
     'default': db_config,
 }
 
+# Caches
+DISABLE_CACHE = os.environ.get('DJANGO_DISABLE_CACHE', False) == 'True'
+
+if DEBUG or DISABLE_CACHE:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': '/var/tmp/django_cache',
+        }
+    }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
