@@ -68,7 +68,6 @@ class Person(models.Model):
             'pa_url': self.pa_url,
             'portrait_url': self.portrait_url,
             'party': self.party.as_dict() if self.party else None,
-            'constituency_branches': [b.as_dict() for b in self.constituency_branches.all()],
         }
 
     def __unicode__(self):

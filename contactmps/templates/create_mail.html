@@ -35,9 +35,6 @@
             {% endif %}
           </div>
           <div class="mp-name">{{ person.name }}</div>
-          {% for branch in person.constituency_branches.all %}
-          <p>{{ branch.name }}</p>
-          {% endfor %}
           <div class="email-count">
             <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
           </div>

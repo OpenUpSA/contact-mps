@@ -50,8 +50,11 @@ def create_mail(request):
                               .filter(contactdetails__type='email') \
                               .annotate(num_email_addresses=Count('contactdetails')) \
                               .annotate(num_emails=Count('email')) \
+                              .prefetch_related('party', 'contactdetails') \
                               .order_by('num_emails')[:4]
-    persons = Person.objects.all()
+    persons = Person.objects \
+        .prefetch_related('party', 'contactdetails') \
+        .all()
     persons_json = json.dumps([p.as_dict() for p in persons])
     return render(request, 'create_mail.html', {
         'persons': persons,
