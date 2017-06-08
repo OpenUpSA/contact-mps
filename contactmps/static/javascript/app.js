@@ -34,15 +34,17 @@ $('select.selectpicker').on('rendered.bs.select', function (e) {
 $(".choose .single-mp").click(function() {
   $(".choose .single-mp").removeClass("selected");
   $(this).addClass("selected");
-  $(".send-block").removeClass("hidden");
   var selectedMember = $(".mp-name", this).text();
   $("#recipient").text(selectedMember);
   var selectedImage = $(".mp-img-wrapper", this).css("background-image");
+  console.log(selectedImage);
   $(".selected-mp .mp-img-wrapper").css({"background-image": selectedImage});
   var selectedParty = $(".mp-img-wrapper .party-logo", this).attr("src");
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedParty);
   pymChild.sendHeight();
 });
+
+$(".choose .single-mp").first().click();
 
 var d = new Date();
 var month = d.getMonth()+1;
@@ -63,9 +65,9 @@ $('#select-dropdown').on("select2:select", function(e) {
   var selectedPartyLogo = $('option:selected', this).attr('partyImage');
   console.log(selectedPartyLogo);
 
-  $(".send-block").removeClass("hidden");
+  $(".choose .single-mp").removeClass("selected");
   $("#recipient").text(selectedMember);
-  $(".selected-mp .mp-img-wrapper").css({"background-image": selectedImage});
+  $(".selected-mp .mp-img-wrapper").css({"background-image": "url(" + selectedImage + ")"});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedPartyLogo);
   pymChild.sendHeight();
 });

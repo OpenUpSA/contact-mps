@@ -102,6 +102,23 @@ body {
       width: 100%;
     }
   }
+  .top {
+    div[class^="col-"]:first-of-type {
+      padding-right: 0;
+    }
+    div[class^="col-"]:last-of-type {
+      padding-left: 0;
+    }
+    .mp-address {
+      padding: 20px 0;
+      background-color: #a1a1a1;
+      color: #424242;
+      min-height: 150px;
+    }
+    .selected-mp {
+      min-height: 150px;
+    }
+  }
 }
 
 .select2-results__option {
