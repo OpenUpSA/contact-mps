@@ -29,7 +29,7 @@
     {% for person in neglected_persons %}
       <div class="col-xs-6 col-sm-3 mp-wrap">
         <div class="single-mp" data-id="{{ person.id }}">
-          <div class="mp-img-wrapper center-block" style="background-image:url({% if person.portrait_url %}{{ person.portrait_url }}{% else %}{% static '/images/shadow.svg' %}{% endif %})">
+          <div class="mp-img-wrapper center-block" {% if person.portrait_url %}style="background-image:url({{ person.portrait_url }})"{% endif %}>
             {% if person.party %}
             <img class="party-logo" src="{{ person.party.icon_url }}" alt="Logo of {{ person.party.name }}">
             {% endif %}
