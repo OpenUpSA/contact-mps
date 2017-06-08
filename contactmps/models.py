@@ -20,12 +20,17 @@ class Party(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def icon_url(self):
+        return 'http://www.pa.org.za/static/images/party-map-icons/%s.png' % self.slug
+
     def as_dict(self):
         return {
             'id': self.id,
             'pa_id': self.pa_id,
             'name': self.name,
             'slug': self.slug,
+            'icon_url': self.icon_url,
         }
 
 

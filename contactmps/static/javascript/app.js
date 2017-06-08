@@ -25,11 +25,20 @@ var recaptchaLoaded = function() {
   pymChild.sendHeight();
 };
 
-$('select.use-select2').select2();
+if ($('.create-email-page').length > 0) {
+  // load the data into the dropdown
+  var data = _.map(persons, function(p) {
+    return {
+      id: p.id,
+      text: p.name + (p.party ? (' - ' + p.party.name) : ''),
+    };
+  });
 
-$('select.selectpicker').on('rendered.bs.select', function (e) {
-  pymChild.sendHeight();
-});
+  $('select.use-select2').select2({
+    data: data,
+    placeholder: 'Choose an MP',
+  });
+}
 
 $(".choose .single-mp").click(function() {
   $(".choose .single-mp").removeClass("selected");
@@ -55,19 +64,14 @@ var today =
     d.getFullYear();
 $("#current-date").text(today);
 
-$('#select-dropdown').on("select2:select", function(e) { 
-  var selectedMember = $('option:selected', this).attr('name');
-  console.log(selectedMember);
-  var selectedImage = $('option:selected', this).attr('image');
-  console.log(selectedImage);
-  var selectedParty = $('option:selected', this).attr('party');
-  console.log(selectedParty);
-  var selectedPartyLogo = $('option:selected', this).attr('partyImage');
-  console.log(selectedPartyLogo);
+$('#select-dropdown').on("change", function(e) { 
+  var selectedId = parseInt($(this).val());
+  var mp = _.find(persons, function(p) { return p.id == selectedId; });
 
   $(".choose .single-mp").removeClass("selected");
-  $("#recipient").text(selectedMember);
-  $(".selected-mp .mp-img-wrapper").css({"background-image": "url(" + selectedImage + ")"});
-  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedPartyLogo);
+  $("#recipient").text(mp.name);
+  $(".selected-mp .mp-img-wrapper").css({"background-image": "url(" + mp.portrait_url + ")"});
+  if (mp.party) $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party.icon_url);
+
   pymChild.sendHeight();
 });
