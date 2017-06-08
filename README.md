@@ -56,6 +56,18 @@ CREATE DATABASE
 postgres=#
 ```
 
+Allow passwordless database connections locally, or give your DB user a password
+and set the DATABASE_URL environment variable accordingly.
+
+Set the following environment variables:
+
+```
+RECAPTCHA_KEY=...
+RECAPTCHA_SECRET=...
+```
+
+Initialise and run.
+
 ```
 python manage.py migrate
 python manage.py createsuperuser
@@ -69,6 +81,7 @@ Development
 * Put SCSS stylesheets into ``contactmps/static/stylesheets/app.scss``
 * Install new asset packs with Bower: ``bower install -Sp package-to-install``
 * Get better debugging with ``python manage.py runserver_plus``
+
 
 Production deployment
 ---------------------
@@ -89,7 +102,8 @@ dokku config:set  DJANGO_DEBUG=false \
                   DJANGO_EMAIL_HOST_PASSOWRD=the sendgrind password \
                   DJANGO_SEND_EMAILS=True \
                   RECAPTCHA_KEY=... \
-                  RECAPTCHA_SECRET=...
+                  RECAPTCHA_SECRET=... \
+                  BASE_URL=https://production.url.com/
 git push dokku master
 ```
 
