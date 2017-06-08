@@ -27,7 +27,7 @@
     <div class="row">
     {% for person in neglected_persons %}
       <div class="col-xs-6 col-sm-3 mp-wrap">
-        <div class="single-mp">
+        <div class="single-mp" data-id="{{ person.id }}">
           <div class="mp-img-wrapper center-block" style="background-image:url({% if person.portrait_url %}{{ person.portrait_url }}{% else %}https://taxdisclosure.org/img/default.svg{% endif %})">
             {% if person.party %}
             <img class="party-logo" src="{{ person.party.icon_url }}" alt="Logo of {{ person.party.name }}">
