@@ -109,7 +109,7 @@ def email_detail(request, secure_id):
 def add_utm(request, utm_medium):
     params = {
         'utm_source': 'site',
-        'utm_channel': utm_medium,
+        'utm_medium': utm_medium,
         'utm_campaign': 'site-share-buttons',
     }
     query_string = urlencode(params, doseq=True)
