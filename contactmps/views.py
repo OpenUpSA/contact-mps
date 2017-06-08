@@ -122,17 +122,20 @@ def robots(request):
     """
     Programmatic robots.txt so we can avoid indexing except for via domains
     """
-    robotsdottxt = "\n".join([
-        "User-agent: Twitterbot",
-        "Allow: /",
-        "",
-        "User-agent: WhatsApp",
-        "Allow: /",
-        "",
-        "User-agent: Facebook",
-        "Allow: /",
-        "",
-        "User-agent: *",
-        "Disallow: /",
+    user_agents = [
+        'Googlebot',
+        'Yahoo! Slurp',
+        'bingbot',
+        'AhrefsBot',
+        'Baiduspider',
+        'Ezooms',
+        'MJ12bot',
+        'YandexBot',
+    ]
+    lines = []
+    for ua in user_agents:
+        lines.extend(["", "User-agent: %s" % ua,"Disallow: /"])
+    lines.extend(["", "User-agent: *","Allow: /",
     ])
+    robotsdottxt = "\n".join(lines)
     return HttpResponse(robotsdottxt, content_type="text/plain")
