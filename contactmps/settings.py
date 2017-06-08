@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -70,6 +71,23 @@ db_config['ATOMIC_REQUESTS'] = True
 DATABASES = {
     'default': db_config,
 }
+
+# Caches
+DISABLE_CACHE = os.environ.get('DJANGO_DISABLE_CACHE', False) == 'True'
+
+if DEBUG or DISABLE_CACHE:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': '/var/tmp/django_cache',
+        }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

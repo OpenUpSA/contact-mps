@@ -112,7 +112,7 @@ def email_detail(request, secure_id):
 def add_utm(request, utm_medium):
     params = {
         'utm_source': 'site',
-        'utm_channel': utm_medium,
+        'utm_medium': utm_medium,
         'utm_campaign': 'site-share-buttons',
     }
     query_string = urlencode(params, doseq=True)
@@ -125,17 +125,22 @@ def robots(request):
     """
     Programmatic robots.txt so we can avoid indexing except for via domains
     """
-    robotsdottxt = "\n".join([
-        "User-agent: Twitterbot",
-        "Allow: /",
-        "",
-        "User-agent: WhatsApp",
-        "Allow: /",
-        "",
-        "User-agent: Facebook",
-        "Allow: /",
-        "",
-        "User-agent: *",
-        "Disallow: /",
+    user_agents = [
+        'Googlebot',
+        'Yahoo! Slurp',
+        'bingbot',
+        'AhrefsBot',
+        'Baiduspider',
+        'Ezooms',
+        'MJ12bot',
+        'YandexBot',
+    ]
+    lines = []
+    for ua in user_agents:
+        lines.extend(["", "User-agent: %s" % ua, "Disallow: /"])
+    lines.extend([
+        "", "User-agent: *", "Allow: /",
+        "", "User-agent: Twitterbot", "Disallow:",
     ])
+    robotsdottxt = "\n".join(lines)
     return HttpResponse(robotsdottxt, content_type="text/plain")
