@@ -17,7 +17,7 @@ var gReCaptchaExpired = function() {
 
 var recaptchaLoaded = function() {
   grecaptcha.render('recaptcha', {
-    'sitekey': '{{ recaptcha_key }}',
+    'sitekey': recaptchaKey,
     'callback': gReCaptchaValidated,
     'expired-callback': gReCaptchaExpired
   });
@@ -67,7 +67,7 @@ $(".choose .single-mp").click(function() {
   chooseMP(mp);
 });
 
-$('#select-dropdown').on("change", function(e) { 
+$('#select-dropdown').on("change", function(e) {
   var selectedId = parseInt($(this).val()),
       mp = _.find(persons, function(p) { return p.id == selectedId; });
   chooseMP(mp);
@@ -78,7 +78,7 @@ $(".choose .single-mp").first().click();
 var d = new Date();
 var month = d.getMonth()+1;
 var day = d.getDate();
-var today = 
+var today =
     ((''+day).length<2 ? '0' : '') + day + '-' +
     ((''+month).length<2 ? '0' : '') + month + '-' +
     d.getFullYear();

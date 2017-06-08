@@ -7,7 +7,8 @@
 
 {% block js %}
   <script>
-  var persons = {{ persons_json|safe }};
+    var persons = {{ persons_json|safe }};
+    var recaptchaKey = '{{ recaptcha_key }}';
   </script>
 
   {{ block.super }}
