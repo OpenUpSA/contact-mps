@@ -1,3 +1,32 @@
+var pymChild = new pym.Child({
+  id: "contactmps-embed-parent"
+});
+
+$(function() {
+  pymChild.sendHeight();
+  console.info("contactmps loaded");
+});
+
+var gReCaptchaValidated = function() {
+  $("input[type=submit]").removeAttr('disabled');
+};
+
+var gReCaptchaExpired = function() {
+  $("input[type=submit]").attr('disabled','disabled');
+};
+
+var recaptchaLoaded = function() {
+  grecaptcha.render('recaptcha', {
+    'sitekey': '{{ recaptcha_key }}',
+    'callback': gReCaptchaValidated,
+    'expired-callback': gReCaptchaExpired
+  });
+  console.info("recaptcha rendered");
+  pymChild.sendHeight();
+};
+
+$('select.use-select2').select2();
+
 $('select.selectpicker').on('rendered.bs.select', function (e) {
   pymChild.sendHeight();
 });
@@ -23,3 +52,20 @@ var today =
     ((''+month).length<2 ? '0' : '') + month + '-' +
     d.getFullYear();
 $("#current-date").text(today);
+
+$('#select-dropdown').on("select2:select", function(e) { 
+  var selectedMember = $('option:selected', this).attr('name');
+  console.log(selectedMember);
+  var selectedImage = $('option:selected', this).attr('image');
+  console.log(selectedImage);
+  var selectedParty = $('option:selected', this).attr('party');
+  console.log(selectedParty);
+  var selectedPartyLogo = $('option:selected', this).attr('partyImage');
+  console.log(selectedPartyLogo);
+
+  $(".send-block").removeClass("hidden");
+  $("#recipient").text(selectedMember);
+  $(".selected-mp .mp-img-wrapper").css({"background-image": selectedImage});
+  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedPartyLogo);
+  pymChild.sendHeight();
+});

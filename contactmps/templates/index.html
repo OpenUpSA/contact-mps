@@ -1,10 +1,7 @@
-{% extends "layout.html" %}
-{% load pipeline %}
+{% extends "base.html" %}
+{% load staticfiles %}
 
-{% block content %}
+{% block js %}
+{{ block.super }}
 <script type="text/javascript" src="/static/javascript/embed.js"></script>
-{% endblock content%}
-
-{% block social_sharing %}{% endblock social_sharing %}
-{% block attribution_heading %}{% endblock attribution_heading %}
-{% block attribution %}{% endblock attribution %}
+{% endblock %}
