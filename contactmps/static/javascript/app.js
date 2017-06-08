@@ -1,3 +1,32 @@
+var pymChild = new pym.Child({
+  id: "contactmps-embed-parent"
+});
+
+$(function() {
+  pymChild.sendHeight();
+  console.info("contactmps loaded");
+});
+
+var gReCaptchaValidated = function() {
+  $("input[type=submit]").removeAttr('disabled');
+};
+
+var gReCaptchaExpired = function() {
+  $("input[type=submit]").attr('disabled','disabled');
+};
+
+var recaptchaLoaded = function() {
+  grecaptcha.render('recaptcha', {
+    'sitekey': '{{ recaptcha_key }}',
+    'callback': gReCaptchaValidated,
+    'expired-callback': gReCaptchaExpired
+  });
+  console.info("recaptcha rendered");
+  pymChild.sendHeight();
+};
+
+$('select.use-select2').select2();
+
 $('select.selectpicker').on('rendered.bs.select', function (e) {
   pymChild.sendHeight();
 });
