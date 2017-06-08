@@ -134,3 +134,45 @@ body {
 .person-button {
   border: 1px solid black;
 }
+
+.sent-email {
+  img {
+    filter: blur(5px);
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -4;
+  }
+  h1 {
+    text-transform: uppercase;
+    color: #ffe844;
+    font-weight: bold;
+    text-shadow: 2px 2px #333;
+    text-align: center;
+    font-family: sans-serif;
+    padding-top: 30px;
+  }
+  h2 {
+    font-family: sans-serif;
+    color: #fff;
+    text-align: center;
+  }
+}
+
+.email-details {
+  color: #fff;
+  padding-top: 30px;
+  padding-bottom: 5px;
+}
+
+.email-body {
+  padding-bottom: 30px;
+  color: #fff;
+}
+
+.btn-contact {
+  background-color: #ffe844;
+  color: #000;
+  font-weight: bold;
+}
