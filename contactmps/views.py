@@ -134,8 +134,10 @@ def robots(request):
     ]
     lines = []
     for ua in user_agents:
-        lines.extend(["", "User-agent: %s" % ua,"Disallow: /"])
-    lines.extend(["", "User-agent: *","Allow: /",
+        lines.extend(["", "User-agent: %s" % ua, "Disallow: /"])
+    lines.extend([
+        "", "User-agent: *", "Allow: /",
+        "", "User-agent: Twitterbot", "Disallow:",
     ])
     robotsdottxt = "\n".join(lines)
     return HttpResponse(robotsdottxt, content_type="text/plain")
