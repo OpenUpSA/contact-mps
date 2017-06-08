@@ -61,14 +61,22 @@
           {% endblock content %}
 
           {% block social_sharing %}
+          <div id="fb-root"></div>
+          <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9&appId=1879108499081905";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
 
           {% if is_mobile %}
-          <a href="whatsapp://send?text={% block whatsapp_msg %}{{ BASE_URL|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
+          <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
           {% endif %}
 
-          <iframe src="https://www.facebook.com/plugins/share_button.php?href={{ BASE_URL|urlencode }}fb/&layout=button_count&size=small&mobile_iframe=true&appId=1879108499081905&width=88&height=20" width="88" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+          <div class="fb-share-button" data-href="{{ BASE_URL }}{{ request.path }}fb/" data-layout="button_count" data-size="small" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2FDEADBEEF%2F&amp;src=sdkpreparse">Share</a></div>
 
-          <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ BASE_URL }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ BASE_URL }}{{ request.path|urlencode }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
           <div><a href="/embed.html">Embed this on your site</a></div>
           {% endblock social_sharing %}

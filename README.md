@@ -103,7 +103,7 @@ dokku config:set  DJANGO_DEBUG=false \
                   DJANGO_SEND_EMAILS=True \
                   RECAPTCHA_KEY=... \
                   RECAPTCHA_SECRET=... \
-                  BASE_URL=https://production.url.com/
+                  BASE_URL=https://production.url.com
 git push dokku master
 ```
 
