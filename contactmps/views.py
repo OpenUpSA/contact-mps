@@ -122,4 +122,17 @@ def robots(request):
     """
     Programmatic robots.txt so we can avoid indexing except for via domains
     """
-    return HttpResponse("User-agent: *\nDisallow: /", content_type="text/plain")
+    robotsdottxt = "\n".join([
+        "User-agent: Twitterbot",
+        "Allow: /",
+        "",
+        "User-agent: WhatsApp",
+        "Allow: /",
+        "",
+        "User-agent: Facebook",
+        "Allow: /",
+        "",
+        "User-agent: *",
+        "Disallow: /",
+    ])
+    return HttpResponse(robotsdottxt, content_type="text/plain")
