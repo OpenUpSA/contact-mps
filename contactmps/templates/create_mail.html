@@ -2,15 +2,16 @@
 {% load pipeline %}
 
 {% block title %}Send a message to a Member of Parliament{% endblock %}
+{% block body-class %}create-email-page{% endblock %}
 
 {% block js %}
-  {{ block.super }}
-  {% javascript "js" %}
-  <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>
-
   <script>
   var persons = {{ persons_json|safe }};
   </script>
+
+  {{ block.super }}
+  {% javascript "js" %}
+  <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>
 {% endblock %}
 
 {% block content %}
@@ -29,7 +30,7 @@
         <div class="single-mp">
           <div class="mp-img-wrapper center-block" style="background-image:url({% if person.portrait_url %}{{ person.portrait_url }}{% else %}https://taxdisclosure.org/img/default.svg{% endif %})">
             {% if person.party %}
-            <img class="party-logo" src="http://www.pa.org.za/static/images/party-map-icons/{{ person.party.slug }}.png" alt="Logo of {{ person.party.name }}">
+            <img class="party-logo" src="{{ person.party.icon_url }}" alt="Logo of {{ person.party.name }}">
             {% endif %}
           </div>
           <div class="mp-name">{{ person.name }}</div>
@@ -46,12 +47,7 @@
   </section>
 
   <div>
-    <select id="select-dropdown" class="use-select2">
-      <option selected="selected" disabled="disabled" value="Choose an MP">Choose an MP</option>
-      {% for person in persons %}
-      <option name="{{ person.name }}" party="{{ person.party.name }}" image="{% if person.portrait_url %}{{ person.portrait_url }}{% else %}https://taxdisclosure.org/img/default.svg{% endif %}" partyImage="http://www.pa.org.za/static/images/party-map-icons/{{ person.party.slug }}.png" value="{{ person.id }}">{{ person.name }}{% if person.party %} - {{ person.party.name }}{% endif %}</option>
-      {% endfor %}
-    </select>
+    <select id="select-dropdown" class="use-select2"></select>
   </div>
 
   <section class="send-block">
