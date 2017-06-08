@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.db.models import Count, Case
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
 from urllib import urlencode
+import random
 
 from .models import (
     Email,
@@ -17,19 +18,6 @@ import logging
 import requests
 
 log = logging.getLogger(__name__)
-
-
-# https://github.com/django/django/blob/master/tests/decorators/tests.py
-def compose(*functions):
-    # compose(f, g)(*args, **kwargs) == f(g(*args, **kwargs))
-    functions = list(reversed(functions))
-
-    def _inner(*args, **kwargs):
-        result = functions[0](*args, **kwargs)
-        for f in functions[1:]:
-            result = f(result)
-        return result
-    return _inner
 
 
 @xframe_options_exempt
@@ -46,16 +34,15 @@ def embed(request):
 def create_mail(request):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
-    neglected_persons = Person.objects \
-                              .filter(contactdetails__type='email') \
-                              .annotate(num_email_addresses=Count('contactdetails')) \
-                              .annotate(num_emails=Count('email')) \
-                              .prefetch_related('party', 'contactdetails') \
-                              .order_by('num_emails')[:4]
     persons = Person.objects \
-        .prefetch_related('party', 'contactdetails') \
-        .all()
+        .filter(contactdetails__type='email') \
+        .annotate(num_emails=Count('email')) \
+        .prefetch_related('party', 'contactdetails')
+
+    # of those MPs that are less emailed, randomly choose 4
+    neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
     persons_json = json.dumps([p.as_dict() for p in persons])
+
     return render(request, 'create_mail.html', {
         'persons': persons,
         'neglected_persons': neglected_persons,

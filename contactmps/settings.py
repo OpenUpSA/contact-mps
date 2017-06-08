@@ -189,6 +189,7 @@ PIPELINE = {
     },
     'CSS_COMPRESSOR': None,
     'JS_COMPRESSOR': None,
+    'DISABLE_WRAPPER': True,
     'COMPILERS': (
         'contactmps.pipeline.PyScssCompiler',
     ),
