@@ -63,12 +63,12 @@
           {% block social_sharing %}
 
           {% if is_mobile %}
-          <a href="whatsapp://send?text={% block whatsapp_msg %}{{ request.build_absolute_uri|strip_qs|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
+          <a href="whatsapp://send?text={% block whatsapp_msg %}{{ BASE_URL|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
           {% endif %}
 
-          <iframe src="https://www.facebook.com/plugins/share_button.php?href={{ request.build_absolute_uri|strip_qs|urlencode }}fb/&layout=button_count&size=small&mobile_iframe=true&appId=1879108499081905&width=88&height=20" width="88" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+          <iframe src="https://www.facebook.com/plugins/share_button.php?href={{ BASE_URL|urlencode }}fb/&layout=button_count&size=small&mobile_iframe=true&appId=1879108499081905&width=88&height=20" width="88" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 
-          <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ request.build_absolute_uri|strip_qs }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ BASE_URL }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
           <div><a href="/embed.html">Embed this on your site</a></div>
           {% endblock social_sharing %}
