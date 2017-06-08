@@ -28,38 +28,41 @@ var persons = {{ persons_json|safe }};
 {% block title %}Send a message to a Member of Parliament{% endblock %}
 {% block content %}
 
-<h1>Send a message to a Member of Parliament</h1>
-
-<div class="row">
-  <img src="/static/images/parliament-empty-michael-hebb-1024x478.jpg" class="img-responsive">
-</div>
+<section class="hero">
+  <h1>Statement</h1>
+  <h3>Send a message to a member of parliament</h3>
+</section>
 
 <form id="email-form" action="/email/" method="post">
   {% csrf_token %}
 
-  <div>
+  <section class="choose">
+    <div class="row">
     {% for person in neglected_persons %}
-    <div class="person-button">
-      <input type="radio" name="person" value="{{ person.id }}" {% if forloop.first %}checked="checked"{% endif %}>
-      {% if person.portrait_url %}
-      <img src="{{ person.portrait_url }}" alt="portrait of {{ person.name }}" height="45">
-      {% endif %}
-      {{ person.name }}
-      <p>(emailed {{ person.num_emails }} times)</p>
-      <p>
-        {% if person.party %}
-        <img src="http://www.pa.org.za/static/images/party-map-icons/{{ person.party.slug }}.png" alt="Logo of {{ person.party.name }}">
-        {{ person.party.name }}
-        {% else %}
-        Not a member of a political party
-        {% endif %}
-      </p>
-      {% for branch in person.constituency_branches.all %}
-      <p>{{ branch.name }}</p>
+      <div class="col-xs-6 col-sm-3 mp-wrap">
+        <div class="single-mp">
+          <div class="mp-img-wrapper center-block" style="background-image:url({% if person.portrait_url %}{{ person.portrait_url }}{% else %}https://taxdisclosure.org/img/default.svg{% endif %})">
+            {% if person.party %}
+            <img class="party-logo" src="http://www.pa.org.za/static/images/party-map-icons/{{ person.party.slug }}.png" alt="Logo of {{ person.party.name }}">
+            {% endif %}
+          </div>
+          <div class="mp-name">
+            {{ person.name }}
+          </div>
+          {% for branch in person.constituency_branches.all %}
+          <p>{{ branch.name }}</p>
+          {% endfor %}
+          <div class="email-count">
+            <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+          </div>
+          <p>
+          </p>
+        </div>
+      </div>
       {% endfor %}
     </div>
-    {% endfor %}
-  </div>
+  </section>
+
   <div>
     <select class="selectpicker" data-live-search="true" title="Choose MP by name or Party">
       {% for person in persons %}
