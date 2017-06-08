@@ -46,14 +46,10 @@
   </section>
 
   <div>
-    <select title="Choose MP by name or party" class="use-select2">
+    <select id="select-dropdown" class="use-select2">
+      <option selected="selected" disabled="disabled" value="Choose an MP">Choose an MP</option>
       {% for person in persons %}
-      <option value="{{ person.id }}">
-        <span id="dropdown-member">{{ person.name }}</span>
-        {% if person.party %}
-        - <span id="dropdown-party">{{ person.party.name }}</span>
-        {% endif %}
-      </option>
+      <option name="{{ person.name }}" party="{{ person.party.name }}" image="{% if person.portrait_url %}{{ person.portrait_url }}{% else %}https://taxdisclosure.org/img/default.svg{% endif %}" partyImage="http://www.pa.org.za/static/images/party-map-icons/{{ person.party.slug }}.png" value="{{ person.id }}">{{ person.name }}{% if person.party %} - {{ person.party.name }}{% endif %}</option>
       {% endfor %}
     </select>
   </div>
@@ -108,7 +104,6 @@
     </div>
   </section>
 </form>
-
 {% endblock content %}
 
 {% block attribution %}

@@ -41,15 +41,31 @@ $(".choose .single-mp").click(function() {
   $(".selected-mp .mp-img-wrapper").css({"background-image": selectedImage});
   var selectedParty = $(".mp-img-wrapper .party-logo", this).attr("src");
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedParty);
-	var d = new Date();
-	var month = d.getMonth()+1;
-	var day = d.getDate();
-	var today = 
-	    ((''+day).length<2 ? '0' : '') + day + '-' +
-	    ((''+month).length<2 ? '0' : '') + month + '-' +
-	    d.getFullYear();
-	$("#current-date").text(today);
   pymChild.sendHeight();
 });
 
+var d = new Date();
+var month = d.getMonth()+1;
+var day = d.getDate();
+var today = 
+    ((''+day).length<2 ? '0' : '') + day + '-' +
+    ((''+month).length<2 ? '0' : '') + month + '-' +
+    d.getFullYear();
+$("#current-date").text(today);
 
+$('#select-dropdown').on("select2:select", function(e) { 
+  var selectedMember = $('option:selected', this).attr('name');
+  console.log(selectedMember);
+  var selectedImage = $('option:selected', this).attr('image');
+  console.log(selectedImage);
+  var selectedParty = $('option:selected', this).attr('party');
+  console.log(selectedParty);
+  var selectedPartyLogo = $('option:selected', this).attr('partyImage');
+  console.log(selectedPartyLogo);
+
+  $(".send-block").removeClass("hidden");
+  $("#recipient").text(selectedMember);
+  $(".selected-mp .mp-img-wrapper").css({"background-image": selectedImage});
+  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", selectedPartyLogo);
+  pymChild.sendHeight();
+});
