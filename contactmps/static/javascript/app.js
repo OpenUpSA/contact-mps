@@ -39,6 +39,13 @@ if ($('.create-email-page').length > 0) {
     data: data,
     placeholder: 'Choose an MP',
   });
+
+  $('form#email-form').on('submit', function(e) {
+    // XXX: correctly build the email body
+    var $form = $(this),
+        text = $form.find('.email-textarea').text();
+    $(this).find('input[name=body]').val(text);
+  });
 }
 
 function chooseMP(mp) {
@@ -49,6 +56,7 @@ function chooseMP(mp) {
   $("#recipient").text(mp.name);
   $(".selected-mp .mp-img-wrapper").css({"background-image": mp.portrait_url ? ('url(' + mp.portrait_url + ')') : ''});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
+  $("form input[name=person]").val(mp.id);
 
   pymChild.sendHeight();
 }

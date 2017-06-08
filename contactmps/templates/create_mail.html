@@ -24,6 +24,10 @@
 <form id="email-form" action="/email/" method="post">
   {% csrf_token %}
 
+  <input type="hidden" name="person" value="">
+  <input type="hidden" name="body" value="">
+  <input type="hidden" name="subject" value="Re: Motion of No Confidence in the President of the Republic">
+
   <section class="choose">
     <div class="row">
     {% for person in neglected_persons %}
@@ -87,10 +91,10 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-              <input type="text" name="from_name"  placeholder="Your name">
+              <input type="text" name="from_name" placeholder="Your name" required>
             </div>
             <div class="col-md-6">
-              <input type="email" name="from_email"  placeholder="Your email address">
+              <input type="email" name="from_email"  placeholder="Your email address" required>
             </div>
           </div>
           <div class="row">
@@ -98,7 +102,7 @@
               <div id="recaptcha"></div>
             </div>
             <div class="col-md-6">
-              <input type="submit" value="Submit" disabled="disabled">
+              <input type="submit" value="Send email">
             </div>
           </div>
         </div>
