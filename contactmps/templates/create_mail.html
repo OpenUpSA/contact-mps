@@ -64,12 +64,13 @@ var persons = {{ persons_json|safe }};
   </section>
 
   <div>
-    <select title="Choose MP by name or Party">
+    <select data-tags="true" data-placeholder="Choose an MP">
+      <option selected="selected" disabled="disabled" value="Choose an MP">Choose an MP</option>
       {% for person in persons %}
       <option value="{{ person.id }}">
-        <span id="dropdown-member">{{ person.name }}</span>
+        {{ person.name }}
         {% if person.party %}
-        - <span id="dropdown-party">{{ person.party.name }}</span>
+        - {{ person.party.name }}
         {% endif %}
       </option>
       {% endfor %}

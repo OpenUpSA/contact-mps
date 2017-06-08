@@ -55,36 +55,31 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     {% block head_js %}{% endblock head_js %}
-
   </head>
+
   <body {% block body-attributes %}{% endblock %} class='{% block body-class %}{% endblock %}'>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-          {% block content %}
-          {% endblock content %}
+    {% block content %}
+    {% endblock content %}
 
-          {% block social_sharing %}
+    {% block social_sharing %}
 
-          {% if is_mobile %}
-          <a href="whatsapp://send?text={% block whatsapp_msg %}{{ request.build_absolute_uri|strip_qs|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
-          {% endif %}
+    {% if is_mobile %}
+      <a href="whatsapp://send?text={% block whatsapp_msg %}{{ request.build_absolute_uri|strip_qs|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
+    {% endif %}
 
-          <iframe src="https://www.facebook.com/plugins/share_button.php?href={{ request.build_absolute_uri|strip_qs|urlencode }}fb/&layout=button_count&size=small&mobile_iframe=true&appId=1879108499081905&width=88&height=20" width="88" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+    <iframe src="https://www.facebook.com/plugins/share_button.php?href={{ request.build_absolute_uri|strip_qs|urlencode }}fb/&layout=button_count&size=small&mobile_iframe=true&appId=1879108499081905&width=88&height=20" width="88" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 
-          <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ request.build_absolute_uri|strip_qs }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ request.build_absolute_uri|strip_qs }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-          <div><a href="/embed.html">Embed this on your site</a></div>
-          {% endblock social_sharing %}
-        </div>
-      </div>
-      <footer class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        {% block attribution_heading %}
-        <h2>Attribution</h2>
-        {% endblock attribution_heading %}
-        {% block attribution %}{% endblock attribution %}
-      </footer>
-    </div>
+    <div><a href="/embed.html">Embed this on your site</a></div>
+    {% endblock social_sharing %}
+    
+    <footer>
+      {% block attribution_heading %}
+      <h2>Attribution</h2>
+      {% endblock attribution_heading %}
+      {% block attribution %}{% endblock attribution %}
+    </footer>
 
     {% block js %}
     {% javascript "pym.js" %}
@@ -115,6 +110,5 @@
       }))();
     </script>
     {% endblock %}
-
   </body>
 </html>
