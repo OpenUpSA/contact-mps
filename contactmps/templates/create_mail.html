@@ -64,7 +64,7 @@ var persons = {{ persons_json|safe }};
   </section>
 
   <div>
-    <select class="selectpicker" data-live-search="true" title="Choose MP by name or Party">
+    <select data-live-search="true" title="Choose MP by name or Party">
       {% for person in persons %}
       <option value="{{ person.id }}">
         {{ person.name }}
@@ -76,28 +76,53 @@ var persons = {{ persons_json|safe }};
     </select>
   </div>
 
+  <script type="text/javascript">$('select').select2();</script>
+
   <section class="send-block row">
-    <div class="col-sm-3 selected-mp hidden-xs">
-      <div class="mp-img-wrapper center-block">
-        <img class="party-logo">
+    <div class="col-sm-3 hidden-xs">
+      <div class="selected-mp">
+        <div class="mp-img-wrapper center-block">
+          <img class="party-logo">
+        </div>
       </div>
     </div>
     <div class="col-sm-9">
-      <textarea rows="10" name="body" class="form-control">Dear ,</textarea>
-      <div class="row">
-        <div class="col-md-6">
-          <input type="text" name="from_name"  placeholder="Your name">
+      <div class="email-wrapper">
+        <div class="email-textarea">
+          Honourable Member <span id="recipient"></span><br>
+          Parliament of the Republic of South Africa<br>
+          Parliament Street<br>
+          Cape Town<br>
+          <p>Sent care of Parliament Watch by email to: <a href="mailto:noconfidence2017@gmail.com">Noconfidence2017@gmail.com</a></p>
+          <p id="current-date"></p>
+          <p><b>Re: Motion of No Confidence in the President of the Republic</b></p>
+          <p>As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.</p>
+          <p>I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue (s) that are important to me:</p>
         </div>
-        <div class="col-md-6">
-          <input type="email" name="from_email"  placeholder="Your email address">
+        <textarea rows="10"></textarea>
+        <div class="email-textarea">
+          <p>It is for these reasons that I do not have confidence in the President of the Republic and his cabinet.</p>
+          <p>I trust that you will make my voice heard and vote to make sure the President and his Cabinet are held to account. I trust you will vote to represent the people, ensuring government by us under the Constitution.</p>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="g-recaptcha" data-sitekey="6LciTiQUAAAAAOgLfeG5UCnhqK87RqLOG_wEmJFJ" data-callback="gReCaptchaValidated" data-expired-callback="gReCaptchaExpired"></div>
+        <textarea rows="1">I live in </textarea>
+        <div class="email-textarea">
+          <p>I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.</p>
         </div>
-        <div class="col-md-6">
-          <input type="submit" value="Submit" disabled="disabled">
+        <div class="row">
+          <div class="col-md-6">
+            <input type="text" name="from_name"  placeholder="Your name">
+          </div>
+          <div class="col-md-6">
+            <input type="email" name="from_email"  placeholder="Your email address">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div id="recaptcha"></div>
+          </div>
+          <div class="col-md-6">
+            <input type="submit" value="Submit" disabled="disabled">
+          </div>
         </div>
       </div>
     </div>

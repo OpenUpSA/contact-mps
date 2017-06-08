@@ -62,19 +62,34 @@ body {
   }
 }
 
+.selected-mp {
+  background-color: #a1a1a1;
+  padding: 20px 0;
+}
+
 .send-block {
   padding-top: 40px;
-  form {
-    input {
-      width: 100%;
-      border: 1px solid #a1a1a1;
-      border-radius: 3px;
-      background-color: transparent;
-      color: #a1a1a1;
-      height: 40px;
-      margin-top: 10px;
-      padding: 3px 10px;
-      font-size: 16px;
+  input {
+    width: 100%;
+    border: 1px solid #a1a1a1;
+    border-radius: 3px;
+    background-color: #333;
+    color: #a1a1a1;
+    height: 40px;
+    margin-top: 10px;
+    padding: 3px 10px;
+    font-size: 16px;
+  }
+  .email-wrapper {
+      background-color: #a1a1a1;
+      padding: 15px;
+    .email-textarea {
+      background-color: #a1a1a1;
+      color: #424242;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      margin-top: -1px;
     }
     textarea {
       background-color: #a1a1a1;
@@ -82,14 +97,20 @@ body {
       border: none;
       border-radius: 0;
       box-shadow: none;
+      resize: none;
+      width: 100%;
     }
   }
 }
 
+.select2-results__option {
+  color: #424242;
+}
+
 #contactmps-embed-parent {
-  border: 1px solid black
+  border: 1px solid black;
 }
 
 .person-button {
-    border: 1px solid black
+  border: 1px solid black;
 }
