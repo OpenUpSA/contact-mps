@@ -75,20 +75,35 @@ var persons = {{ persons_json|safe }};
       {% endfor %}
     </select>
   </div>
-  <div>Subject: <input type="text" name="subject" value="Message to you rudy"></div>
-  <div>
-    <textarea name="body"  class="form-control">I feel very strongly.</textarea>
-  </div>
 
-  <div>Your name: <input type="text" name="from_name"></div>
-  <div>Your email address: <input type="text" name="from_email"></div>
-  <div id="recaptcha"></div>
-  <div>
-    <input type="submit" value="Submit" disabled="disabled">
-  </div>
+  <section class="send-block row">
+    <div class="col-sm-3 selected-mp hidden-xs">
+      <div class="mp-img-wrapper center-block">
+        <img class="party-logo">
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <textarea rows="10" name="body" class="form-control">Dear ,</textarea>
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="from_name"  placeholder="Your name">
+        </div>
+        <div class="col-md-6">
+          <input type="email" name="from_email"  placeholder="Your email address">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="g-recaptcha" data-sitekey="6LciTiQUAAAAAOgLfeG5UCnhqK87RqLOG_wEmJFJ" data-callback="gReCaptchaValidated" data-expired-callback="gReCaptchaExpired"></div>
+        </div>
+        <div class="col-md-6">
+          <input type="submit" value="Submit" disabled="disabled">
+        </div>
+      </div>
+    </div>
+  </section>
 </form>
 
-<br>
 {% endblock content %}
 
 {% block attribution %}
