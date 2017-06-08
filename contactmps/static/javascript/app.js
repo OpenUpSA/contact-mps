@@ -33,6 +33,7 @@ if ($('.create-email-page').length > 0) {
       text: p.name + (p.party ? (' - ' + p.party.name) : ''),
     };
   });
+  data = _.sortBy(data, 'text');
 
   $('select.use-select2').select2({
     data: data,
@@ -46,7 +47,7 @@ function chooseMP(mp) {
   $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
 
   $("#recipient").text(mp.name);
-  $(".selected-mp .mp-img-wrapper").css({"background-image": mp.portrait_url ? ('url(' + mp.portrait_url + ')') : null});
+  $(".selected-mp .mp-img-wrapper").css({"background-image": mp.portrait_url ? ('url(' + mp.portrait_url + ')') : ''});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
 
   pymChild.sendHeight();
