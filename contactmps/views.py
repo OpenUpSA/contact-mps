@@ -85,6 +85,8 @@ def email(request):
         remote_ip = request.META.get('REMOTE_ADDR', '')
 
     body = u"""
+Honourable Member {mp},
+
 As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.
 
 I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue(s) that are important to me:
@@ -97,13 +99,20 @@ I trust that you will make my voice heard and vote to make sure the President an
 
 {location}
 I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.
+
+{name}
 """
 
     location = ''
     if form.cleaned_data['location']:
         location = u'I live in %s\n' % form.cleaned_data['location']
 
-    body = body.format(reasons=form.cleaned_data['reasons'], location=location)
+    body = body.format(
+        mp=person.name,
+        reasons=form.cleaned_data['reasons'],
+        location=location,
+        name=form.cleaned_data['name'],
+    )
 
     email = Email(
         to_person=person,
