@@ -33,7 +33,7 @@
     <section class="choose">
       <div class="row">
       {% for person in neglected_persons %}
-        <div class="col-xs-12 mp-wrap">
+        <div class="col-xs-6 mp-wrap">
           <div class="single-mp row" data-id="{{ person.id }}">
             <div class="col-xs-4">
               <div class="mp-img-wrapper center-block" {% if person.portrait_url %}style="background-image:url({{ person.portrait_url }})"{% endif %}>
@@ -95,6 +95,9 @@
               </div>
               <div class="col-md-6">
                 <input type="email" name="from_email"  placeholder="Your email address" required>
+              </div>
+              <div class="col-md-6">
+                <input type="city" name="from_email"  placeholder="Where you live" required>
               </div>
             </div>
             <div class="row">
