@@ -8,25 +8,20 @@
 {% endblock %}
 
 {% block body %}
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        {% block content %}{% endblock content %}
+    {% block content %}{% endblock content %}
 
-        {% block social_sharing %}
-          <div class="social-sharing">
-            {% if is_mobile %}
-            <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
-            {% endif %}
+    {% block social_sharing %}
+      <div class="social-sharing">
+        {% if is_mobile %}
+        <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
+        {% endif %}
 
-            <span class="fb-share-button" data-href="{{ BASE_URL }}{{ request.path }}fb/" data-layout="button_count" data-size="small" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2FDEADBEEF%2F&amp;src=sdkpreparse">Share</a></span>
+        <span class="fb-share-button" data-href="{{ BASE_URL }}{{ request.path }}fb/" data-layout="button_count" data-size="small" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2FDEADBEEF%2F&amp;src=sdkpreparse">Share</a></span>
 
-            <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ BASE_URL }}{{ request.path|urlencode }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-          </div>
-        {% endblock social_sharing %}
-        <div class="center-block"><a href="/embed.html">Embed this on your site</a></div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{% block tweet %}{{ SITE_NAME }}{% endblock %}" data-show-count="false" data-url="{{ BASE_URL }}{{ request.path|urlencode }}tw/">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
-    </div>
+    {% endblock social_sharing %}
+    <div class="center-block"><a href="/embed.html">Embed this on your site</a></div>
 
     <footer class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
       {% block attribution_heading %}
@@ -34,5 +29,4 @@
       {% endblock attribution_heading %}
       {% block attribution %}{% endblock attribution %}
     </footer>
-  </div>
 {% endblock %}

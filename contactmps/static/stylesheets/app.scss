@@ -5,7 +5,7 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 
 // put application-specific styles here
 
-body {
+.create-email-page {
   background-color: #333;
   color: #bbb;
   h1, h2, h3, h4, h5, h6 {
@@ -20,6 +20,14 @@ body {
   background-size: cover;
   color: #fff;
   text-align: right;
+  h1 {
+    margin-top: 0;
+    padding-top: 10%;
+    padding-right: 10%;
+  }
+  h3 {
+    padding-right: 10%;
+  }
 }
 .choose {
   margin-top: -70px;
@@ -30,7 +38,7 @@ body {
       background-color: #a1a1a1;
       border-bottom: 3px solid #a1a1a1;
       margin: 0;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
       color: #424242;
       cursor: pointer;
       min-height: 100px;
@@ -69,7 +77,7 @@ body {
 
 .selected-mp {
   background-color: #a1a1a1;
-  padding: 20px 0;
+  padding: 15px;
 }
 
 .send-block {
@@ -107,14 +115,18 @@ body {
     }
   }
   .top {
-    div[class^="col-"]:first-of-type {
-      padding-right: 0;
-    }
-    div[class^="col-"]:last-of-type {
-      padding-left: 0;
+    @media (min-width: 750px) {
+      div[class^="col-"]:first-of-type {
+        padding-right: 0;
+      }
+      div[class^="col-"]:last-of-type {
+        padding-left: 0;
+      }
+      .mp-address {
+        padding: 20px 0;
+      }
     }
     .mp-address {
-      padding: 20px 0;
       background-color: #a1a1a1;
       color: #424242;
       min-height: 150px;
