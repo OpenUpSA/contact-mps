@@ -24,8 +24,9 @@ class EmailForm(forms.Form):
     person = forms.CharField(label='person', required=True)
     name = forms.CharField(label='Your name', required=True)
     email = forms.EmailField(label='Your email address', required=True)
-    body = forms.CharField(label='Body', required=True)
-    subject = forms.CharField(label='Body', required=True, initial="Motion of No Confidence in the President of the Republic")
+    reasons = forms.CharField(label='Reasons', required=True)
+    location = forms.CharField(label='Location', required=False)
+    subject = forms.CharField(label='Subject', required=True, initial="Motion of No Confidence in the President of the Republic")
 
 
 @xframe_options_exempt
@@ -73,6 +74,7 @@ def email(request):
     r.raise_for_status()
 
     if not form.is_valid() or (not settings.DEBUG and not r.json()['success']):
+        print form.errors
         return redirect(reverse('noconfidence'))
 
     person = get_object_or_404(Person, pk=form.cleaned_data['person'])
@@ -82,11 +84,32 @@ def email(request):
     else:
         remote_ip = request.META.get('REMOTE_ADDR', '')
 
+    body = u"""
+As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.
+
+I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue(s) that are important to me:
+
+{reasons}
+
+It is for these reasons that I do not have confidence in the President of the Republic and his cabinet.
+
+I trust that you will make my voice heard and vote to make sure the President and his Cabinet are held to account. I trust you will vote to represent the people, ensuring government by us under the Constitution.
+
+{location}
+I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.
+"""
+
+    location = ''
+    if form.cleaned_data['location']:
+        location = u'I live in %s\n' % form.cleaned_data['location']
+
+    body = body.format(reasons=form.cleaned_data['reasons'], location=location)
+
     email = Email(
         to_person=person,
         from_name=form.cleaned_data['name'],
         from_email=form.cleaned_data['email'],
-        body=form.cleaned_data['body'],
+        body=body,
         subject=form.cleaned_data['subject'],
         remote_ip=remote_ip,
         user_agent=request.META.get('HTTP_USER_AGENT')

@@ -41,9 +41,7 @@ if ($('.create-email-page').length > 0) {
   });
 
   $('form#email-form').on('submit', function(e) {
-    // XXX: correctly build the email body
-    var $form = $(this),
-        text = $form.find('.email-textarea').text();
+    var $form = $(this);
 
     if ($form.find('input[name=name]').val() === '') {
       alert("Please enter your name");
@@ -59,7 +57,12 @@ if ($('.create-email-page').length > 0) {
       return;
     }
 
-    $(this).find('input[name=body]').val(text);
+    if ($form.find('textarea[name=reasons]').val() === '') {
+      alert("Please tell us why this is important to you");
+      $form.find('textarea[name=reasons]').focus();
+      e.preventDefault();
+      return;
+    }
   });
 }
 
@@ -89,12 +92,3 @@ $('#select-dropdown').on("change", function(e) {
 });
 
 $(".choose .single-mp").first().click();
-
-var d = new Date();
-var month = d.getMonth()+1;
-var day = d.getDate();
-var today =
-    ((''+day).length<2 ? '0' : '') + day + '-' +
-    ((''+month).length<2 ? '0' : '') + month + '-' +
-    d.getFullYear();
-$("#current-date").text(today);

@@ -84,22 +84,14 @@ body {
     font-size: 16px;
   }
   .email-wrapper {
-      background-color: #a1a1a1;
-      padding: 15px;
+    background-color: #a1a1a1;
+    padding: 15px;
+
     .email-textarea {
-      background-color: #a1a1a1;
       color: #424242;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-      margin-top: -1px;
     }
+
     textarea {
-      background-color: #a1a1a1;
-      color: #424242;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
       resize: none;
       width: 100%;
     }
@@ -120,6 +112,10 @@ body {
     .selected-mp {
       min-height: 150px;
     }
+  }
+
+  #recaptcha {
+    padding: 10px 0px;
   }
 }
 
