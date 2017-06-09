@@ -31,7 +31,7 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 }
 .choose {
   margin-top: -70px;
-  padding: 0 20px;
+  padding: 0 5px;
   .mp-wrap {
     .single-mp {
       padding: 10px;
@@ -56,6 +56,10 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
       }
     }
   }
+  .selected-mp {
+    background-color: #a1a1a1;
+    padding: 15px;
+  }
 }
 
 .mp-img-wrapper {
@@ -75,13 +79,19 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
   }
 }
 
-.selected-mp {
-  background-color: #a1a1a1;
-  padding: 15px;
+.select2-results__option {
+  color: #424242;
+}
+
+.dropdown-wrap {
+  padding: 20px 5px;
+  #select-dropdown {
+    width: 100%;
+  }
 }
 
 .send-block {
-  padding: 40px 20px 0 20px;
+  padding: 0 5px;
   input {
     width: 100%;
     border: 1px solid #a1a1a1;
@@ -94,57 +104,41 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
     font-size: 16px;
   }
   .email-wrapper {
-      background-color: #a1a1a1;
-      padding: 15px;
+    background-color: #a1a1a1;
+    padding: 15px;
+
     .email-textarea {
-      background-color: #a1a1a1;
       color: #424242;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-      margin-top: -1px;
     }
+
     textarea {
-      background-color: #a1a1a1;
-      color: #424242;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
       resize: none;
       width: 100%;
     }
   }
-  .top {
-    @media (min-width: 750px) {
-      div[class^="col-"]:first-of-type {
-        padding-right: 0;
-      }
-      div[class^="col-"]:last-of-type {
-        padding-left: 0;
-      }
-      .mp-address {
-        padding: 20px 0;
-      }
+ .top {
+    padding: 15px;
+    background-color: #FCB514;
+    color: #000;
+    min-height: 110px;
+    .selected-mp-wrap {
+      width: 30%;
+      max-width: 175px;
+      display: block;
+      float: left;
     }
-    .mp-address {
-      background-color: #a1a1a1;
-      color: #424242;
-      min-height: 150px;
-    }
-    .selected-mp {
-      min-height: 150px;
+    .mp-name {
+      width: 70%;
+      display: block;
+      float: left;
+      padding: 10px;
+      .pa-link {
+        padding-top: 7px;
+      }
     }
   }
-}
-
-.select2-results__option {
-  color: #424242;
-}
-
-.dropdown-wrap {
-  padding: 0 20px;
-  #select-dropdown {
-    width: 100%;
+  #recaptcha {
+    padding: 10px 0px;
   }
 }
 
