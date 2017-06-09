@@ -32,16 +32,20 @@
   <section class="choose">
     <div class="row">
     {% for person in neglected_persons %}
-      <div class="col-xs-6 col-sm-3 mp-wrap">
-        <div class="single-mp" data-id="{{ person.id }}">
-          <div class="mp-img-wrapper center-block" {% if person.portrait_url %}style="background-image:url({{ person.portrait_url }})"{% endif %}>
-            {% if person.party %}
-            <img class="party-logo" src="{{ person.party.icon_url }}" alt="Logo of {{ person.party.name }}">
-            {% endif %}
+      <div class="col-xs-6 mp-wrap">
+        <div class="single-mp row" data-id="{{ person.id }}">
+          <div class="col-xs-4">
+            <div class="mp-img-wrapper center-block" {% if person.portrait_url %}style="background-image:url({{ person.portrait_url }})"{% endif %}>
+              {% if person.party %}
+              <img class="party-logo" src="{{ person.party.icon_url }}">
+              {% endif %}
+            </div>
           </div>
-          <div class="mp-name">{{ person.name }}</div>
-          <div class="email-count">
-            <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+          <div class="col-xs-8">
+            <div class="mp-name">{{ person.name }}</div>
+            <div class="email-count">
+              <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+            </div>
           </div>
         </div>
       </div>
