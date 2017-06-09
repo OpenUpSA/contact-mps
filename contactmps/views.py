@@ -2,10 +2,10 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
+from django import forms
 from urllib import urlencode
 import random
 
@@ -18,6 +18,14 @@ import logging
 import requests
 
 log = logging.getLogger(__name__)
+
+
+class EmailForm(forms.Form):
+    person = forms.CharField(label='person', required=True)
+    name = forms.CharField(label='Your name', required=True)
+    email = forms.EmailField(label='Your email address', required=True)
+    body = forms.CharField(label='Body', required=True)
+    subject = forms.CharField(label='Body', required=True, initial="Motion of No Confidence in the President of the Republic")
 
 
 @xframe_options_exempt
@@ -47,6 +55,7 @@ def create_mail(request):
         'persons': persons,
         'neglected_persons': neglected_persons,
         'persons_json': persons_json,
+        'form': EmailForm(),
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
 
@@ -54,37 +63,38 @@ def create_mail(request):
 @require_POST
 @xframe_options_exempt
 def email(request):
+    form = EmailForm(request.POST)
+
     payload = {
         'secret': settings.RECAPTCHA_SECRET,
         'response': request.POST['g-recaptcha-response'],
     }
     r = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)
     r.raise_for_status()
-    if r.json()['success']:
-        person = Person.objects.get(id=int(request.POST['person']))
-        if 'HTTP_X_FORWARDED_FOR' in request.META:
-            remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
-        else:
-            remote_ip = request.META.get('REMOTE_ADDR', '')
-        email = Email(
-            to_person=person,
-            from_name=request.POST['from_name'],
-            from_email=request.POST['from_email'],
-            body=request.POST['body'],
-            subject=request.POST['subject'],
-            remote_ip=remote_ip,
-            user_agent=request.META.get('HTTP_USER_AGENT')
-        )
-        email.save()
-        email.send()
 
-        return redirect(reverse('email-detail', kwargs={'secure_id': email.secure_id}))
+    if not form.is_valid() or (not settings.DEBUG and not r.json()['success']):
+        return redirect(reverse('noconfidence'))
+
+    person = get_object_or_404(Person, pk=form.cleaned_data['person'])
+
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
     else:
-        raise(Exception("Error validating reCaptcha for %s <%s>: %s" % (
-            request.POST['from_name'],
-            request.POST['from_email'],
-            r.json(),
-        )))
+        remote_ip = request.META.get('REMOTE_ADDR', '')
+
+    email = Email(
+        to_person=person,
+        from_name=form.cleaned_data['name'],
+        from_email=form.cleaned_data['email'],
+        body=form.cleaned_data['body'],
+        subject=form.cleaned_data['subject'],
+        remote_ip=remote_ip,
+        user_agent=request.META.get('HTTP_USER_AGENT')
+    )
+    email.save()
+    email.send()
+
+    return redirect(reverse('email-detail', kwargs={'secure_id': email.secure_id}))
 
 
 @xframe_options_exempt
