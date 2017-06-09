@@ -32,7 +32,7 @@
   <section class="choose">
     <div class="row">
     {% for person in neglected_persons %}
-      <div class="col-xs-6 mp-wrap">
+      <div class="col-sm-6 mp-wrap">
         <div class="single-mp row" data-id="{{ person.id }}">
           <div class="col-xs-4">
             <div class="mp-img-wrapper center-block" {% if person.portrait_url %}style="background-image:url({{ person.portrait_url }})"{% endif %}>
@@ -53,7 +53,7 @@
     </div>
   </section>
 
-  <div>
+  <div class="dropdown-wrap">
     <select id="select-dropdown" class="use-select2"></select>
   </div>
 

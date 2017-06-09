@@ -22,19 +22,20 @@ body {
   text-align: right;
 }
 .choose {
-  margin-top: -100px;
+  margin-top: -70px;
   padding: 0 20px;
   .mp-wrap {
     .single-mp {
       padding: 10px;
       background-color: #a1a1a1;
-      border: 3px solid #a1a1a1;
-      margin: 6px;
+      border-bottom: 3px solid #a1a1a1;
+      margin: 0;
+      margin-bottom: 30px;
       color: #424242;
       cursor: pointer;
       min-height: 100px;
       &.selected {
-        border-color: green;
+        border-bottom-color: #3c763d;
       }
       .mp-name {
         font-size: 18px;
@@ -72,7 +73,7 @@ body {
 }
 
 .send-block {
-  padding-top: 40px;
+  padding: 40px 20px 0 20px;
   input {
     width: 100%;
     border: 1px solid #a1a1a1;
@@ -127,6 +128,14 @@ body {
 .select2-results__option {
   color: #424242;
 }
+
+.dropdown-wrap {
+  padding: 0 20px;
+  #select-dropdown {
+    width: 100%;
+  }
+}
+
 
 #contactmps-embed-parent {
   border: 1px solid black;
