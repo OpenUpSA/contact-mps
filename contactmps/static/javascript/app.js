@@ -44,6 +44,21 @@ if ($('.create-email-page').length > 0) {
     // XXX: correctly build the email body
     var $form = $(this),
         text = $form.find('.email-textarea').text();
+
+    if ($form.find('input[name=name]').val() === '') {
+      alert("Please enter your name");
+      $form.find('input[name=name]').focus();
+      e.preventDefault();
+      return;
+    }
+
+    if ($form.find('input[name=email]').val() === '') {
+      alert("Please enter your email");
+      $form.find('input[name=email]').focus();
+      e.preventDefault();
+      return;
+    }
+
     $(this).find('input[name=body]').val(text);
   });
 }
