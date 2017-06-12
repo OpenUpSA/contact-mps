@@ -8,14 +8,18 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 @import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Open+Sans|Playfair+Display|Prata');
 
 
-// color
+// Colours
 
 $burnt-orange: #e03a00;
+$green: #007C59;
+$gold: #FCB514;
+$chili-red: #E23D28;
+$blue: #0C1C8C;
 
 // put application-specific styles here
 
 a {
-  color: $burnt-orange!important;
+  color: $gold!important;
 }
 
 .create-email-page {
@@ -39,7 +43,7 @@ a {
     margin-top: 0;
     padding-top: 5%;
     padding-right: 10%;
-    color: $burnt-orange;
+    color: $chili-red;
   }
   h3 {
     margin-top: 15px;
@@ -116,7 +120,7 @@ a {
   padding: 20px 5px;
   #select-dropdown {
     width: 100%;
-    color: red !important;
+    color: $blue !important;
   }
 }
 
@@ -128,8 +132,8 @@ a {
 
 .select2-container--default {
   .select2-selection--single {
-    background-color: #fff0eb;
-    border: 1px solid #f9e6e0;
+    background-color: transparent;
+    border: 1px solid $blue;
     border-radius: 12px;
     height: 35px;
     .select2-selection__arrow {
@@ -139,22 +143,25 @@ a {
       right: 15px;
       width: 25px;
       b {
-        border-color: $burnt-orange transparent transparent transparent;
+        border-color: $blue transparent transparent transparent;
         border-width: 10px 8px 0 8px;
       }
     }
+    .select2-selection__placeholder {
+      color: $blue!important;
+    }
     .select2-selection__rendered {
-      color: #333;
+      color: $blue;
       font-size: 18px;
       line-height: 35px;
     }
   }
   .select2-results__option--highlighted[aria-selected] {
-    background-color: $burnt-orange;
+    background-color: $chili-red;
     color: #000;
   }
   .select2-results__option {
-    color: #333;
+    color: $blue;
   }
 }
 
@@ -165,7 +172,7 @@ a {
   right: 15px;
   width: 25px;
   b {
-    border-color: transparent transparent #e03a00 transparent;
+    border-color: transparent transparent $chili-red transparent;
     border-width: 0 8px 10px 8px;
   }
 } 
@@ -176,7 +183,7 @@ a {
     width: 100%;
     border: none;
     border-radius: 3px;
-    background-color: $burnt-orange;
+    background-color: $chili-red;
     color: #fff;
     height: 40px;
     margin-top: 10px;
@@ -193,7 +200,7 @@ a {
     box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
     .email-textarea {
       color: #424242;
-      b {font-family: Helvetica Neue, 'Open Sans', sans-serif; color: #e03a00;font-size: 18px;}
+      b {font-family: Helvetica Neue, 'Open Sans', sans-serif; color: $chili-red;font-size: 18px;}
     }
     textarea {
       resize: none;
@@ -202,8 +209,8 @@ a {
   }
  .top {
     padding: 15px;
-    background-color: $burnt-orange;
-    color: #000;
+    background-color: $green;
+    color: #fff;
     min-height: 110px;
     .selected-mp-wrap {
       width: 30%;
@@ -266,7 +273,6 @@ a {
   }
 }
 
-
 .email-details {
   color: #fff;
   padding-top: 30px;
@@ -289,5 +295,9 @@ a {
   a {
     display: inline;
   }
+}
+
+footer {
+  background-color: $green;
 }
 
