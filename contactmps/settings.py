@@ -187,6 +187,12 @@ PIPELINE = {
             ),
             'output_filename': 'app.css',
         },
+        'container': {
+            'source_filenames': (
+                'stylesheets/container.scss',
+            ),
+            'output_filename': 'container.css',
+        },
     },
     'CSS_COMPRESSOR': None,
     'JS_COMPRESSOR': None,
