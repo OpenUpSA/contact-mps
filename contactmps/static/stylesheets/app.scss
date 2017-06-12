@@ -213,50 +213,32 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 }
 
 #sent-page {
-  padding: 15px;
-  margin: 15px 0;
-  background-color: rgba(50, 50, 50, 0.6);
-  .sent-email {
-    img {
-      filter: blur(5px);
-      max-width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -4;
-      height: 100vh;
-    }
-    h1 {
-      text-transform: uppercase;
-      color: #ffe844;
-      font-weight: bold;
-      text-shadow: 2px 2px #333;
-      text-align: center;
-      font-family: sans-serif;
-      padding-top: 30px;
-    }
-    h2 {
-      font-family: sans-serif;
-      color: #fff;
-      text-align: center;
-    }
+  h1 {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 2px 2px #333;
+    text-align: center;
+    font-family: sans-serif;
+    color: #FCB514;
+  }
+  h2 {
+    font-family: sans-serif;
+    color: #FCB514;
+    text-align: center;
   }
 }
 
-
 .email-details {
-  color: #fff;
   padding-top: 30px;
   padding-bottom: 5px;
 }
 
 .email-body {
   padding-bottom: 30px;
-  color: #fff;
 }
 
 .btn-contact {
-  background-color: #ffe844;
+  background-color: #FCB514;
   color: #000;
   font-weight: bold;
 }
@@ -267,4 +249,3 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
     display: inline;
   }
 }
-
