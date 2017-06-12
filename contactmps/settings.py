@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'contactmps.middleware.RedirectMiddleware',
 )
 
 ROOT_URLCONF = 'contactmps.urls'
@@ -233,6 +234,9 @@ LOGGING = {
         },
     }
 }
+
+# Redirect www.foo.com to foo.com? This is the reverse of Django's PREPEND_WWW
+STRIP_WWW = True
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'code4sa-general'
