@@ -22,7 +22,7 @@ class Party(models.Model):
 
     @property
     def icon_url(self):
-        return 'http://www.pa.org.za/static/images/party-map-icons/%s.png' % self.slug
+        return '/static/images/parties/%s.png' % self.slug
 
     def as_dict(self):
         return {
