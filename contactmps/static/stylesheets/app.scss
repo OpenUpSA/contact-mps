@@ -50,7 +50,7 @@ a {
   }
 }
 .choose {
-  margin-top: -70px;
+  margin-top: 0px;
   padding: 0 5px;
   .mp-wrap {
     @media (max-width: 500px) {
@@ -174,10 +174,10 @@ a {
   padding: 0 5px;
   input {
     width: 100%;
-    border: 1px solid #a1a1a1;
+    border: none;
     border-radius: 3px;
-    background-color: #fff;
-    color: #a1a1a1;
+    background-color: $burnt-orange;
+    color: #fff;
     height: 40px;
     margin-top: 10px;
     padding: 3px 10px;
