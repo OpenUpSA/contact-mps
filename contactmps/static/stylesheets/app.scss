@@ -5,54 +5,81 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 
 // put application-specific styles here
 
-body {
+.create-email-page {
   background-color: #333;
   color: #bbb;
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Slabo 27px', serif;
   }
 }
+
 .hero {
-  background-image: url(/static/images/parliament-empty-michael-hebb-1024x478.jpg);
+  background: linear-gradient(135deg, rgba(240,249,255,0) 0%, rgba(51,51,51,1) 65%), url('/static/images/parliament-empty-michael-hebb-1024x478.jpg');
   height: 300px;
   background-position: right bottom;
   background-size: cover;
   color: #fff;
   text-align: right;
+  h1 {
+    margin-top: 0;
+    padding-top: 10%;
+    padding-right: 10%;
+  }
+  h3 {
+    padding-right: 10%;
+  }
 }
 .choose {
-  padding-top: 40px;
+  margin-top: -70px;
+  padding: 0 5px;
   .mp-wrap {
-    padding: 10px;
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+    &:nth-child(odd) {
+      @media (min-width: 501px) {
+        padding-right: 5px;
+      }
+    }
+    &:nth-child(even) {
+      @media (min-width: 501px) {
+        padding-left: 5px;
+      }
+    }
     .single-mp {
       padding: 10px;
       background-color: #a1a1a1;
-      border: 3px solid #a1a1a1;
-      margin: 6px;
+      margin: 0;
+      margin-bottom: 10px;
       color: #424242;
       cursor: pointer;
+      min-height: 100px;
       &.selected {
-        border-color: green;
+        background-color: #FCB514;
+        color: #000;
       }
       .mp-name {
-        font-size: 20px;
+        font-size: 18px;
         font-family: 'Slabo 27px', serif;
         text-align: center;
-        margin-top: 15px;
-        min-height: 58px;
+        margin-top: 5px;
       }
       .email-count {
         text-align: center;
       }
     }
   }
+  .selected-mp {
+    background-color: #a1a1a1;
+    padding: 15px;
+  }
 }
 
 .mp-img-wrapper {
   background-image: url('/static/images/shadow.svg');
   border-radius: 100%;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   background-position: center;
   background-size: cover;
   position: relative;
@@ -65,13 +92,66 @@ body {
   }
 }
 
-.selected-mp {
-  background-color: #a1a1a1;
-  padding: 20px 0;
+.dropdown-wrap {
+  padding: 20px 5px;
+  #select-dropdown {
+    width: 100%;
+    color: red !important;
+  }
 }
 
+.select2-dropdown {
+  background-color: #fff;
+  border-width: 0px;
+  border-radius: 0;
+}
+
+.select2-container--default {
+  .select2-selection--single {
+    background-color: #a1a1a1;
+    border-width: 0px;
+    border-radius: 0;
+    height: 35px;
+    .select2-selection__arrow {
+      height: 28px;
+      position: absolute;
+      top: 1px;
+      right: 15px;
+      width: 25px;
+      b {
+        border-color: #FCB514 transparent transparent transparent;
+        border-width: 10px 8px 0 8px;
+      }
+    }
+    .select2-selection__rendered {
+      color: #333;
+      font-size: 18px;
+      line-height: 35px;
+    }
+  }
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: #FCB514;
+    color: #000;
+  }
+  .select2-results__option {
+    color: #333;
+  }
+}
+
+/* .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
+  height: 28px;
+  position: absolute;
+  top: 1px;
+  right: 15px;
+  width: 25px;
+  b {
+    border-color: #FCB514 transparent transparent transparent;
+    border-width: 0 8px 10px 8px;
+  }
+} */
+
 .send-block {
-  padding-top: 40px;
+  padding: 0 5px;
   input {
     width: 100%;
     border: 1px solid #a1a1a1;
@@ -86,7 +166,8 @@ body {
   .email-wrapper {
     background-color: #a1a1a1;
     padding: 15px;
-
+    padding-top: 25px;
+    box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
     .email-textarea {
       color: #424242;
     }
@@ -96,32 +177,32 @@ body {
       width: 100%;
     }
   }
-  .top {
-    div[class^="col-"]:first-of-type {
-      padding-right: 0;
+ .top {
+    padding: 15px;
+    background-color: #FCB514;
+    color: #000;
+    min-height: 110px;
+    .selected-mp-wrap {
+      width: 30%;
+      max-width: 175px;
+      display: block;
+      float: left;
     }
-    div[class^="col-"]:last-of-type {
-      padding-left: 0;
-    }
-    .mp-address {
-      padding: 20px 0;
-      background-color: #a1a1a1;
-      color: #424242;
-      min-height: 150px;
-    }
-    .selected-mp {
-      min-height: 150px;
+    .mp-name {
+      width: 70%;
+      display: block;
+      float: left;
+      padding: 10px;
+      .pa-link {
+        padding-top: 7px;
+      }
     }
   }
-
   #recaptcha {
     padding: 10px 0px;
   }
 }
 
-.select2-results__option {
-  color: #424242;
-}
 
 #contactmps-embed-parent {
   border: 1px solid black;
@@ -130,3 +211,60 @@ body {
 .person-button {
   border: 1px solid black;
 }
+
+#sent-page {
+  padding: 15px;
+  margin: 15px 0;
+  background-color: rgba(50, 50, 50, 0.6);
+  .sent-email {
+    img {
+      filter: blur(5px);
+      max-width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -4;
+      height: 100vh;
+    }
+    h1 {
+      text-transform: uppercase;
+      color: #ffe844;
+      font-weight: bold;
+      text-shadow: 2px 2px #333;
+      text-align: center;
+      font-family: sans-serif;
+      padding-top: 30px;
+    }
+    h2 {
+      font-family: sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+  }
+}
+
+
+.email-details {
+  color: #fff;
+  padding-top: 30px;
+  padding-bottom: 5px;
+}
+
+.email-body {
+  padding-bottom: 30px;
+  color: #fff;
+}
+
+.btn-contact {
+  background-color: #ffe844;
+  color: #000;
+  font-weight: bold;
+}
+
+.social-sharing {
+  text-align: center;
+  a {
+    display: inline;
+  }
+}
+
