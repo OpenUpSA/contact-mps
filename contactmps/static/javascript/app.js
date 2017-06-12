@@ -74,6 +74,7 @@ function chooseMP(mp) {
   $("#recipient").text(mp.name);
   $(".selected-mp .mp-img-wrapper").css({"background-image": mp.portrait_url ? ('url(' + mp.portrait_url + ')') : ''});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
+  $(".pa-link").attr("href", mp.pa_url);
   $("form input[name=person]").val(mp.id);
 
   pymChild.sendHeight();

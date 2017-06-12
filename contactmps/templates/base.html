@@ -32,6 +32,9 @@
     <meta name="theme-color" content="#ffffff">
     {% endblock %}
 
+    <!-- this is not the right way, but I need bootstrap on index.html  -->
+    <link href="/static/stylesheets/app.css" rel="stylesheet" type="text/css">
+
     {% block social-meta %}
     <meta property="og:site_name" content="{% block og_title %}{{ SITE_NAME }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ SITE_DESCRIPTION }}{% endblock %}">
