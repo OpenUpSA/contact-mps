@@ -5,7 +5,7 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 
 // font
 
-@import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Open+Sans|Playfair+Display|Prata');
+@import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Open+Sans|Playfair+Display|PT+Serif');
 
 
 // Colours
@@ -32,31 +32,33 @@ a {
 
 .hero {
   background: #fff url('/static/images/buildings-blocks.jpg');
-  height: 415px;
-  background-position: right bottom;
-  background-size: cover;
+  height: 460px;
+  background-size: contain;
+  background-repeat: no-repeat;
   color: #fff;
   text-align: right;
   h1 {
     font-family: 'Playfair Display', serif;
     font-size: 55px;
     margin-top: 0;
-    padding-top: 6%;
-    padding-right: 10%;
+    padding-top: 3%;
+    padding-right: 5%;
     color: #fff;
   }
   h3 {
     margin-top: 15px;
     font-family: Helvetica Neue, 'Open Sans', sans-serif;
     padding-right: 0;
-    font-size: 36px;
-    color: #333;
-    padding-top: 22%;
-    width: 55%;
+    font-size: 32px;
+    color: $blue;
+    padding-top: 60%;
+    /* width: 55%; */
     float: right;
+    text-align: center;
   }
 }
 .choose {
+  width: 100%;
   margin-top: 0px;
   padding: 0 5px;
   .mp-wrap {
@@ -121,6 +123,7 @@ a {
 
 .dropdown-wrap {
   padding: 20px 5px;
+  text-align:center;
   #select-dropdown {
     width: 100%;
     color: $blue !important;
@@ -178,7 +181,7 @@ a {
   right: 15px;
   width: 25px;
   b {
-    border-color: transparent transparent $chili-red transparent;
+    border-color: transparent transparent #fff transparent;
     border-width: 0 8px 10px 8px;
   }
 } 
@@ -198,10 +201,11 @@ a {
   }
   .email-wrapper {
     border-radius: 15px;
-    font-family: 'Frank Ruhl Libre', serif;
-    line-height: 21px;
+    font-family: 'PT Serif', serif;
+    font-size: 16px;
+    line-height: 26px;
     background-color: #fff;
-    padding: 15px;
+    padding: 20px;
     padding-top: 25px;
     margin-top: 15px;
     box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
