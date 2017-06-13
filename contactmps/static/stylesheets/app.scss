@@ -256,7 +256,9 @@ a {
       float: left;
       padding: 10px;
       font-size: 16px;
+      font-weight: 600;
       .pa-link {
+        font-weight: normal;
         padding-top: 7px;
       }
     }
@@ -265,7 +267,6 @@ a {
     padding: 10px 0px;
   }
 }
-
 
 #contactmps-embed-parent {
   border: 1px solid black;
@@ -332,5 +333,8 @@ a {
 }
 
 footer {
+  h2 {
+
+  }
 }
 
