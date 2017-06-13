@@ -39,18 +39,21 @@ a {
   text-align: right;
   h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 45px;
+    font-size: 55px;
     margin-top: 0;
-    padding-top: 5%;
+    padding-top: 6%;
     padding-right: 10%;
     color: $chili-red;
   }
   h3 {
     margin-top: 15px;
     font-family: Helvetica Neue, 'Open Sans', sans-serif;
-    padding-right: 10%;
-    font-size: 16px;
-    color: #666;
+    padding-right: 0;
+    font-size: 36px;
+    color: #333;
+    padding-top: 22%;
+    width: 55%;
+    float: right;
   }
 }
 .choose {
@@ -193,6 +196,7 @@ a {
   .email-wrapper {
     border-radius: 15px;
     font-family: 'Frank Ruhl Libre', serif;
+    line-height: 21px;
     background-color: #fff;
     padding: 15px;
     padding-top: 25px;
@@ -205,6 +209,10 @@ a {
     textarea {
       resize: none;
       width: 100%;
+      box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      border: 1px solid transparent;
+      padding: 15px;
     }
   }
  .top {
