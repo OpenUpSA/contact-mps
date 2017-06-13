@@ -188,6 +188,7 @@ a {
 
 .send-block {
   padding: 0 5px;
+  background-color: $green;
   input {
     width: 100%;
     border: none;
@@ -199,24 +200,27 @@ a {
     padding: 3px 10px;
     font-size: 16px;
   }
+  input[name="goButton"] {
+
+  }
   .email-wrapper {
     border-radius: 15px;
     font-family: 'PT Serif', serif;
     font-size: 16px;
     line-height: 26px;
-    background-color: #fff;
+    background-color: transparent;
     padding: 20px;
     padding-top: 25px;
     margin-top: 15px;
-    box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+    /*box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);*/
     .email-textarea {
-      color: #424242;
-      b {font-family: Helvetica Neue, 'Open Sans', sans-serif; color: $chili-red;font-size: 18px;}
+      color: #fff;
+      b {font-family: Helvetica Neue, 'Open Sans', sans-serif; color: $gold; font-size: 24px;}
     }
     textarea {
       resize: none;
       width: 100%;
-      box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+      background-color: #96d6c4;
       border-radius: 15px;
       border: 1px solid transparent;
       padding: 15px;
@@ -227,6 +231,7 @@ a {
     background-color: $green;
     color: #fff;
     min-height: 110px;
+    border-radius: 20px;
     .selected-mp-wrap {
       width: 30%;
       max-width: 175px;
