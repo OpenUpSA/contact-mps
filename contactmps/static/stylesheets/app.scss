@@ -135,7 +135,7 @@ a {
 
 .select2-container--default {
   .select2-selection--single {
-    background-color: transparent;
+    background-color: $blue;
     border: 1px solid $blue;
     border-radius: 12px;
     height: 35px;
@@ -146,12 +146,12 @@ a {
       right: 15px;
       width: 25px;
       b {
-        border-color: $blue transparent transparent transparent;
+        border-color: #fff transparent transparent transparent;
         border-width: 10px 8px 0 8px;
       }
     }
     .select2-selection__placeholder {
-      color: $blue!important;
+      color: #fff!important;
     }
     .select2-selection__rendered {
       color: $blue;
@@ -160,11 +160,14 @@ a {
     }
   }
   .select2-results__option--highlighted[aria-selected] {
-    background-color: $chili-red;
-    color: #000;
+    background-color: $blue;
+    color: #fff;
   }
   .select2-results__option {
     color: $blue;
+  }
+  .select2-search--dropdown .select2-search__field {
+    color: $blue!important;
   }
 }
 
