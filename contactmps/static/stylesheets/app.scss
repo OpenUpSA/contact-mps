@@ -48,6 +48,7 @@ a {
   }
   h3 {
     margin-top: 15px;
+    margin-bottom: 30px;
     font-family: Helvetica Neue, 'Open Sans', sans-serif;
     padding-right: 0;
     font-size: 32px;
@@ -78,18 +79,21 @@ a {
     }
     .single-mp {
       padding: 10px;
-      background-color: #a1a1a1;
+      background-color: #fff;
       margin: 0;
       margin-bottom: 10px;
       color: #424242;
       cursor: pointer;
       min-height: 100px;
+      border: 1px solid #efefef;
+      border-radius: 20px;
       &.selected {
-        background-color: #FCB514;
+        background-color: $gold;
+        border: 1px solid $gold;
         color: #000;
       }
       .mp-name {
-        font-size: 18px;
+        font-size: 16px;
         font-family: 'Slabo 27px', serif;
         text-align: center;
         margin-top: 5px;
@@ -158,7 +162,7 @@ a {
       color: #fff!important;
     }
     .select2-selection__rendered {
-      color: $blue;
+      color: #fff;
       font-size: 18px;
       line-height: 35px;
     }
@@ -251,6 +255,7 @@ a {
       display: block;
       float: left;
       padding: 10px;
+      font-size: 16px;
       .pa-link {
         padding-top: 7px;
       }
