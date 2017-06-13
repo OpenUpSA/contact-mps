@@ -12,6 +12,7 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 
 $burnt-orange: #e03a00;
 $green: #007C59;
+$green-pale: #96d6c4;
 $gold: #FCB514;
 $chili-red: #E23D28;
 $blue: #0C1C8C;
@@ -189,19 +190,22 @@ a {
 .send-block {
   padding: 0 5px;
   background-color: $green;
+  border-radius: 20px;
   input {
     width: 100%;
     border: none;
-    border-radius: 3px;
-    background-color: $chili-red;
+    background-color: $green-pale;
     color: #fff;
     height: 40px;
     margin-top: 10px;
     padding: 3px 10px;
     font-size: 16px;
+    border-radius: 20px;
   }
-  input[name="goButton"] {
-
+  input[type="submit"] {
+    background-color: $gold;
+    color: #fff;
+    width: 150px;
   }
   .email-wrapper {
     border-radius: 15px;
@@ -211,7 +215,6 @@ a {
     background-color: transparent;
     padding: 20px;
     padding-top: 25px;
-    margin-top: 15px;
     /*box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);*/
     .email-textarea {
       color: #fff;
@@ -220,7 +223,7 @@ a {
     textarea {
       resize: none;
       width: 100%;
-      background-color: #96d6c4;
+      background-color: $green-pale;
       border-radius: 15px;
       border: 1px solid transparent;
       padding: 15px;
@@ -319,5 +322,6 @@ a {
 
 footer {
   background-color: $green;
+  border-radius: 20px;
 }
 
