@@ -199,8 +199,10 @@ a {
     height: 40px;
     margin-top: 10px;
     padding: 3px 15px;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 20px;
+    font-family: Helvetica Neue, 'Open Sans', sans-serif;
+    font-weight: 600;
   }
   input[type="submit"] {
     background-color: $gold;
@@ -227,6 +229,9 @@ a {
       border-radius: 15px;
       border: 1px solid transparent;
       padding: 15px;
+      font-family: Helvetica Neue, 'Open Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
     }
   }
  .top {
@@ -314,6 +319,7 @@ a {
 }
 
 .social-sharing {
+  padding: 15px;
   text-align: center;
   a {
     display: inline;
@@ -321,7 +327,5 @@ a {
 }
 
 footer {
-  background-color: $green;
-  border-radius: 20px;
 }
 
