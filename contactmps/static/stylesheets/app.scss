@@ -224,7 +224,7 @@ a {
     /*box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);*/
     .email-textarea {
       color: #fff;
-      b {font-family: Helvetica Neue, 'Open Sans', sans-serif; color: $gold; font-size: 24px;}
+      b {font-family: Helvetica Neue, 'Open Sans', sans-serif; color: #fff; font-size: 24px;}
     }
     textarea {
       resize: none;
@@ -342,15 +342,23 @@ footer {
   background-size: contain;
   background-repeat: no-repeat;
   height: 370px;
-  h2 {
-    font-family: 'Playfair Display', serif!important;
-    padding-top: 20%;
-  }
-  ul {
-    font-size: 12px;
-    margin-left: -42px;
-    li {
-      list-style-type:none;
+  .footer-content {
+    position: absolute;
+    bottom: 0px;
+    padding-bottom: 5%;
+    h2 {
+      font-family: 'Playfair Display', serif!important;
+    }
+    img {
+      width: 250px;
+      padding-top: 3%;
+    }
+    ul {
+      font-size: 12px;
+      margin-left: -42px;
+      li {
+        list-style-type:none;
+      }
     }
   }
 }
