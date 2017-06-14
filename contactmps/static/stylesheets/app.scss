@@ -336,6 +336,14 @@ a {
   }
 }
 
+.embed-a {
+  text-align: center;
+  background-color: $blue;
+  width: 200px;
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
 footer {
   color: #fff;
   background: $blue url('/static/images/footer-blue.jpg');
@@ -346,6 +354,8 @@ footer {
     position: absolute;
     bottom: 0px;
     padding-bottom: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
     h2 {
       font-family: 'Playfair Display', serif!important;
     }
