@@ -239,19 +239,23 @@ a {
     }
   }
  .top {
-    padding: 15px;
+    padding: 30px 15px;
     background-color: $green;
     color: #fff;
     min-height: 110px;
     border-radius: 20px;
     .selected-mp-wrap {
-      width: 30%;
-      max-width: 175px;
+      width: 100%;
       display: block;
-      float: left;
+      text-align: center;
+      .mp-img-wrapper {
+        width: 100px;
+        height: 100px;
+      }
     }
     .mp-name {
-      width: 70%;
+      width: 100%;
+      text-align: center;
       display: block;
       float: left;
       padding: 10px;
