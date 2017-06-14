@@ -338,13 +338,20 @@ a {
 
 footer {
   color: #fff;
-  background: $gold url('/static/images/footer.jpg');
+  background: $blue url('/static/images/footer-blue.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   height: 370px;
   h2 {
     font-family: 'Playfair Display', serif!important;
     padding-top: 20%;
+  }
+  ul {
+    font-size: 12px;
+    margin-left: -42px;
+    li {
+      list-style-type:none;
+    }
   }
 }
 
