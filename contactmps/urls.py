@@ -11,7 +11,10 @@ API_CACHE_SECS = 5 * 60
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^embed.html$', views.embed, name='embed-info'),
-    url(r'^campaign/noconfidence/$', cache_page(API_CACHE_SECS)(views.create_mail), name='noconfidence'),
+    url(r'^campaign/psam/$', cache_page(API_CACHE_SECS)(views.create_mail),
+        {'template': 'campaigns/psam.html'} ,name='psam'),
+    url(r'^campaign/noconfidence/$', cache_page(API_CACHE_SECS)(views.create_mail),
+        {'template': 'campaigns/newsmedia.html'}, name='noconfidence'),
     url(r'^email/$', views.email, name='email'),
     url(r'^email/(?P<secure_id>[a-z0-9-]+)/$', cache_page(API_CACHE_SECS)(views.email_detail), name='email-detail'),
 
