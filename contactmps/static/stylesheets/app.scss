@@ -46,6 +46,10 @@ a {
     padding-right: 5%;
     color: #fff;
   }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    padding-right: 5%;
+  }
   h3 {
     margin-top: 15px;
     margin-bottom: 30px;
@@ -128,11 +132,14 @@ a {
 
 .dropdown-wrap {
   padding: 20px 5px;
-  text-align:center;
   #select-dropdown {
     width: 100%;
     color: $blue !important;
   }
+}
+
+.choose-province {
+  width: 100%;
 }
 
 .select2-dropdown {

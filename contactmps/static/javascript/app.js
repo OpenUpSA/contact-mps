@@ -31,6 +31,10 @@ if ($('.create-email-page').length > 0) {
     placeholder: 'Choose an MP',
   });
 
+  $('select.choose-province').select2({
+    placeholder: 'Choose your province',
+  });
+
   $('form#email-form').on('submit', function(e) {
     var $form = $(this);
 

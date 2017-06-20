@@ -19,8 +19,9 @@
 {% block content %}
 <div class="create-email-page">
   <section class="hero">
-    <h1>News Media Statement</h1>
-    <h3>Send a message to a member of parliament</h3>
+    <h1>#RepresentMe</h1>
+    <h2>Your Parliament. Your Voice.</h2>
+    <h3>Have your say in the vote of no confidence in the President.</h3>
   </section>
 
   <form id="email-form" action="/email/" method="post">
@@ -56,6 +57,21 @@
 
     <div class="dropdown-wrap">
       <select id="select-dropdown" class="use-select2"></select>
+    </div>
+
+    <div class="dropdown-wrap">
+      <select class="choose-province" name="province">
+        <option disabled selected>Choose your province</option> 
+        <option value="easterncape">Eastern Cape</option>
+        <option value="freestate">Free State</option>
+        <option value="gauteng">Gauteng</option>
+        <option value="kzn">KwaZulu-Natal</option>
+        <option value="limpopo">Limpopo</option>
+        <option value="mpumalanga">Mpumalanga</option>
+        <option value="northwest">North West</option>
+        <option value="northerncape">Northern Cape</option>
+        <option value="westerncape">Western Cape</option>
+      </select>
     </div>
 
     <section class="send-block">
