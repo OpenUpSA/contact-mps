@@ -40,7 +40,7 @@ def embed(request):
 
 
 @xframe_options_exempt
-def create_mail(request):
+def create_mail(request, template=None):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
     persons = Person.objects \
@@ -52,7 +52,7 @@ def create_mail(request):
     neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
     persons_json = json.dumps([p.as_dict() for p in persons])
 
-    return render(request, 'create_mail.html', {
+    return render(request, template, {
         'persons': persons,
         'neglected_persons': neglected_persons,
         'persons_json': persons_json,
