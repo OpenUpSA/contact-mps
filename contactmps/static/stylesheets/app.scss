@@ -20,7 +20,7 @@ $blue: #0C1C8C;
 // put application-specific styles here
 
 a {
-  color: $gold!important;
+  color: $gold !important;
 }
 
 .create-email-page {
@@ -332,6 +332,20 @@ a {
 .btn-contact {
   background-color: $gold;
   color: #fff!important;
+  font-weight: bold;
+  border-radius: 20px!important;
+}
+
+.btn-twitter {
+  background-color: #1b95e0;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 20px!important;
+}
+
+.btn-fb {
+  background-color: #0c1c8c;
+  color: white !important;
   font-weight: bold;
   border-radius: 20px!important;
 }
