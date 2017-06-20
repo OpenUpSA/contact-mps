@@ -168,6 +168,7 @@ PIPELINE = {
                 'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
                 'javascript/select2.min.js',
                 'javascript/underscore-min.js',
+                'bower_components/mustache.js/mustache.js',
                 'javascript/app.js',
             ),
             'output_filename': 'app.js',
