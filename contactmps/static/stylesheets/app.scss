@@ -53,8 +53,12 @@ header {
 
   padding: 10px 10px 20px 10px;
 
-  @media (min-width: 576px) {
+  @media (min-width: 500px) {
     height: 460px;
+  }
+
+  @media (min-width: 767px) {
+    height: 661px;
   }
 
   h1 {
