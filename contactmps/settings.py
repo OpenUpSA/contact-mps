@@ -154,22 +154,23 @@ PIPELINE = {
     'PIPELINE_ENABLED': not DEBUG,
     'PIPELINE_COLLECTOR_ENABLED': True,
     'JAVASCRIPT': {
-        'js': {
+        # Every page must include this
+        'base': {
             'source_filenames': (
                 'bower_components/jquery/dist/jquery.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/base.js',
+            ),
+            'output_filename': 'base.js',
+        },
+        'js': {
+            'source_filenames': (
                 'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
                 'javascript/select2.min.js',
-                'javascript/pym.v1.min.js',
                 'javascript/underscore-min.js',
                 'javascript/app.js',
             ),
             'output_filename': 'app.js',
-        },
-        'pym.js': {
-            'source_filenames': (
-                'javascript/pym.v1.min.js',
-            ),
-            'output_filename': 'pym.js',
         },
         'embed.js': {
             'source_filenames': (

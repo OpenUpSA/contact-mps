@@ -1,12 +1,3 @@
-var pymChild = new pym.Child({
-  id: "contactmps-embed-parent"
-});
-
-$(function() {
-  pymChild.sendHeight();
-  console.info("contactmps loaded");
-});
-
 var gReCaptchaValidated = function() {
   $("input[type=submit]").removeAttr('disabled');
 };
