@@ -11,8 +11,6 @@ API_CACHE_SECS = 5 * 60
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^embed.html$', views.embed, name='embed-info'),
-    url(r'^campaign/psam/$', cache_page(API_CACHE_SECS)(views.create_mail),
-        {'template': 'campaigns/psam.html'} ,name='psam'),
     url(r'^campaign/noconfidence/$', cache_page(API_CACHE_SECS)(views.create_mail),
         {'template': 'campaigns/newsmedia.html'}, name='noconfidence'),
     url(r'^email/$', views.email, name='email'),
@@ -20,7 +18,6 @@ urlpatterns = [
 
     # UTM - This rather strict regex is part of ensuring we don't let people just
     # inject what they like into a response we give. Think before changing.
-    url(r'^campaign/psam/(?P<utm_medium>[a-z]{2})/$', views.add_utm, name='psam-add-utm'),
     url(r'^campaign/noconfidence/(?P<utm_medium>[a-z]{2})/$', views.add_utm, name='noconfidence-add-utm'),
     url(r'^email/[a-z0-9-]+/(?P<utm_medium>[a-z]{2})/$', views.add_utm, name='email-add-utm'),
 
