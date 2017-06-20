@@ -86,7 +86,7 @@ function updateBody($form) {
       'location': $form.find('input[name=location]').val() || "____"
     };
     var body = Mustache.render(template, context);
-    $form.find('textarea[name=body]').text(body);
+    $form.find('input[name=body]').val(body);
 }
 
 function chooseMP(mp) {
