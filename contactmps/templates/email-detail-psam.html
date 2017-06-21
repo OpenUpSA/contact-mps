@@ -11,20 +11,25 @@
 
 <div id="sent-page">
 	<div class="sent-email">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<h1>I've made my voice heard, have you?</h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<h2>I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP</h2>
-			</div>
+		<img class="img-responsive" src="/static/images/pw-logo.png">
+		<div class="heard">
+			<h1>I've made my voice heard, have you?</h1>
+      <div class="social-sharing">
+        {% if is_mobile %}
+        <!-- CAN'T APPEAR MORE THAN ONCE, DON'T KNOW HOW TO FIX
+        <a href="whatsapp://send?text={% block whatsapp_msgREMOVE %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msgREMOVE %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a> -->
+        {% endif %}
+
+        <a class="btn btn-fb fb-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}"><i class="fa fa-facebook"></i> Share</a>
+
+        <a class="btn btn-twitter twitter-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}" href="#"><i class="fa fa-twitter"></i> Tweet</a>
+      </div>
 		</div>
 	</div>
 
 
 	<div class="email-details">
+		<h2>I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP</h2>
 		<div>From: <b>{{ email.from_name }} &lt;{{ email.from_email }}&gt;</b></div>
 		<div>To: <b>{{ email.to_person.name }}</b></div>
 		<div>Subject: <b>{{ email.subject }}</b></div>
@@ -34,11 +39,10 @@
 	  {{ email.body_html|safe }}
 	</div>
 
-	<div class="text-center">
+	<div class="restart text-center">
 		<a class="btn btn-contact" href="/campaign/{{ campaign }}/"><i class="fa fa-university" aria-hidden="true"></i> Contact your MP</a>
 	</div>
 
-	<br>
 	{% endblock content %}
 
 	{% block js %}
