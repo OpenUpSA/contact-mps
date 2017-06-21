@@ -19,7 +19,13 @@
 
   <div class="embed-wrap row">
     <div class="col-xs-8 col-xs-offset-2">
+      {% if campaign == 'newsmedia' %}
       <script type="text/javascript" src="/static/javascript/embed.js"></script>
+      {% elif campaign == 'psam' %}
+      <script type="text/javascript" src="/static/javascript/embed-psam.js"></script>
+      {% else %}
+      No campaign
+      {% endif %}
     </div>
   </div>
 </div>

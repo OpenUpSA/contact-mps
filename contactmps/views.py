@@ -30,12 +30,16 @@ class EmailForm(forms.Form):
 
 @xframe_options_exempt
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {
+        'campaign': settings.CAMPAIGN,
+    })
 
 
 @xframe_options_exempt
 def embed(request):
-    return render(request, 'embed.html')
+    return render(request, 'embed.html', {
+        'campaign': settings.CAMPAIGN,
+    })
 
 
 @xframe_options_exempt
@@ -75,7 +79,7 @@ def email(request):
     if not form.is_valid() or (not settings.DEBUG and not r.json()['success']):
         log.error("Email form validation error: %r", form.errors)
         qs = urlencode({'errors': form.errors.as_json()})
-        return redirect(reverse('noconfidence') + '?' + qs)
+        return redirect(reverse('campaign') + '?' + qs)
 
     person = get_object_or_404(Person, pk=form.cleaned_data['person'])
 
@@ -104,6 +108,7 @@ def email_detail(request, secure_id):
     email = get_object_or_404(Email, secure_id=secure_id)
     return render(request, 'email-detail.html', {
         'email': email,
+        'campaign': settings.CAMPAIGN,
     })
 
 

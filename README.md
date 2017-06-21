@@ -3,6 +3,8 @@ Contact MPs
 
 This is a project intended to make it easier to contact Members of Parliament.
 
+Two campaigns are currently run on dedicated instances: psam and newsmedia.
+
 ## Principles
 
 - The public should learn that they are directly represented by MPs via constituency time, and can easily contact their MPs
@@ -74,7 +76,9 @@ Initialise and run.
 ```
 python manage.py migrate
 python manage.py createsuperuser
-python manage.py runserver
+export RECAPTCHA_KEY=...
+export RECAPTCHA_SECRET=...
+CAMPAIGN=psam python manage.py runserver
 ```
 
 Development
@@ -106,13 +110,12 @@ dokku config:set  DJANGO_DEBUG=false \
                   DJANGO_SEND_EMAILS=True \
                   RECAPTCHA_KEY=... \
                   RECAPTCHA_SECRET=... \
-                  BASE_URL=https://production.url.com
+                  BASE_URL=https://production.url.com \
+                  CAMPAIGN=...
 git push dokku master
 
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
 ```
-
-
 
 ## Nightly data updates
 
