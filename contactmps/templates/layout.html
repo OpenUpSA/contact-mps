@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load pipeline %}
 {% load strip_qs %}
+{% load staticfiles %}
 
 {% block head-css %}
 <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet"> 
@@ -15,7 +16,7 @@
     {% block social_sharing %}
     <div class="social-sharing">
       {% if is_mobile %}
-      <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
+      <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static '/images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
       {% endif %}
 
       <a class="btn btn-fb fb-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}"><i class="fa fa-facebook"></i> Share</a>
