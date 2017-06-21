@@ -63,18 +63,34 @@ if ($('.create-email-page').length > 0) {
       return;
     }
 
+    if ($form.find('input[name=concern]:checked').length === 0) {
+      alert("Please indicate how concerned you are with corruption in South africa");
+      $form.find('input[name=concern]').focus();
+      e.preventDefault();
+      return;
+    }
+
+    if ($form.find('input[name=vote]:checked').length === 0) {
+      alert("Please indicate whether you support the vote of no confidence");
+      $form.find('input[name=vote]').focus();
+      e.preventDefault();
+      return;
+    }
+
+    if ($form.find('select[name=province]').val() === '') {
+      alert("Please where you are from");
+      $form.find('select[name=province]').focus();
+      e.preventDefault();
+      return;
+    }
+
     updateBody($('form#email-form'));
   });
 
   var form = $('form#email-form');
-  form.find('input[name=concern]').on('change', function(e) { updateBody(form); });
-  form.find('input[name=vote]').on('change', function(e) { updateBody(form); });
-  form.find('input[name=name]').on('change', function(e) { updateBody(form); });
-  form.find('input[name=issue1]').on('change', function(e) { updateBody(form); });
-  form.find('input[name=issue2]').on('change', function(e) { updateBody(form); });
-  form.find('input[name=issue3]').on('change', function(e) { updateBody(form); });
-  form.find('select[name=province]').on('change', function(e) { updateBody(form); });
-  updateBody($('form#email-form'));
+  form.find('input').on('change', function(e) { updateBody(form); });
+  form.find('select').on('change', function(e) { updateBody(form); });
+  updateBody(form);
 }
 
 function updateBody($form, recipientName) {
