@@ -284,6 +284,15 @@ header {
     font-size: 16px;
     line-height: 26px;
     background-color: transparent;
+    .send-btn {
+      font-weight: normal;
+      padding: 8px 15px;
+      background-color: $gold;
+      border-radius: 20px;
+      border: none;
+      margin-top: 10px;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
   }
 
   .top {
