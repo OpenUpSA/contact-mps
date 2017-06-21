@@ -18,9 +18,11 @@
 
 {% block content %}
 <div class="create-email-page">
+  <img class="img-responsive" src="/static/images/pw-logo.png">
   <section class="hero">
-    <h1>PSAM Statement</h1>
-    <h3>Send a message to a member of parliament</h3>
+    <div class="divider"></div>
+    <h1>#RepresentMe</h1>
+    <h2>Send a message to a member of parliament</h2>
   </section>
 
   <form id="email-form" action="/email/" method="post">
@@ -68,58 +70,95 @@
           </div>
         </div>
         <div class="mp-name">
-          <div>Honourable Member <span id="recipient"></span></div>
-          <div>Profile on <a class="pa-link" href="#">pa.org.za</a></div>
+          <div>Honourable Member <span class="recipient"></span></div>
+          <a class="pa-link" target="_blank" href="#"><img src="/static/images/pa-favicon.png"> Learn more about this MP</a>
         </div>
       </div>
-      <div class="row bottom">
-        <div class="col-xs-12">
-          <div class="email-wrapper">
-            <div class="email-textarea">
-              <p><b>Re: Motion of No Confidence in the President of the Republic</b></p>
-              <p>As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.</p>
-              <p>I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue(s) that are important to me:</p>
 
-              <textarea name="reasons" placeholder="Tell us why holding the President to account is import to you?" rows="4" required></textarea>
+      <div class="question-block">
 
-              <p>It is for these reasons that I do not have confidence in the President of the Republic and his cabinet.</p>
-              <p>I trust that you will make my voice heard and vote to make sure the President and his Cabinet are held to account. I trust you will vote to represent the people, ensuring government by us under the Constitution.</p>
-              <p>I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.</p>
-            </div>
+        <div class="concerned">
+          <h3>How concerned are you about corruption in South Africa?</h3>
+          <label><input type="radio" name="concern" value="extremely" required><span>Extremely</span></label>
+          <label><input type="radio" name="concern" value="very"><span>Very</span></label>
+          <label><input type="radio" name="concern" value="moderately"><span>Moderately</span></label>
+          <label><input type="radio" name="concern" value="slightly"><span>Slightly</span></label>
+          <label><input type="radio" name="concern" value="not at all"><span>Not at all</span></label>
+        </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <input type="text" name="name" placeholder="Your name" required>
-              </div>
-              <div class="col-md-6">
-                <input type="email" name="email"  placeholder="Your email address" required>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <input type="text" name="location" placeholder="Where do you live?">
-              </div>
-            </div>
+        <div class="support">
+          <h3>Do you support a vote of no confidence in the President?</h3>
+          <label><input type="radio" name="vote" value="to support" required><span>I support the motion of no confidence</span></label>
+          <label><input type="radio" name="vote" value="not to support"><span>I do not support the motion of no confidence</span></label>
+          <label><input type="radio" name="vote" value="to abstain from"><span>I abstain from the motion of no confidence</span></label>
+        </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <div id="recaptcha"></div>
-                <input type="submit" value="Send email">
-              </div>
+        <div class="issues">
+          <h3>What are the three most important issues that you would like your Member of Parliament to support?</h3>
+          <textarea name="issues" maxlength="500" placeholder="What three issues are most important to you?" rows="3"></textarea>
+        </div>
+
+        <div class="person">
+          <h3>Tell your Member of Parliament who you are.</h3>
+
+          <input class="name" type="text" name="name" placeholder="Your name?" required>
+          <input class="email" type="email" name="email"  placeholder="Your email address" required>
+
+          <span class="choose-province-wrap">
+            <select class="choose-province" name="province" required>
+              <option value="" disabled selected>Where do you live?</option>
+              <option value="the Eastern Cape">Eastern Cape</option>
+              <option value="the Free State">Free State</option>
+              <option value="Gauteng">Gauteng</option>
+              <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+              <option value="Limpopo">Limpopo</option>
+              <option value="Mpumalanga">Mpumalanga</option>
+              <option value="the North West">North West</option>
+              <option value="the Northern Cape">Northern Cape</option>
+              <option value="the Western Cape">Western Cape</option>
+            </select>
+          </span>
+        </div>
+
+      </div>
+
+      <div class="bottom">
+        <div class="email-wrapper">
+          <div class="row">
+            <div class="col-md-6">
+              <div id="recaptcha"></div>
+              <input class="send-btn" type="submit" value="Send email">
             </div>
           </div>
         </div>
       </div>
     </section>
   </form>
-  {% endblock content %}
 
-  {% block attribution %}
-    <ul>
-      <li><a target="_blank" href="https://www.flickr.com/photos/michaelhebb/5701999088/in/photolist-6hsFjU-AoRjc-8nh5Q4-Ei6m71-snzer1-6X1Hmi-5qNmgc-dR3XzP-dR9vS3-8D9MUS-o4gXBt-6X8zLZ-i7CXHn-dpirUa-d59QMG-5x36Di-Rk6sq5-RDE4gy-den4Ck-bUtToB-51XW6w-9dA2fi-brAo43-f81cpu-nM6SXn-aqhWae-8NtUJA-o4tMVU-hcRBHM-KRXgC-p8F6Yf-nJsf5S-9hhpEr-o4thB1-s6bgRP-o6nz9v-ia7fFM-BLJjRH-ky2WRx-8ebe5L-9FSeF7-6Up7gM-qw5s5D-s84xhT-sp2iLu-iKDgoU-kCi7r9-8boVRg-aJ4ex4-i7QhBe">Photo by Michael Hebb</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>
-      <li><a target="_blank" href="https://www.flickr.com/photos/richardatuct/5425424966/in/photolist-9gqHPL-s9Jtk1-soZY9q-RDE4gy-sri5yx-aqhWae-sri6Yg-9FSeF7-p8F6Yf-s9HPJ9-as7CnR-8dtafz-sp1A89-ruidiu-s9JUth-ruuYSr-s9HQeh-sp18Ph-s7YCmD-s9RAba-s9RLeB-s9Jna5-ruvpAe-s9HTtb-srgspr-sp2i8L-s9HSnA-pNKkWy-s7YH68-ruhLxS-6o1EuJ-srizy6-aqkAEE-s9QZxx-aqkErw-hcdkfu-sp1HXN-322Eji-7BHKcp-55AJso-9ASXva-s9J8zj-7DT1Pr-s7Y3bV-6RzaL3-aqkJ5b-8faxN7-sp1uWh-etpXGk-xZ5h84">"Parliaments Behind" by Richard Atkinson</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>
-      <li><a target="_blank" href="http://www.pa.org.za/help/api">Member of Parliament data compiled by People's Assembly</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA 4.0</a>
-    </ul>
-  {% endblock attribution %}
+  <div class="social-sharing">
+    {% if is_mobile %}
+    <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
+    {% endif %}
+
+    <a class="btn btn-fb fb-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}"><i class="fa fa-facebook"></i> Share</a>
+
+    <a class="btn btn-twitter twitter-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}" href="#"><i class="fa fa-twitter"></i> Tweet</a>
+    <div class="center-block embed-a"><a href="/embed.html"><i class="fa fa-code" aria-hidden="true"></i> Embed this on your site</a></div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <h2>Attribution</h2>
+      <ul>
+        <li><a target="_blank" href="http://www.pa.org.za/help/api">Member of Parliament data compiled by People's Assembly</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+      </ul>
+      <div class="row">
+        <div class="col-xs-6">
+          <img class="img-responsive" src="/static/images/pw-logo-1.png"/>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {% endblock content %}
 
 </div>
