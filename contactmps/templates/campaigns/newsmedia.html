@@ -68,8 +68,8 @@
       <input class="name" type="text" name="name" placeholder="Your name" required>
       <input class="email" type="email" name="email"  placeholder="Your email address" required>
 
-      <select class="choose-province" name="province">
-        <option disabled selected>Where do you live?</option>
+      <select class="choose-province" name="province" required>
+        <option value="" disabled selected>Where do you live?</option>
         <option value="the Eastern Cape">Eastern Cape</option>
         <option value="the Free State">Free State</option>
         <option value="Gauteng">Gauteng</option>
@@ -83,7 +83,7 @@
 
       <div class="concerned">
         <div class="single-question">How concerned are you about corruption in South Africa?</div>
-          <label><input type="radio" name="concern" value="extremely"><span>Extremely</span></label>
+          <label><input type="radio" name="concern" value="extremely" required><span>Extremely</span></label>
           <label><input type="radio" name="concern" value="very"><span>Very</span></label>
           <label><input type="radio" name="concern" value="moderately"><span>Moderately</span></label>
           <label><input type="radio" name="concern" value="slightly"><span>Slightly</span></label>
@@ -92,7 +92,7 @@
 
       <div class="support">
         <div class="single-question">Do you support a vote of no confidence in the President?</div>
-          <label><input type="radio" name="vote" value="to support"><span>I support the motion of no confidence</span></label>
+          <label><input type="radio" name="vote" value="to support" required><span>I support the motion of no confidence</span></label>
           <label><input type="radio" name="vote" value="not to support"><span>I do not support the motion of no confidence</span></label>
           <label><input type="radio" name="vote" value="to abstain from"><span>I abstain from the motion of no confidence</span></label>
       </div>
