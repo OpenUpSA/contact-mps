@@ -28,9 +28,9 @@
   <form id="email-form" action="/email/" method="post">
     {% csrf_token %}
 
-  {{ form.person.as_hidden }}
-  {{ form.body.as_hidden }}
-  {{ form.subject.as_hidden }}
+    {{ form.person.as_hidden }}
+    {{ form.body.as_hidden }}
+    {{ form.subject.as_hidden }}
 
     <section class="choose">
       <div class="row">
@@ -115,14 +115,9 @@
 
       <div class="bottom">
         <div class="email-wrapper">
-          <div class="row">
-            <div class="col-md-6">
-              <input type="hidden" name="body" value="">
-            </div>
-            <div class="col-md-6">
-              <div id="recaptcha"></div>
-              <input class="send-btn" type="submit" value="Send email">
-            </div>
+          <div id="recaptcha"></div>
+          <div class="text-center">
+            <input class="send-btn" type="submit" value="Send email">
           </div>
         </div>
       </div>
