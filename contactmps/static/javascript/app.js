@@ -39,6 +39,10 @@ if ($('.create-email-page').length > 0) {
     placeholder: 'Choose an MP',
   });
 
+  $('select.choose-province').select2({
+    placeholder: 'Choose your province',
+  });
+
   $('form#email-form').on('submit', function(e) {
     var $form = $(this);
 
@@ -93,7 +97,7 @@ function chooseMP(mp) {
   $(".choose .single-mp").removeClass("selected");
   $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
 
-  $("#recipient").text(mp.name);
+  $(".recipient").text(mp.name);
   $(".selected-mp .mp-img-wrapper").css({"background-image": mp.portrait_url ? ('url(' + mp.portrait_url + ')') : ''});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
   $(".pa-link").attr("href", mp.pa_url);

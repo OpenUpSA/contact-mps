@@ -21,10 +21,9 @@
   <header>
     <section class="hero">
       <h1>#RepresentMe</h1>
-      <h2>Your Voice.<br>Your Parliament.</h2>
+      <h2>Your Parliament. Your Voice.</h2>
+      <h3>Have your say in the vote of no confidence in the President.</h3>
     </section>
-
-    <h3>Have your say in the vote of no confidence in the President.</h3>
   </header>
 
   <form id="email-form" action="/email/" method="post">
@@ -64,6 +63,52 @@
       <select id="select-dropdown" class="use-select2"></select>
     </div>
 
+    <div class="question-block">
+      <input class="name" type="text" name="name" placeholder="Your name" required>
+      <input class="email" type="email" name="email"  placeholder="Your email address" required>
+
+      <select class="choose-province" name="province">
+        <option disabled selected>Where do you live?</option> 
+        <option value="easterncape">Eastern Cape</option>
+        <option value="freestate">Free State</option>
+        <option value="gauteng">Gauteng</option>
+        <option value="kzn">KwaZulu-Natal</option>
+        <option value="limpopo">Limpopo</option>
+        <option value="mpumalanga">Mpumalanga</option>
+        <option value="northwest">North West</option>
+        <option value="northerncape">Northern Cape</option>
+        <option value="westerncape">Western Cape</option>
+      </select>
+
+      <div class="concerned">
+        <div class="single-question">How concerned are you about corruption in South Africa?</div>
+         <form>
+          <label><input type="radio" name="concern" value="4"><span>Extremely</span></label>
+          <label><input type="radio" name="concern" value="3"><span>Very</span></label>
+          <label><input type="radio" name="concern" value="2"><span>Moderately</span></label>
+          <label><input type="radio" name="concern" value="1"><span>Slightly</span></label>
+          <label><input type="radio" name="concern" value="0"><span>Not at all</span></label>
+        </form> 
+      </div>
+
+      <div class="support">
+        <div class="single-question">Do you support a vote of no confidence in the President?</div>
+         <form>
+          <label><input type="radio" name="concern" value="2"><span>I support the motion of no confidence</span></label>
+          <label><input type="radio" name="concern" value="1"><span>I do not support the motion of no confidence</span></label>
+          <label><input type="radio" name="concern" value="0"><span>I abstain from the motion of no confidence</span></label>
+        </form> 
+      </div>
+
+      <div class="issues">
+        <div class="single-question">What are the three most important issues that you would like your Member of Parliament to support?</div>
+        <div class="issue-answer" contenteditable></div>
+        <div class="issue-answer" contenteditable></div>
+        <div class="issue-answer" contenteditable></div>
+      </div>
+
+    </div>
+
     <section class="send-block">
       <div class="top">
         <div class="selected-mp-wrap">
@@ -74,7 +119,7 @@
           </div>
         </div>
         <div class="mp-name">
-          <div>Honourable Member <span id="recipient"></span></div>
+          <div>Honourable Member <span class="recipient"></span></div>
           <div>Profile on <a class="pa-link" href="#">pa.org.za</a></div>
         </div>
       </div>
@@ -83,22 +128,13 @@
           <div class="email-wrapper">
             <div class="email-textarea">
               <p><b>Re: Motion of No Confidence in the President of the Republic</b></p>
-              <p>As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.</p>
-              <p>I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue(s) that are important to me:</p>
-
-              <textarea name="reasons" placeholder="Tell us why holding the President to account is import to you?" rows="4" required></textarea>
-
-              <p>It is for these reasons that I do not have confidence in the President of the Republic and his cabinet.</p>
-              <p>I trust that you will make my voice heard and vote to make sure the President and his Cabinet are held to account. I trust you will vote to represent the people, ensuring government by us under the Constitution.</p>
-              <p>I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.</p>
+              <p>Dear <span class="recipient"></span>,</p>
             </div>
 
             <div class="row">
               <div class="col-md-6">
-                <input type="text" name="name" placeholder="Your name" required>
               </div>
               <div class="col-md-6">
-                <input type="email" name="email"  placeholder="Your email address" required>
               </div>
             </div>
             <div class="row">
