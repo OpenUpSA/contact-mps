@@ -136,7 +136,7 @@ class Email(models.Model):
 
             url = settings.BASE_URL + reverse('email-detail', kwargs={'secure_id': self.secure_id})
             body_txt = "%s\n\nThis message can also be viewed at %s" % (self.body_txt, url)
-            body_html = "%s<br><br>This message can also be viewd at <a href=\"%s\">%s</a>" % (
+            body_html = "%s<br><br>This message can also be viewed at <a href=\"%s\">%s</a>" % (
                 self.body_html, url, url)
 
             email = EmailMultiAlternatives(
