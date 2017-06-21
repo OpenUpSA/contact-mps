@@ -23,3 +23,10 @@ $('.twitter-share').on('click', function(e) {
   window.open("https://twitter.com/intent/tweet?&url=" + url, "share", "width=600, height=400, scrollbars=no");
   ga('send', 'social', 'twitter', 'share', url);
 });
+
+// track outbound links
+$(function() {
+  $('a[href^=http]').on('click', function(e) {
+    ga('send', 'event', 'outbound-click', 'click', this.getAttribute('href'));
+  });
+})
