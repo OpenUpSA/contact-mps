@@ -10,49 +10,47 @@
 {% block content %}
 
 <div id="sent-page">
-	<div class="sent-email">
-		<img class="img-responsive" src="/static/images/pw-logo.png">
-		<div class="heard">
-			<h1>I've made my voice heard, have you?</h1>
+  <div class="sent-email">
+    <img class="img-responsive" src="/static/images/pw-logo.png">
+    <div class="heard">
+      <h1>I've made my voice heard, have you?</h1>
       <div class="social-sharing">
-        {% if is_mobile %}
-        <!-- CAN'T APPEAR MORE THAN ONCE, DON'T KNOW HOW TO FIX
-        <a href="whatsapp://send?text={% block whatsapp_msgREMOVE %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msgREMOVE %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a> -->
-        {% endif %}
+	{% if is_mobile %}
+	<!-- CAN'T APPEAR MORE THAN ONCE, DON'T KNOW HOW TO FIX
+   <a href="whatsapp://send?text={% block whatsapp_msgREMOVE %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msgREMOVE %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a> -->
+   {% endif %}
 
-        <a class="btn btn-fb fb-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}"><i class="fa fa-facebook"></i> Share</a>
+   <a class="btn btn-fb fb-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}"><i class="fa fa-facebook"></i> Share</a>
 
-        <a class="btn btn-twitter twitter-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}" href="#"><i class="fa fa-twitter"></i> Tweet</a>
+   <a class="btn btn-twitter twitter-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}" href="#"><i class="fa fa-twitter"></i> Tweet</a>
       </div>
-		</div>
-	</div>
+    </div>
+  </div>
 
 
-	<div class="email-details">
-		<h2>I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP</h2>
-		<div>From: <b>{{ email.from_name }} &lt;{{ email.from_email }}&gt;</b></div>
-		<div>To: <b>{{ email.to_person.name }}</b></div>
-		<div>Subject: <b>{{ email.subject }}</b></div>
-	</div>
+  <div class="email-details">
+    <h2>I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP</h2>
+    <div>From: <b>{{ email.from_name }} &lt;{{ email.from_email }}&gt;</b></div>
+    <div>To: <b>{{ email.to_person.name }}</b></div>
+    <div>Subject: <b>{{ email.subject }}</b></div>
+  </div>
 
-	<div class="email-body">
-	  {{ email.body_html|safe }}
-	</div>
+  <div class="email-body">
+    {{ email.body_html|safe }}
+  </div>
 
-	<div class="restart text-center">
-		<a class="btn btn-contact" href="/campaign/{{ campaign }}/"><i class="fa fa-university" aria-hidden="true"></i> Contact your MP</a>
-	</div>
+  <div class="restart text-center">
+    <a class="btn btn-contact" href="/campaign/{{ campaign }}/"><i class="fa fa-university" aria-hidden="true"></i> Contact your MP</a>
+  </div>
 
-	{% endblock content %}
+  {% endblock content %}
 
-	{% block js %}
-	{{ block.super }}
-	{% javascript "campaign" %}
-	{% endblock %}
+  {% block js %}
+  {{ block.super }}
+  {% javascript "campaign" %}
+  {% endblock %}
 
-	{% block attribution %}
-	<div>
-	  The headline image is a derivative work of a <a target="_blank" href="https://www.flickr.com/photos/michaelhebb/5701999088/in/photolist-6hsFjU-AoRjc-8nh5Q4-Ei6m71-snzer1-6X1Hmi-5qNmgc-dR3XzP-dR9vS3-8D9MUS-o4gXBt-6X8zLZ-i7CXHn-dpirUa-d59QMG-5x36Di-Rk6sq5-RDE4gy-den4Ck-bUtToB-51XW6w-9dA2fi-brAo43-f81cpu-nM6SXn-aqhWae-8NtUJA-o4tMVU-hcRBHM-KRXgC-p8F6Yf-nJsf5S-9hhpEr-o4thB1-s6bgRP-o6nz9v-ia7fFM-BLJjRH-ky2WRx-8ebe5L-9FSeF7-6Up7gM-qw5s5D-s84xhT-sp2iLu-iKDgoU-kCi7r9-8boVRg-aJ4ex4-i7QhBe">photo by Michael Hebb</a>, licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">CC BY-NC-SA 2.0</a>
-	</div>
-	{% endblock attribution %}
+  {% block attribution %}
+  {% include '_attribution_psam.html' %}
+  {% endblock attribution %}
 </div>
