@@ -85,6 +85,7 @@ if ($('.create-email-page').length > 0) {
     }
 
     updateBody($('form#email-form'));
+    ga('send', 'event', 'submission');
   });
 
   var $form = $('form#email-form');
