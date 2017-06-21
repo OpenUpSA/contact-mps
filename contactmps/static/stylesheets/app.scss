@@ -217,14 +217,16 @@ header {
   input[type=email],
   input[type=text] {
     width: 100%;
-    border: none;
-    background-color: $green-pale;
-    color: #fff;
     height: 40px;
-    margin-top: 10px;
     padding: 3px 15px;
-    font-size: 14px;
+    margin-top: 10px;
+
+    border: none;
     border-radius: 20px;
+    background-color: $green-pale;
+    color: #000;
+
+    font-size: 14px;
     font-family: $font-serif;
     font-weight: 600;
   }
@@ -254,16 +256,9 @@ header {
       cursor: pointer;
     }
   }
+
   .support, .issues {
     margin-top: 20px;
-  }
-  .issues {
-    .issue-answer {
-      color: #000;
-      width: 100%;
-      margin-bottom: 5px;
-      padding: 3px;
-    }
   }
 }
 
@@ -278,14 +273,12 @@ header {
     color: #fff;
     width: 150px;
   }
+
   .email-wrapper {
-    border-radius: 15px;
     font-family: 'PT Serif', serif;
     font-size: 16px;
     line-height: 26px;
     background-color: transparent;
-    padding: 20px;
-    padding-top: 25px;
   }
 
   .top {
