@@ -17,9 +17,11 @@ BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 CAMPAIGN = os.environ.get('CAMPAIGN')
 
 if CAMPAIGN == "newsmedia":
-    SITE_NAME = '#NoConfidenceVote'
+    SITE_HASHTAG = '#NoConfidenceVote'
+    SITE_NAME = SITE_HASHTAG
 elif CAMPAIGN == "psam":
-    SITE_NAME = '#RepresentMe'
+    SITE_HASHTAG = '#RepresentMe'
+    SITE_NAME = SITE_HASHTAG
 
 SITE_DESCRIPTION = "How do you feel about the vote of no confidence in the President? Email your MP. Your Parliament. Your Voice."
 

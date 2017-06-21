@@ -12,6 +12,7 @@ def general(request):
         'BASE_URL': settings.BASE_URL,
         'SITE_NAME': settings.SITE_NAME,
         'SITE_DESCRIPTION': settings.SITE_DESCRIPTION,
+        'SITE_HASHTAG': settings.SITE_HASHTAG,
     }
 
     ga_tracking_id = getattr(settings, 'GOOGLE_ANALYTICS_ID', False)

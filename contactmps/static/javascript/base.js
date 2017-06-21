@@ -18,9 +18,10 @@ $('.fb-share').on('click', function(e) {
 
 $('.twitter-share').on('click', function(e) {
   e.preventDefault();
-  var url = encodeURIComponent($(this).data('url'));
+  var url = encodeURIComponent($(this).data('url')),
+      hashtag = encodeURIComponent($(this).data('hashtag').replace('#', ''));
 
-  window.open("https://twitter.com/intent/tweet?&url=" + url, "share", "width=600, height=400, scrollbars=no");
+  window.open("https://twitter.com/intent/tweet?&url=" + url + "&hashtags=" + hashtag, "share", "width=600, height=400, scrollbars=no");
   ga('send', 'social', 'twitter', 'share', url);
 });
 
@@ -29,4 +30,4 @@ $(function() {
   $('a[href^=http]').on('click', function(e) {
     ga('send', 'event', 'outbound-click', 'click', this.getAttribute('href'));
   });
-})
+});
