@@ -18,11 +18,14 @@ var recaptchaLoaded = function() {
 
 var template = "Honourable Member {{{ recipient_name }}},\n\
 \n\
-I am a citizen from {{{ location }}}. The levels of corruption in our country {{{ corruption_level_opinion }}} and I feel it is very important for my voice to heard.\n\
-In particular the upcoming vote of no confidence in parliament is something I feel I want to voice my opinion on. I would urge you to {{{ action_request }}} the vote of no confidence.\n\
-Other issues that I feel very strongly about are {{{ other_issues }}}.\n\
+I am a citizen from {{{ location }}}. I am {{{ concern }}} concerned about the levels of corruption in our country and I feel it is very important for my voice to be heard.\n\
+In particular the upcoming vote of no confidence in parliament is something I feel I want to voice my opinion on. I would urge you {{{ action_request }}} the vote of no confidence.\n\
+{{{ other_issues }}}\
 \n\
-As a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.";
+As a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\
+\n\
+Sincerely,\n\
+{{{ sender_name }}}";
 
 if ($('.create-email-page').length > 0) {
   // load the data into the dropdown
@@ -60,49 +63,69 @@ if ($('.create-email-page').length > 0) {
       return;
     }
 
-    if ($form.find('input[name=location]').val() === '') {
-      alert("Please enter your location");
-      $form.find('input[name=location]').focus();
-      e.preventDefault();
-      return;
-    }
-
-    if ($form.find('textarea[name=reasons]').val() === '') {
-      alert("Please tell us why this is important to you");
-      $form.find('textarea[name=reasons]').focus();
-      e.preventDefault();
-      return;
-    }
-
     updateBody($('form#email-form'));
   });
 
+  var form = $('form#email-form');
+  form.find('input[name=concern]').on('change', function(e) { updateBody(form); });
+  form.find('input[name=vote]').on('change', function(e) { updateBody(form); });
+  form.find('input[name=name]').on('change', function(e) { updateBody(form); });
+  form.find('input[name=issue1]').on('change', function(e) { updateBody(form); });
+  form.find('input[name=issue2]').on('change', function(e) { updateBody(form); });
+  form.find('input[name=issue3]').on('change', function(e) { updateBody(form); });
+  form.find('select[name=province]').on('change', function(e) { updateBody(form); });
   updateBody($('form#email-form'));
 }
 
-function updateBody($form) {
+function updateBody($form, recipientName) {
+  var concern = $form.find('input[name=concern]:checked').val(),
+      vote = $form.find('input[name=vote]:checked').val(),
+      senderName = $form.find('input[name=name]').val();
+
+  var issues = [];
+  if ($form.find('input[name=issue1]').val())
+    issues.push($form.find('input[name=issue1]').val());
+  if ($form.find('input[name=issue2]').val())
+    issues.push($form.find('input[name=issue2]').val());
+  if ($form.find('input[name=issue3]').val())
+    issues.push($form.find('input[name=issue3]').val());
+
+  var issuesPrefix = "Other issues that I feel very strongly about are ";
+  var otherIssues;
+  if (issues.length == 0) {
+    otherIssues = "";
+  } else if (issues.length == 1) {
+    otherIssues = issuesPrefix + issues[0] + ".\n";
+  } else if (issues.length > 1) {
+    otherIssues = issuesPrefix + issues.slice(0, issues.length-1).join(";\n")
+      + "\nand " + issues[issues.length - 1] + ".\n";
+  }
+
   var context = {
-    'recipient_name': $("#recipient").text(),
-    'corruption_level_opinion': "don't really seem like an issue",
-    'action_request': "abstain from",
-    'other_issues': "plentiful",
-    'location': $form.find('input[name=location]').val() || "____"
+    'recipient_name': $(".recipient").first().text(),
+    'concern': concern,
+    'action_request': vote,
+    'other_issues': otherIssues,
+    'sender_name': senderName,
+    'location': $form.find('select[name=province]').val()
   };
   var body = Mustache.render(template, context);
   $form.find('input[name=body]').val(body);
+  console.log(body);
 }
 
 function chooseMP(mp) {
   // mark an MP as chosen
   $(".choose .single-mp").removeClass("selected");
   $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
-
+  // we pick up the MP name from here so fix message composition if you change this
   $(".recipient").text(mp.name);
   $(".selected-mp .mp-img-wrapper").css({"background-image": mp.portrait_url ? ('url(' + mp.portrait_url + ')') : ''});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
   $(".pa-link").attr("href", mp.pa_url);
   $("form input[name=person]").val(mp.id);
 
+  updateBody($('form#email-form'));
   pymChild.sendHeight();
 }
 
