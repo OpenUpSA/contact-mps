@@ -387,23 +387,8 @@ header {
   /*margin: 15px 0;*/
   background: #fff;
   .sent-email {
-    background: #fff url('/static/images/building-new.jpg');
-    height: 460px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    text-align: right;
-    img {
-      filter: blur(5px);
-      max-width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -4;
-      height: 100vh;
-    }
     h1 {
       text-transform: uppercase;
-      color: #fff;
       font-weight: bold;
       /* text-shadow: 2px 2px #333; */
       text-align: center;
@@ -411,10 +396,9 @@ header {
       padding: 15px;
     }
     h2 {
-      font-family: Helvetica Neue, 'Open Sans', sans-serif;
+      font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
       color: $blue;
       text-align: center;
-      padding-top: 310px;
     }
   }
 }
