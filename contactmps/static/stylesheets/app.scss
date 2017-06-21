@@ -46,7 +46,7 @@ header {
   background: #fff url('/static/images/building-new.jpg');
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center -50px;
   height: 350px;
   color: #fff;
   text-align: right;
@@ -58,7 +58,7 @@ header {
   }
 
   @media (min-width: 767px) {
-    height: 661px;
+    height: 550px;
   }
 
   h1 {
@@ -66,25 +66,16 @@ header {
     font-size: 35px;
     margin-top: 0;
     color: #fff;
+    padding-right: 5%;
+
     @media (min-width: 576px) {
       font-size: 55px;
     }
   }
+
   h2 {
     font-family: 'Playfair Display', serif;
     padding-right: 5%;
-  }
-  h3 {
-    margin-top: 15px;
-    margin-bottom: 30px;
-    font-family: Helvetica Neue, 'Open Sans', sans-serif;
-    padding-right: 0;
-    font-size: 32px;
-    color: $blue;
-    padding-top: 60%;
-    /* width: 55%; */
-    float: right;
-    text-align: center;
   }
 }
 
@@ -340,7 +331,16 @@ header {
       font-weight: 600;
       .pa-link {
         font-weight: normal;
-        padding-top: 7px;
+        padding: 8px 15px;
+        background-color: $gold;
+        border-radius: 20px;
+        color: #fff !important;
+        margin-top: 10px;
+        display: inline-block;
+        font-size: 16px;
+        &:hover {
+          text-decoration: none;
+        }
       }
     }
   }
@@ -460,15 +460,15 @@ header {
 footer {
   color: #fff;
   background: $blue url('/static/images/footer-blue.jpg');
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   height: 370px;
   .footer-content {
     position: absolute;
     bottom: 0px;
-    padding-bottom: 5%;
+    padding-bottom: 2%;
     padding-left: 2%;
-    padding-right: 2%;
+    padding-right: 4%;
     h2 {
       font-family: 'Playfair Display', serif!important;
     }
