@@ -14,7 +14,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 
-SITE_NAME = '#NoConfidenceVote'
+CAMPAIGN = os.environ.get('CAMPAIGN')
+
+if CAMPAIGN == "newsmedia":
+    SITE_NAME = '#NoConfidenceVote'
+elif CAMPAIGN == "psam":
+    SITE_NAME = '#RepresentMe'
+
 SITE_DESCRIPTION = "How do you feel about the vote of no confidence in the President? Email your MP. Your Parliament. Your Voice."
 
 # Quick-start development settings - unsuitable for production
@@ -172,9 +178,9 @@ PIPELINE = {
                 'javascript/select2.min.js',
                 'javascript/underscore-min.js',
                 'bower_components/mustache.js/mustache.js',
-                'javascript/app.js',
+                'javascript/%s.js' % CAMPAIGN,
             ),
-            'output_filename': 'app.js',
+            'output_filename': '%s.js' % CAMPAIGN,
         },
         'embed.js': {
             'source_filenames': (
@@ -188,9 +194,9 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/select2.min.css',
-                'stylesheets/app.scss',
+                'stylesheets/%s.scss' % CAMPAIGN,
             ),
-            'output_filename': 'app.css',
+            'output_filename': '%s.css' % CAMPAIGN,
         },
         'container': {
             'source_filenames': (
@@ -210,7 +216,6 @@ PIPELINE = {
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'contactmps.pipeline.GzipManifestPipelineStorage'
-
 
 # Logging
 LOGGING = {
@@ -259,5 +264,3 @@ SEND_EMAILS = os.environ.get('DJANGO_SEND_EMAILS') == 'True'
 
 RECAPTCHA_KEY = os.environ.get('RECAPTCHA_KEY')
 RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET')
-
-CAMPAIGN = os.environ.get('CAMPAIGN')
