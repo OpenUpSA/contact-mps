@@ -7,7 +7,7 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 
 @import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Open+Sans|Playfair+Display|PT+Serif');
 
-$font-serif: Helvetica Neue, 'Open Sans', sans-serif;
+$font-serif: 'Helvetica Neue', 'Open Sans', sans-serif;
 
 // Colours
 
@@ -16,6 +16,7 @@ $green: #007C59;
 $green-pale: #96d6c4;
 $gold: #FCB514;
 $chili-red: #E23D28;
+$chili-red-pale: #fc7f6f;
 $blue: #0C1C8C;
 
 // put application-specific styles here
@@ -37,31 +38,16 @@ header {
     font-size: 32px;
     color: $blue;
     text-align: center;
-
   }
 
   margin-bottom: 30px;
 }
 
 .hero {
-  background: #fff url('/static/images/building-new.jpg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center -50px;
-  height: 350px;
-  color: #fff;
   text-align: right;
-
-  padding: 10px 10px 20px 10px;
-
-  @media (min-width: 500px) {
-    height: 460px;
-  }
-
-  @media (min-width: 767px) {
-    height: 550px;
-  }
-
+  background-color: $green;
+  color: #fff;
+  padding: 10px;
   h1 {
     font-family: 'Playfair Display', serif;
     font-size: 35px;
@@ -82,8 +68,9 @@ header {
 
 .choose {
   width: 100%;
-  margin-top: 0px;
   padding: 0 5px;
+  border-bottom: 3px solid #fff;
+  background-color: $green;
   .mp-wrap {
     @media (max-width: 500px) {
       width: 100%;
@@ -107,7 +94,6 @@ header {
       cursor: pointer;
       min-height: 100px;
       border: 1px solid #efefef;
-      border-radius: 20px;
       &.selected {
         background-color: $gold;
         border: 1px solid $gold;
@@ -148,72 +134,69 @@ header {
 }
 
 .dropdown-wrap {
-  padding: 20px 5px;
+  border-bottom: 3px solid #fff;
   #select-dropdown {
     width: 100%;
-    color: $blue !important;
+    color: $gold !important;
   }
-}
+  .select2-dropdown {
+    background-color: #fff;
+    border-width: 0px;
+    border-radius: 0;
+  }
 
-.select2-dropdown {
-  background-color: #fff;
-  border-width: 0px;
-  border-radius: 0;
-}
-
-.select2-container--default {
-  .select2-selection--single {
-    background-color: $blue;
-    border: 1px solid $blue;
-    border-radius: 12px;
-    height: 35px;
-    .select2-selection__arrow {
-      height: 28px;
-      position: absolute;
-      top: 1px;
-      right: 15px;
-      width: 25px;
-      b {
-        border-color: #fff transparent transparent transparent;
-        border-width: 10px 8px 0 8px;
+  .select2-container--default {
+    .select2-selection--single {
+      background-color: $gold;
+      border: 1px solid $gold;
+      border-radius: 0;
+      height: 35px;
+      .select2-selection__arrow {
+        height: 28px;
+        position: absolute;
+        top: 1px;
+        right: 15px;
+        width: 25px;
+        b {
+          border-color: #fff transparent transparent transparent;
+          border-width: 10px 8px 0 8px;
+        }
+      }
+      .select2-selection__placeholder {
+        color: #fff!important;
+      }
+      .select2-selection__rendered {
+        color: #fff;
+        font-size: 18px;
+        line-height: 35px;
       }
     }
-    .select2-selection__placeholder {
-      color: #fff!important;
-    }
-    .select2-selection__rendered {
+    .select2-results__option--highlighted[aria-selected] {
+      background-color: $gold;
       color: #fff;
-      font-size: 18px;
-      line-height: 35px;
+    }
+    .select2-results__option {
+      color: $gold;
+    }
+    .select2-search--dropdown .select2-search__field {
+      color: $gold !important;
     }
   }
-  .select2-results__option--highlighted[aria-selected] {
-    background-color: $blue;
-    color: #fff;
-  }
-  .select2-results__option {
-    color: $blue;
-  }
-  .select2-search--dropdown .select2-search__field {
-    color: $blue!important;
-  }
-}
 
-.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
-  height: 28px;
-  position: absolute;
-  top: 1px;
-  right: 15px;
-  width: 25px;
-  b {
-    border-color: transparent transparent #fff transparent;
-    border-width: 0 8px 10px 8px;
+  .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
+    height: 28px;
+    position: absolute;
+    top: 1px;
+    right: 15px;
+    width: 25px;
+    b {
+      border-color: transparent transparent #fff transparent;
+      border-width: 0 8px 10px 8px;
+    }
   }
 } 
 
 .question-block {
-  margin-bottom: 20px;
-
   input[type=email],
   input[type=text],
   textarea {
@@ -222,13 +205,16 @@ header {
     margin-top: 10px;
 
     border: none;
-    border-radius: 20px;
-    background-color: $green-pale;
+    background-color: $chili-red-pale;
     color: #000;
 
     font-size: 14px;
     font-family: $font-serif;
     font-weight: 600;
+  }
+
+  .issues textarea {
+    padding: 15px;
   }
 
   input[type=email],
@@ -242,8 +228,65 @@ header {
     margin-right: 5px;
   }
 
-  .choose-province {
-    width: 100%;
+  .choose-province-wrap {
+    .choose-province {
+      width: 100%;
+    }
+    .select2-dropdown {
+      background-color: #fff;
+      border-width: 0px;
+      border-radius: 0;
+    }
+
+    .select2-container--default {
+      .select2-selection--single {
+        background-color: $chili-red-pale !important;
+        border: 1px solid $chili-red-pale !important;
+        border-radius: 0;
+        height: 35px;
+        .select2-selection__arrow {
+          height: 28px;
+          position: absolute;
+          top: 1px;
+          right: 15px;
+          width: 25px;
+          b {
+            border-color: #fff transparent transparent transparent;
+            border-width: 10px 8px 0 8px;
+          }
+        }
+        .select2-selection__placeholder {
+          color: #fff !important;
+        }
+        .select2-selection__rendered {
+          color: #fff;
+          font-size: 18px;
+          line-height: 35px;
+        }
+      }
+      .select2-results__option--highlighted[aria-selected] {
+        background-color: $chili-red-pale !important;
+        color: #fff;
+      }
+      .select2-results__option {
+        color: $chili-red-pale !important;
+      }
+      .select2-search--dropdown .select2-search__field {
+        color: $chili-red-pale !important;
+      }
+    }
+
+    .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
+      height: 28px;
+      position: absolute;
+      top: 1px;
+      right: 15px;
+      width: 25px;
+      b {
+        border-color: transparent transparent #fff transparent;
+        border-width: 0 8px 10px 8px;
+      }
+    } 
   }
 
   input[name=email] {
@@ -269,9 +312,9 @@ header {
 
 .send-block {
   padding: 10px 20px 20px;
-  background-color: $green;
-  border-radius: 20px;
+  background-color: $chili-red;
   color: white;
+  border-bottom: 3px solid #fff;
 
   input[type="submit"] {
     background-color: $gold;
@@ -288,7 +331,6 @@ header {
       font-weight: normal;
       padding: 8px 15px;
       background-color: $gold;
-      border-radius: 20px;
       border: none;
       margin-top: 10px;
       font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -297,10 +339,6 @@ header {
 
   .top {
     padding: 10px 20px;
-    background-color: $green;
-    color: #fff;
-    border-radius: 20px;
-
     .selected-mp-wrap {
       width: 100%;
       display: block;
@@ -321,7 +359,6 @@ header {
         font-weight: normal;
         padding: 8px 15px;
         background-color: $gold;
-        border-radius: 20px;
         color: #fff !important;
         margin-top: 10px;
         display: inline-block;
@@ -370,7 +407,7 @@ header {
       font-weight: bold;
       /* text-shadow: 2px 2px #333; */
       text-align: center;
-      font-family: 'Playfair Display';
+      font-family: 'Ubuntu', sans-serif;
       padding: 15px;
     }
     h2 {
@@ -398,33 +435,32 @@ header {
   background-color: $gold;
   color: #fff!important;
   font-weight: bold;
-  border-radius: 20px!important;
 }
 
 .btn-twitter {
   background-color: #1b95e0;
   color: white !important;
   font-weight: bold;
-  border-radius: 20px!important;
 }
 
 .btn-fb {
   background-color: #0c1c8c;
   color: white !important;
   font-weight: bold;
-  border-radius: 20px!important;
 }
 
 .social-sharing {
   padding: 15px;
   text-align: center;
+  background-color: $green;
+  border-bottom: 3px solid #fff;
   a {
     display: inline;
+    border-radius: 0;
   }
   .fb-share-button {
     background-color: #0C1C8C;
     padding: 3px 6px;
-    border-radius: 3px;
     font-size: 12px;
     height: 20px;
     a {
@@ -437,28 +473,25 @@ header {
   text-align: center;
   background-color: $gold;
   width: 165px;
-  border-radius: 20px;
   padding: 5px;
   font-size: 12px;
+  margin-top: 20px;
   a {
     color: #fff!important;
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
 
 footer {
   color: #fff;
-  background: $blue url('/static/images/footer-blue.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 370px;
+  background-color: #000;
+  padding: 20px;
   .footer-content {
-    position: absolute;
-    bottom: 0px;
-    padding-bottom: 2%;
-    padding-left: 2%;
-    padding-right: 4%;
     h2 {
-      font-family: 'Playfair Display', serif!important;
+      font-family: 'Playfair Display', serif;
+      margin-top: 0;
     }
     img {
       width: 250px;
