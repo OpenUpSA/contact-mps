@@ -106,7 +106,7 @@ def email(request):
 @xframe_options_exempt
 def email_detail(request, secure_id):
     email = get_object_or_404(Email, secure_id=secure_id)
-    return render(request, 'email-detail.html', {
+    return render(request, 'email-detail-%s.html' % settings.CAMPAIGN, {
         'email': email,
         'campaign': settings.CAMPAIGN,
     })
