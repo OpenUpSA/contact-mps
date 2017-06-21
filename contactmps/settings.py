@@ -14,6 +14,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 
+SITE_NAME = '#NoConfidenceVote'
+SITE_DESCRIPTION = "How do you feel about the vote of no confidence in the President? Email your MP. Your Parliament. Your Voice."
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
