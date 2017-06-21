@@ -130,8 +130,7 @@ class Email(models.Model):
         if not EMAIL_RE.match(self.from_email):
             self.from_email = "noreply@openup.org.za"
         sender = "%s <%s>" % (self.from_name, self.from_email)
-        ## HACK for testing full flow before launch
-        recipients = ["%s <%s>" % (self.to_person.name, "jd@openup.org.za") for c in self.to_person.contactdetails.filter(type='email').all()] + ["greg@openup.org.za"]
+        recipients = ["%s <%s>" % (self.to_person.name, c.value) for c in self.to_person.contactdetails.filter(type='email').all()] + ["greg@openup.org.za"]
         if settings.SEND_EMAILS:
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
 
