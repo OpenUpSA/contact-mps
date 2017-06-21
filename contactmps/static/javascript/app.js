@@ -88,7 +88,7 @@ if ($('.create-email-page').length > 0) {
   });
 
   var $form = $('form#email-form');
-  $form.find('input, select').on('change', function(e) { updateBody($form); });
+  $form.find('input, select, textarea').on('change', function(e) { updateBody($form); });
   updateBody($form);
 }
 
@@ -97,23 +97,11 @@ function updateBody($form, recipientName) {
       vote = $form.find('input[name=vote]:checked').val(),
       senderName = $form.find('input[name=name]').val();
 
-  var issues = [];
-  if ($form.find('input[name=issue1]').val())
-    issues.push($form.find('input[name=issue1]').val());
-  if ($form.find('input[name=issue2]').val())
-    issues.push($form.find('input[name=issue2]').val());
-  if ($form.find('input[name=issue3]').val())
-    issues.push($form.find('input[name=issue3]').val());
+  var issues = $form.find('[name=issues]').val();
+  var otherIssues = "";
 
-  var issuesPrefix = "Other issues that I feel very strongly about are ";
-  var otherIssues;
-  if (issues.length == 0) {
-    otherIssues = "";
-  } else if (issues.length == 1) {
-    otherIssues = issuesPrefix + issues[0] + ".\n";
-  } else if (issues.length > 1) {
-    otherIssues = issuesPrefix + issues.slice(0, issues.length-1).join(";\n")
-      + "\nand " + issues[issues.length - 1] + ".\n";
+  if (issues) {
+    otherIssues = "\nOther issues that I feel very strongly about are: \n" + issues + "\n";
   }
 
   var context = {
