@@ -35,7 +35,7 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-GOOGLE_ANALYTICS_ID = "UA-93649482-2"
+GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID', '')
 
 ALLOWED_HOSTS = ['*']
 
