@@ -76,34 +76,25 @@
       </div>
 
       <div class="question-block">
+        <div class="email-textarea">
+          <p><b>Re: Motion of No Confidence in the President of the Republic</b></p>
+          <p>As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.</p>
+          <p>I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue(s) that are important to me:</p>
 
-        <div class="concerned">
-          <h3>How concerned are you about corruption in South Africa?</h3>
-          <label><input type="radio" name="concern" value="extremely" required><span>Extremely</span></label>
-          <label><input type="radio" name="concern" value="very"><span>Very</span></label>
-          <label><input type="radio" name="concern" value="moderately"><span>Moderately</span></label>
-          <label><input type="radio" name="concern" value="slightly"><span>Slightly</span></label>
-          <label><input type="radio" name="concern" value="not at all"><span>Not at all</span></label>
+          <textarea name="reasons" placeholder="Tell us why holding the President to account is import to you?" rows="4" required></textarea>
+
+          <p>It is for these reasons that I do not have confidence in the President of the Republic and his cabinet.</p>
+          <p>I trust that you will make my voice heard and vote to make sure the President and his Cabinet are held to account. I trust you will vote to represent the people, ensuring government by us under the Constitution.</p>
+          <p>I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.</p>
         </div>
 
-        <div class="support">
-          <h3>Do you support a vote of no confidence in the President?</h3>
-          <label><input type="radio" name="vote" value="to support" required><span>I support the motion of no confidence</span></label>
-          <label><input type="radio" name="vote" value="not to support"><span>I do not support the motion of no confidence</span></label>
-          <label><input type="radio" name="vote" value="to abstain from"><span>I abstain from the motion of no confidence</span></label>
-        </div>
-
-        <div class="issues">
-          <h3>What are the three most important issues that you would like your Member of Parliament to support?</h3>
-          <textarea name="issues" maxlength="500" placeholder="What three issues are most important to you?" rows="3"></textarea>
-        </div>
-
-        <div class="person">
-          <h3>Tell your Member of Parliament who you are.</h3>
-
+        <div>
           <input class="name" type="text" name="name" placeholder="Your name?" required>
+        </div>
+        <div>
           <input class="email" type="email" name="email"  placeholder="Your email address" required>
-
+        </div>
+        <div>
           <span class="choose-province-wrap">
             <select class="choose-province" name="province" required>
               <option value="" disabled selected>Where do you live?</option>
@@ -137,31 +128,17 @@
       </div>
     </section>
   </form>
+  {% endblock content %}
 
-  <div class="social-sharing">
-    {% if is_mobile %}
-    <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_NAME|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="/static/images/whatsapp-logo.png" alt="WhatsApp" height="32"></a>
-    {% endif %}
-
-    <a class="btn btn-fb fb-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}"><i class="fa fa-facebook"></i> Share</a>
-
-    <a class="btn btn-twitter twitter-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}" href="#"><i class="fa fa-twitter"></i> Tweet</a>
-    <div class="center-block embed-a"><a href="/embed.html"><i class="fa fa-code" aria-hidden="true"></i> Embed this on your site</a></div>
-  </div>
-
-  <footer>
-    <div class="footer-content">
-      <h2>Attribution</h2>
-      <ul>
-        <li><a target="_blank" href="http://www.pa.org.za/help/api">Member of Parliament data compiled by People's Assembly</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
-      </ul>
-      <div class="row">
-        <div class="col-xs-6">
-          <img class="img-responsive" src="/static/images/pw-logo-1.png"/>
-        </div>
+  {% block attribution %}
+    <ul>
+      <li><a target="_blank" href="http://www.pa.org.za/help/api">Member of Parliament data compiled by People's Assembly</a> is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    </ul>
+    <div class="row">
+      <div class="col-xs-6">
+        <img class="img-responsive" src="/static/images/pw-logo-1.png"/>
       </div>
     </div>
-  </footer>
-  {% endblock content %}
+  {% endblock attribution %}
 
 </div>

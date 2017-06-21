@@ -18,14 +18,21 @@ var recaptchaLoaded = function() {
 
 var template = "Honourable Member {{{ recipient_name }}},\n\
 \n\
-I am a citizen from {{{ location }}}. I am {{{ concern }}} concerned about the levels of corruption in our country and I feel it is very important for my voice to be heard.\n\
-In particular the upcoming vote of no confidence in parliament is something I feel I want to voice my opinion on. I would urge you {{{ action_request }}} the vote of no confidence.\n\
-{{{ other_issues }}}\
+As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.\n\
 \n\
-As a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\
+I have seen that Parliament has not always lived up to what the Constitution requires of it and has shown a weakness in holding the President and his Cabinet to account. It is worrying that this Parliament has failed to hold the President or his cabinet to account on the following issue(s) that are important to me:\n\
+\n\
+{{{ reasons }}}\n\
+\n\
+It is for these reasons that I do not have confidence in the President of the Republic and his cabinet.\n\
+\n\
+I trust that you will make my voice heard and vote to make sure the President and his Cabinet are held to account. I trust you will vote to represent the people, ensuring government by us under the Constitution.\n\
+\n\
+I hope that the vote that you cast will restore my trust in you, in Parliament and in government. I trust that your vote will be loyal to the Constitution, the Republic and its people.\n\
 \n\
 Sincerely,\n\
-{{{ sender_name }}}";
+{{{ sender_name }}}\n\
+{{{ location }}}";
 
 if ($('.create-email-page').length > 0) {
   // load the data into the dropdown
@@ -63,23 +70,16 @@ if ($('.create-email-page').length > 0) {
       return;
     }
 
-    if ($form.find('input[name=concern]:checked').length === 0) {
-      alert("Please indicate how concerned you are with corruption in South africa");
-      $form.find('input[name=concern]').focus();
-      e.preventDefault();
-      return;
-    }
-
-    if ($form.find('input[name=vote]:checked').length === 0) {
-      alert("Please indicate whether you support the vote of no confidence");
-      $form.find('input[name=vote]').focus();
-      e.preventDefault();
-      return;
-    }
-
     if ($form.find('select[name=province]').val() === '') {
       alert("Please choose a province");
       $form.find('select[name=province]').focus();
+      e.preventDefault();
+      return;
+    }
+
+    if ($form.find('textarea[name=reasons]').val() === '') {
+      alert("Please give your own reasons for sending this message.");
+      $form.find('textarea[name=reasons]').focus();
       e.preventDefault();
       return;
     }
@@ -93,22 +93,11 @@ if ($('.create-email-page').length > 0) {
 }
 
 function updateBody($form, recipientName) {
-  var concern = $form.find('input[name=concern]:checked').val(),
-      vote = $form.find('input[name=vote]:checked').val(),
-      senderName = $form.find('input[name=name]').val();
-
-  var issues = $form.find('[name=issues]').val();
-  var otherIssues = "";
-
-  if (issues) {
-    otherIssues = "\nOther issues that I feel very strongly about are: \n" + issues + "\n";
-  }
+  var senderName = $form.find('input[name=name]').val();
 
   var context = {
     'recipient_name': $(".recipient").first().text(),
-    'concern': concern,
-    'action_request': vote,
-    'other_issues': otherIssues,
+    'reasons': $form.find('textarea[name=reasons]').val(),
     'sender_name': senderName,
     'location': $form.find('select[name=province]').val()
   };
