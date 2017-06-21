@@ -7,6 +7,7 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
 
 @import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Open+Sans|Playfair+Display|PT+Serif');
 
+$font-serif: Helvetica Neue, 'Open Sans', sans-serif;
 
 // Colours
 
@@ -32,7 +33,7 @@ a {
 
 header {
   h3 {
-    font-family: Helvetica Neue, 'Open Sans', sans-serif;
+    font-family: $font-serif;
     font-size: 32px;
     color: $blue;
     text-align: center;
@@ -129,55 +130,6 @@ header {
   }
 }
 
-.question-block {
-  padding: 20px;
-  background-color: $green;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  color: #fff;
-  .name, .email {
-    width: 100%;
-    color: #000;
-    min-height: 26px;
-    border-radius: 0;
-    border: none;
-    margin-bottom: 5px;
-    padding: 3px;
-  }
-  .choose-province {
-    width: 100%;
-    margin: 20px 0;
-  }
-  .single-question {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  .concerned, .support {
-    label {
-      display: block;
-    }
-    input[type="radio"] {
-      margin-top: -2px;
-      vertical-align: middle;
-    }
-    span {
-      margin-left: 3px;
-      font-weight: normal;
-    }
-  }
-  .support, .issues {
-    margin-top: 20px;
-  }
-  .issues {
-    .issue-answer {
-      color: #000;
-      width: 100%;
-      margin-bottom: 5px;
-      padding: 3px;
-    }
-  }
-}
-
 .mp-img-wrapper {
   background-image: url('/static/images/shadow.svg');
   border-radius: 100%;
@@ -259,11 +211,11 @@ header {
   }
 } 
 
-.send-block {
-  padding: 0 5px;
-  background-color: $green;
-  border-radius: 20px;
-  input {
+.question-block {
+  margin-bottom: 20px;
+
+  input[type=email],
+  input[type=text] {
     width: 100%;
     border: none;
     background-color: $green-pale;
@@ -273,9 +225,56 @@ header {
     padding: 3px 15px;
     font-size: 14px;
     border-radius: 20px;
-    font-family: Helvetica Neue, 'Open Sans', sans-serif;
+    font-family: $font-serif;
     font-weight: 600;
   }
+
+  input[type="radio"] {
+    margin-top: -2px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  .choose-province {
+    width: 100%;
+  }
+
+  input[name=email] {
+    margin-bottom: 10px;
+  }
+
+  h4 {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .concerned, .support {
+    label {
+      display: block;
+      font-weight: normal;
+      cursor: pointer;
+    }
+  }
+  .support, .issues {
+    margin-top: 20px;
+  }
+  .issues {
+    .issue-answer {
+      color: #000;
+      width: 100%;
+      margin-bottom: 5px;
+      padding: 3px;
+    }
+  }
+}
+
+.send-block {
+  padding: 0 10px;
+  background-color: $green;
+  border-radius: 20px;
+  color: white;
+
   input[type="submit"] {
     background-color: $gold;
     color: #fff;
@@ -292,7 +291,11 @@ header {
     /*box-shadow: inset 0px 2px 5px 0px rgba(0, 0, 0, 0.3);*/
     .email-textarea {
       color: #fff;
-      b {font-family: Helvetica Neue, 'Open Sans', sans-serif; color: #fff; font-size: 24px;}
+      b {
+        font-family: Helvetica Neue, 'Open Sans', sans-serif;
+        color: #fff;
+        font-size: 24px;
+      }
     }
     textarea {
       resize: none;

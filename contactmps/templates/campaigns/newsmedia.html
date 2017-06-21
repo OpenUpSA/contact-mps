@@ -64,47 +64,6 @@
       <select id="select-dropdown" class="use-select2"></select>
     </div>
 
-    <div class="question-block">
-      <input class="name" type="text" name="name" placeholder="Your name" required>
-      <input class="email" type="email" name="email"  placeholder="Your email address" required>
-
-      <select class="choose-province" name="province" required>
-        <option value="" disabled selected>Where do you live?</option>
-        <option value="the Eastern Cape">Eastern Cape</option>
-        <option value="the Free State">Free State</option>
-        <option value="Gauteng">Gauteng</option>
-        <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-        <option value="Limpopo">Limpopo</option>
-        <option value="Mpumalanga">Mpumalanga</option>
-        <option value="the North West">North West</option>
-        <option value="the Northern Cape">Northern Cape</option>
-        <option value="the Western Cape">Western Cape</option>
-      </select>
-
-      <div class="concerned">
-        <div class="single-question">How concerned are you about corruption in South Africa?</div>
-          <label><input type="radio" name="concern" value="extremely" required><span>Extremely</span></label>
-          <label><input type="radio" name="concern" value="very"><span>Very</span></label>
-          <label><input type="radio" name="concern" value="moderately"><span>Moderately</span></label>
-          <label><input type="radio" name="concern" value="slightly"><span>Slightly</span></label>
-          <label><input type="radio" name="concern" value="not at all"><span>Not at all</span></label>
-      </div>
-
-      <div class="support">
-        <div class="single-question">Do you support a vote of no confidence in the President?</div>
-          <label><input type="radio" name="vote" value="to support" required><span>I support the motion of no confidence</span></label>
-          <label><input type="radio" name="vote" value="not to support"><span>I do not support the motion of no confidence</span></label>
-          <label><input type="radio" name="vote" value="to abstain from"><span>I abstain from the motion of no confidence</span></label>
-      </div>
-
-      <div class="issues">
-        <div class="single-question">What are the three most important issues that you would like your Member of Parliament to support?</div>
-        <input name="issue1" class="issue-answer" maxlength="150"></input>
-        <input name="issue2" class="issue-answer" maxlength="150"></input>
-        <input name="issue3" class="issue-answer" maxlength="150"></input>
-      </div>
-
-    </div>
 
     <section class="send-block">
       <div class="top">
@@ -120,31 +79,77 @@
           <a class="pa-link" target="_blank" href="#"><img src="/static/images/pa-favicon.png"> Profile on pa.org.za</a>
         </div>
       </div>
-      <div class="row bottom">
-        <div class="col-xs-12">
-          <div class="email-wrapper">
-            <div class="email-textarea">
-              <p><b>Re: Motion of No Confidence in the President of the Republic</b></p>
-              <p>Dear <span class="recipient"></span>,</p>
-            </div>
 
-            <div class="row">
-              <div class="col-md-6">
-              </div>
-              <div class="col-md-6">
-              </div>
-            </div>
+      <div class="question-block">
 
-            <div class="row">
-              <div class="col-md-6">
-                <input type="hidden" name="body" value="">
-              </div>
+        <div class="concerned">
+          <h3>How concerned are you about corruption in South Africa?</h3>
+          <label><input type="radio" name="concern" value="extremely" required><span>Extremely</span></label>
+          <label><input type="radio" name="concern" value="very"><span>Very</span></label>
+          <label><input type="radio" name="concern" value="moderately"><span>Moderately</span></label>
+          <label><input type="radio" name="concern" value="slightly"><span>Slightly</span></label>
+          <label><input type="radio" name="concern" value="not at all"><span>Not at all</span></label>
+        </div>
+
+        <div class="support">
+          <h3>Do you support a vote of no confidence in the President?</h3>
+          <label><input type="radio" name="vote" value="to support" required><span>I support the motion of no confidence</span></label>
+          <label><input type="radio" name="vote" value="not to support"><span>I do not support the motion of no confidence</span></label>
+          <label><input type="radio" name="vote" value="to abstain from"><span>I abstain from the motion of no confidence</span></label>
+        </div>
+
+        <div class="issues">
+          <h3>What are the three most important issues that you would like your Member of Parliament to support?</h3>
+          <input name="issue1" class="issue-answer" type="text" maxlength="150"></input>
+          <input name="issue2" class="issue-answer" type="text" maxlength="150"></input>
+          <input name="issue3" class="issue-answer" type="text" maxlength="150"></input>
+        </div>
+
+        <div class="person">
+          <h3>Tell your Member of Parliament who you are.</h3>
+
+          <input class="name" type="text" name="name" placeholder="Your name?" required>
+          <input class="email" type="email" name="email"  placeholder="Your email address" required>
+
+          <select class="choose-province" name="province" required>
+            <option value="" disabled selected>Where do you live?</option>
+            <option value="the Eastern Cape">Eastern Cape</option>
+            <option value="the Free State">Free State</option>
+            <option value="Gauteng">Gauteng</option>
+            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+            <option value="Limpopo">Limpopo</option>
+            <option value="Mpumalanga">Mpumalanga</option>
+            <option value="the North West">North West</option>
+            <option value="the Northern Cape">Northern Cape</option>
+            <option value="the Western Cape">Western Cape</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="bottom">
+        <div class="email-wrapper">
+          <div class="email-textarea">
+            <p><b>Re: Motion of No Confidence in the President of the Republic</b></p>
+            <p>Dear <span class="recipient"></span>,</p>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div id="recaptcha"></div>
-                <input type="submit" value="Send email">
-              </div>
+            <div class="col-md-6">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <input type="hidden" name="body" value="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div id="recaptcha"></div>
+              <input type="submit" value="Send email">
             </div>
           </div>
         </div>

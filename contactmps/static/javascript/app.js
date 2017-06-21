@@ -43,7 +43,7 @@ if ($('.create-email-page').length > 0) {
   });
 
   $('select.choose-province').select2({
-    placeholder: 'Choose your province',
+    placeholder: 'Where do you live?',
   });
 
   $('form#email-form').on('submit', function(e) {
@@ -78,7 +78,7 @@ if ($('.create-email-page').length > 0) {
     }
 
     if ($form.find('select[name=province]').val() === '') {
-      alert("Please where you are from");
+      alert("Please choose a province");
       $form.find('select[name=province]').focus();
       e.preventDefault();
       return;
@@ -87,10 +87,9 @@ if ($('.create-email-page').length > 0) {
     updateBody($('form#email-form'));
   });
 
-  var form = $('form#email-form');
-  form.find('input').on('change', function(e) { updateBody(form); });
-  form.find('select').on('change', function(e) { updateBody(form); });
-  updateBody(form);
+  var $form = $('form#email-form');
+  $form.find('input, select').on('change', function(e) { updateBody($form); });
+  updateBody($form);
 }
 
 function updateBody($form, recipientName) {
