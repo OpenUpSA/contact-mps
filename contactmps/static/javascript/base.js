@@ -1,3 +1,10 @@
+$(function() {
+  window.addEventListener('error', function(e) {
+    ga('send', 'event', 'JavaScript Error', e.filename + ':  ' + e.lineno, e.message);
+    console.log(e);
+  });
+});
+
 var pymChild = new pym.Child({
   id: "contactmps-embed-parent"
 });
