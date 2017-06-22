@@ -33,13 +33,19 @@ Sincerely,\n\
 
 if ($('.create-email-page').length > 0) {
   // load the data into the dropdown
-  var data = _.map(persons, function(p) {
+  var mps = {};
+
+  var data = persons.map(function(p) {
+    mps[p.id] = p;
+
     return {
       id: p.id,
       text: p.name + (p.party ? (' - ' + p.party.name) : ''),
     };
   });
-  data = _.sortBy(data, 'text');
+  data.sort(function(a, b) {
+    return a.text.localeCompare(b.text);
+  });
 
   $('select.use-select2').select2({
     data: data,
@@ -143,17 +149,13 @@ function chooseMP(mp) {
 }
 
 $(".choose .single-mp").click(function() {
-  var selectedId = parseInt($(this).data('id')),
-      mp = _.find(persons, function(p) { return p.id == selectedId;});
-  chooseMP(mp);
+  var selectedId = parseInt($(this).data('id'));
+  chooseMP(mps[selectedId]);
 });
 
 $('#select-dropdown').on("change", function(e) {
-  var selectedId = parseInt($(this).val()),
-      mp = _.find(persons, function(p) { return p.id == selectedId; });
-  chooseMP(mp);
+  var selectedId = parseInt($(this).val());
+  chooseMP(mps[selectedId]);
 });
 
-$(window).on('load', function() {
-  $(".choose .single-mp").first().click();
-});
+$(".choose .single-mp").first().click();

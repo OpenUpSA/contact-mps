@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load strip_qs pipeline %}
+{% load strip_qs pipeline staticfiles %}
 
 {% block title %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_persnop.name }} in Parliament.{% endblock %}
 {% block og_title %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_person.name }} in Parliament.{% endblock %}
@@ -11,7 +11,7 @@
 
 <div id="sent-page">
 	<header>
-		<section class="hero">
+		<section class="hero" style="background-image: url('{% static 'images/building-new-sm.jpg' %}')">
 			<h1>I've made my voice heard. Have you?</h1>
 			<h2>{{ SITE_NAME }}</h2>
 		</section>
