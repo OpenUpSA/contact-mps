@@ -63,13 +63,6 @@ if ($('.create-email-page').length > 0) {
       return;
     }
 
-    if ($form.find('input[name=email]').val() === '') {
-      alert("Please enter your email");
-      $form.find('input[name=email]').focus();
-      e.preventDefault();
-      return;
-    }
-
     if ($form.find('select[name=province]').val() === '') {
       alert("Please choose a province");
       $form.find('select[name=province]').focus();
@@ -82,6 +75,10 @@ if ($('.create-email-page').length > 0) {
       $form.find('textarea[name=reasons]').focus();
       e.preventDefault();
       return;
+    }
+
+    if ($form.find('input[name=email]').val() === '') {
+      $form.find('input[name=email]').val('noconfidence2017@gmail.com');
     }
 
     updateBody($('form#email-form'));
