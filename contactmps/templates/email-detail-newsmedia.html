@@ -2,6 +2,7 @@
 {% load strip_qs pipeline staticfiles %}
 
 {% block title %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_persnop.name }} in Parliament.{% endblock %}
+{% block og-image %}/static/images/building-new.jpg{% endblock %}
 {% block og_title %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_person.name }} in Parliament.{% endblock %}
 {% block tweet %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_person.name }} in Parliament{% endblock %}
 {# whatsapp_msg must be urlencoded #}
