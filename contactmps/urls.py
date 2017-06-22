@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^embed.html$', views.embed, name='embed-info'),
     # formatting the pattern like this is hacky but it helps ensure that there's
     # one campaign per instance which is an important assumption right now.
-    url(r'^campaign/%s/$' % settings.CAMPAIGN, cache_page(API_CACHE_SECS)(views.create_mail),
+    url(r'^campaign/%s/$' % settings.CAMPAIGN, views.create_mail,
         {'template': 'campaigns/%s.html' % settings.CAMPAIGN}, name='campaign'),
     url(r'^email/$', views.email, name='email'),
     url(r'^email/(?P<secure_id>[a-z0-9-]+)/$', cache_page(API_CACHE_SECS)(views.email_detail), name='email-detail'),
