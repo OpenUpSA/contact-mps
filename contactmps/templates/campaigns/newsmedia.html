@@ -5,6 +5,8 @@
 {% block title %}Send a message to a Member of Parliament{% endblock %}
 {% block body-class %}create-email-page{% endblock %}
 
+{% block og-image %}/static/images/building-new.jpg{% endblock %}
+
 {% block js %}
   <script>
     var persons = {{ persons_json|safe }};
