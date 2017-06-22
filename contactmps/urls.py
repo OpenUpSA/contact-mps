@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.decorators.cache import cache_page
 from contactmps import views
+from django.views.decorators.csrf import csrf_exempt
 
 # Used to cache expensive API calls, since it's fine to show same results for
 # a few minutes.  This cache is reset on each deployment. Corresponding caching
@@ -14,9 +15,9 @@ urlpatterns = [
     url(r'^embed.html$', views.embed, name='embed-info'),
     # formatting the pattern like this is hacky but it helps ensure that there's
     # one campaign per instance which is an important assumption right now.
-    url(r'^campaign/%s/$' % settings.CAMPAIGN, views.create_mail,
+    url(r'^campaign/%s/$' % settings.CAMPAIGN, cache_page(API_CACHE_SECS)(views.create_mail),
         {'template': 'campaigns/%s.html' % settings.CAMPAIGN}, name='campaign'),
-    url(r'^email/$', views.email, name='email'),
+    url(r'^email/$', csrf_exempt(views.email), name='email'),
     url(r'^email/(?P<secure_id>[a-z0-9-]+)/$', cache_page(API_CACHE_SECS)(views.email_detail), name='email-detail'),
 
     # UTM - This rather strict regex is part of ensuring we don't let people just
