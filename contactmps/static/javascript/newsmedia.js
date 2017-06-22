@@ -16,7 +16,9 @@ var recaptchaLoaded = function() {
     'expired-callback': gReCaptchaExpired
   });
   console.info("recaptcha rendered");
-  pymChild.sendHeight();
+  if (typeof pymChild !== undefined) {
+    pymChild.sendHeight();
+  }
 };
 
 var template = "Honourable Member {{{ recipient_name }}},\n\
@@ -154,4 +156,6 @@ $('#select-dropdown').on("change", function(e) {
   chooseMP(mp);
 });
 
-$(".choose .single-mp").first().click();
+$(window).on('load', function() {
+  $(".choose .single-mp").first().click();
+});
