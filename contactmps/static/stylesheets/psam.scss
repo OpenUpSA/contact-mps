@@ -68,8 +68,9 @@ header {
 
 .choose {
   width: 100%;
-  padding: 0 5px;
-  border-bottom: 3px solid #fff;
+  padding: 0 10px 10px 10px;
+  margin-bottom: 20px;
+
   background-color: $green;
   .mp-wrap {
     @media (max-width: 500px) {
@@ -134,7 +135,8 @@ header {
 }
 
 .dropdown-wrap {
-  border-bottom: 3px solid #fff;
+  padding-bottom: 10px;
+
   #select-dropdown {
     width: 100%;
     color: $gold !important;
@@ -314,7 +316,7 @@ header {
   padding: 10px 20px 20px;
   background-color: $chili-red;
   color: white;
-  border-bottom: 3px solid #fff;
+  margin-bottom: 20px;
 
   input[type="submit"] {
     background-color: $gold;
@@ -338,22 +340,27 @@ header {
   }
 
   .top {
-    padding: 10px 20px;
     .selected-mp-wrap {
       width: 100%;
       display: block;
-      text-align: center;
       .mp-img-wrapper {
         width: 100px;
         height: 100px;
+        margin: auto;
       }
     }
 
+    h3 {
+      margin-top: 0px;
+    }
+
     .mp-name {
-      text-align: center;
-      padding: 10px;
       font-size: 16px;
       font-weight: 600;
+
+      .button {
+        text-align: center;
+      }
 
       .pa-link {
         font-weight: normal;
@@ -361,6 +368,8 @@ header {
         background-color: $gold;
         color: #fff !important;
         margin-top: 10px;
+        margin-bottom: 10px;
+
         display: inline-block;
         font-size: 16px;
         &:hover {
@@ -457,9 +466,10 @@ header {
 
 .social-sharing {
   padding: 15px;
+  margin-bottom: 20px;
   text-align: center;
   background-color: $green;
-  border-bottom: 3px solid #fff;
+
   a {
     display: inline;
     border-radius: 0;
