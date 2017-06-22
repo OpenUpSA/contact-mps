@@ -20,6 +20,11 @@ var recaptchaLoaded = function() {
   }
 };
 
+$(window).on('load', function() {
+  $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
+  console.log("loading recaptcha async");
+});
+
 var template = "Honourable Member {{{ recipient_name }}},\n\
 \n\
 I am a citizen from {{{ location }}}. I am {{{ concern }}} concerned about the levels of corruption in our country and I feel it is very important for my voice to be heard.\n\
