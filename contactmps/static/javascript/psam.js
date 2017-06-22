@@ -50,7 +50,7 @@ if ($('.create-email-page').length > 0) {
   });
 
   $('select.choose-province').select2({
-    placeholder: 'Where do you live?',
+    placeholder: 'Your province',
   });
 
   $('form#email-form').on('submit', function(e) {
