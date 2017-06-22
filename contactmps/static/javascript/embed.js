@@ -8,6 +8,10 @@ var agent = navigator.userAgent.toLowerCase();
 if (agent.includes("mobile") && agent.includes("android")) {
   // addEventListener only available in later chrome versions
   window.addEventListener("load",function(){
+    window.addEventListener('error', function(e) {
+      ga('send', 'event', 'JavaScript Error Parent', e.filename + ':  ' + e.lineno, e.message);
+    });
+
     document.getElementById("contactmps-embed-parent").children[0].setAttribute("height", "3000px");
   });
   document.write('<div id="contactmps-embed-parent" style="height: 3000px"></div>');

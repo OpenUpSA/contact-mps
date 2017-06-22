@@ -15,7 +15,6 @@ var recaptchaLoaded = function() {
     'callback': gReCaptchaValidated,
     'expired-callback': gReCaptchaExpired
   });
-  console.info("recaptcha rendered");
   if (typeof pymChild !== undefined) {
     pymChild.sendHeight();
   }
@@ -126,7 +125,6 @@ function updateBody($form, recipientName) {
   };
   var body = Mustache.render(template, context);
   $form.find('input[name=body]').val(body);
-  console.log(body);
 }
 
 function chooseMP(mp) {
