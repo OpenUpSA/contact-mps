@@ -15,8 +15,9 @@ var recaptchaLoaded = function() {
     'callback': gReCaptchaValidated,
     'expired-callback': gReCaptchaExpired
   });
-  console.info("recaptcha rendered");
-  pymChild.sendHeight();
+  if (typeof pymChild !== undefined) {
+    pymChild.sendHeight();
+  }
 };
 
 var template = "Honourable Member {{{ recipient_name }}},\n\
@@ -124,7 +125,6 @@ function updateBody($form, recipientName) {
   };
   var body = Mustache.render(template, context);
   $form.find('input[name=body]').val(body);
-  console.log(body);
 }
 
 function chooseMP(mp) {
@@ -154,4 +154,6 @@ $('#select-dropdown').on("change", function(e) {
   chooseMP(mp);
 });
 
-$(".choose .single-mp").first().click();
+$(window).on('load', function() {
+  $(".choose .single-mp").first().click();
+});
