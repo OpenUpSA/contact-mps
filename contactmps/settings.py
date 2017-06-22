@@ -176,7 +176,6 @@ PIPELINE = {
         },
         'js': {
             'source_filenames': (
-                'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
                 'javascript/select2.min.js',
                 'bower_components/mustache.js/mustache.js',
                 'javascript/%s.js' % CAMPAIGN,
