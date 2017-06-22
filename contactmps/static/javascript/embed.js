@@ -12,12 +12,11 @@ if (agent.includes("mobile") && agent.includes("android")) {
       ga('send', 'event', 'JavaScript Error Parent', e.filename + ':  ' + e.lineno, e.message);
     });
 
-    document.getElementById("contactmps-embed-parent").children[0].setAttribute("height", "3000px");
   });
-  document.write('<div id="contactmps-embed-parent" style="height: 3000px"></div>');
+  // Don't initialise pymParent! we iframe it ourselves!
+  document.write('<div id="contactmps-embed-parent" style="height: 3000px"><iframe src="' + baseurl + '/campaign/newsmedia/" width="100%" scrolling="no" marginheight="0" frameborder="0" height="3000px" style="height: 3000px"></script></div>');
 } else {
   document.write('<div id="contactmps-embed-parent"></div>');
+  document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.v1.min.js" crossorigin="anonymous"></script>');
+  document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/newsmedia/', {});</script>");
 }
-document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.v1.min.js" crossorigin="anonymous"></script>');
-
-document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/newsmedia/', {});</script>");
