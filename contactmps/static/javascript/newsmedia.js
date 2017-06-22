@@ -1,9 +1,12 @@
+var reCaptchaValid = false;
 var gReCaptchaValidated = function() {
   $("input[type=submit]").removeAttr('disabled');
+  reCaptchaValid = true;
 };
 
 var gReCaptchaExpired = function() {
   $("input[type=submit]").attr('disabled','disabled');
+  reCaptchaValid = false;
 };
 
 var recaptchaLoaded = function() {
@@ -80,6 +83,12 @@ if ($('.create-email-page').length > 0) {
     if ($form.find('select[name=province]').val() === '') {
       alert("Please choose a province");
       $form.find('select[name=province]').focus();
+      e.preventDefault();
+      return;
+    }
+
+    if (!reCaptchaValid) {
+      alert("Please prove you are human first");
       e.preventDefault();
       return;
     }
