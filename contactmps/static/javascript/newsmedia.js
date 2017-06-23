@@ -44,9 +44,22 @@ $(window).on('load', function() {
         text: p.name + (p.party ? (' - ' + p.party.name) : ''),
       };
     });
+
     data.sort(function(a, b) {
       return a.text.localeCompare(b.text);
     });
+
+    $(".choose .single-mp").click(function() {
+      var selectedId = parseInt($(this).data('id'));
+      chooseMP(mps[selectedId]);
+    });
+
+    $('#select-dropdown').on("change", function(e) {
+      var selectedId = parseInt($(this).val());
+      chooseMP(mps[selectedId]);
+    });
+
+    $(".choose .single-mp").first().click();
 
     $('select.use-select2').select2({
       data: data,
@@ -153,15 +166,3 @@ function chooseMP(mp) {
   updateBody($('form#email-form'));
   pymChild.sendHeight();
 }
-
-$(".choose .single-mp").click(function() {
-  var selectedId = parseInt($(this).data('id'));
-  chooseMP(mps[selectedId]);
-});
-
-$('#select-dropdown').on("change", function(e) {
-  var selectedId = parseInt($(this).val());
-  chooseMP(mps[selectedId]);
-});
-
-$(".choose .single-mp").first().click();
