@@ -1,3 +1,14 @@
+var template = "Honourable Member {{{ recipient_name }}},\n\
+\n\
+I am a citizen from {{{ location }}}. I am {{{ concern }}} concerned about the levels of corruption in our country and I feel it is very important for my voice to be heard.\n\
+In particular the upcoming vote of no confidence in parliament is something I feel I want to voice my opinion on. I would urge you {{{ action_request }}} the vote of no confidence.\n\
+{{{ other_issues }}}\
+\n\
+As a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\
+\n\
+Sincerely,\n\
+{{{ sender_name }}}";
+
 var reCaptchaValid = false;
 var gReCaptchaValidated = function() {
   $("input[type=submit]").removeAttr('disabled');
@@ -21,42 +32,32 @@ var recaptchaLoaded = function() {
 };
 
 $(window).on('load', function() {
-  $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
-  console.log("loading recaptcha async");
+  if ($('.create-email-page').length > 0) {
+    // load the data into the dropdown
+    var mps = {};
+
+    var data = persons.map(function(p) {
+      mps[p.id] = p;
+
+      return {
+        id: p.id,
+        text: p.name + (p.party ? (' - ' + p.party.name) : ''),
+      };
+    });
+    data.sort(function(a, b) {
+      return a.text.localeCompare(b.text);
+    });
+
+    $('select.use-select2').select2({
+      data: data,
+      placeholder: 'Choose an MP',
+    });
+
+    $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
+  }
 });
 
-var template = "Honourable Member {{{ recipient_name }}},\n\
-\n\
-I am a citizen from {{{ location }}}. I am {{{ concern }}} concerned about the levels of corruption in our country and I feel it is very important for my voice to be heard.\n\
-In particular the upcoming vote of no confidence in parliament is something I feel I want to voice my opinion on. I would urge you {{{ action_request }}} the vote of no confidence.\n\
-{{{ other_issues }}}\
-\n\
-As a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\
-\n\
-Sincerely,\n\
-{{{ sender_name }}}";
-
 if ($('.create-email-page').length > 0) {
-  // load the data into the dropdown
-  var mps = {};
-
-  var data = persons.map(function(p) {
-    mps[p.id] = p;
-
-    return {
-      id: p.id,
-      text: p.name + (p.party ? (' - ' + p.party.name) : ''),
-    };
-  });
-  data.sort(function(a, b) {
-    return a.text.localeCompare(b.text);
-  });
-
-  $('select.use-select2').select2({
-    data: data,
-    placeholder: 'Choose an MP',
-  });
-
   $('select.choose-province').select2({
     placeholder: 'Where do you live?',
   });
