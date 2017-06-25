@@ -1,21 +1,3 @@
-var gReCaptchaValidated = function() {
-  $("input[type=submit]").removeAttr('disabled');
-};
-
-var gReCaptchaExpired = function() {
-  $("input[type=submit]").attr('disabled','disabled');
-};
-
-var recaptchaLoaded = function() {
-  grecaptcha.render('recaptcha', {
-    'sitekey': recaptchaKey,
-    'callback': gReCaptchaValidated,
-    'expired-callback': gReCaptchaExpired
-  });
-  console.info("recaptcha rendered");
-  pymChild.sendHeight();
-};
-
 var template = "Honourable Member {{{ recipient_name }}},\n\
 \n\
 As an elected representative of the people you will soon be required to cast a vote in the Motion of No Confidence tabled against President Zuma.\n\
@@ -34,27 +16,72 @@ Sincerely,\n\
 {{{ sender_name }}}\n\
 {{{ location }}}";
 
+var reCaptchaValid = false;
+var gReCaptchaValidated = function() {
+  $("input[type=submit]").removeAttr('disabled');
+  reCaptchaValid = true;
+};
+
+var gReCaptchaExpired = function() {
+  $("input[type=submit]").attr('disabled','disabled');
+  reCaptchaValid = false;
+};
+
+var recaptchaLoaded = function() {
+  grecaptcha.render('recaptcha', {
+    'sitekey': recaptchaKey,
+    'callback': gReCaptchaValidated,
+    'expired-callback': gReCaptchaExpired
+  });
+  if (typeof pymChild !== undefined) {
+    pymChild.sendHeight();
+  }
+};
+
+$(function() {
+  if ($('.create-email-page').length > 0) {
+    $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
+  }
+});
+
+$(window).on('load', function() {
+  if ($('.create-email-page').length > 0) {
+    // load the data into the dropdown
+    var mps = {};
+
+    var data = persons.map(function(p) {
+      mps[p.id] = p;
+
+      return {
+        id: p.id,
+        text: p.name + (p.party ? (' - ' + p.party.name) : ''),
+      };
+    });
+
+    data.sort(function(a, b) {
+      return a.text.localeCompare(b.text);
+    });
+
+    $(".choose .single-mp").click(function() {
+      var selectedId = parseInt($(this).data('id'));
+      chooseMP(mps[selectedId]);
+    });
+
+    $('#select-dropdown').on("change", function(e) {
+      var selectedId = parseInt($(this).val());
+      chooseMP(mps[selectedId]);
+    });
+
+    $(".choose .single-mp").first().click();
+
+    $('select.use-select2').select2({
+      data: data,
+      placeholder: 'Choose an MP',
+    });
+  }
+});
+
 if ($('.create-email-page').length > 0) {
-  // load the data into the dropdown
-  var mps = {};
-
-  var data = persons.map(function(p) {
-    mps[p.id] = p;
-
-    return {
-      id: p.id,
-      text: p.name + (p.party ? (' - ' + p.party.name) : ''),
-    };
-  });
-  data.sort(function(a, b) {
-    return a.text.localeCompare(b.text);
-  });
-
-  $('select.use-select2').select2({
-    data: data,
-    placeholder: 'Choose an MP',
-  });
-
   $('select.choose-province').select2({
     placeholder: 'Your province',
   });
@@ -87,6 +114,12 @@ if ($('.create-email-page').length > 0) {
       $form.find('input[name=email]').val('noconfidence2017@gmail.com');
     }
 
+    if (!reCaptchaValid) {
+      alert("Please prove you are human first");
+      e.preventDefault();
+      return;
+    }
+
     updateBody($('form#email-form'));
     ga('send', 'event', 'submission');
   });
@@ -107,7 +140,6 @@ function updateBody($form, recipientName) {
   };
   var body = Mustache.render(template, context);
   $form.find('input[name=body]').val(body);
-  console.log(body);
 }
 
 function chooseMP(mp) {
@@ -124,15 +156,3 @@ function chooseMP(mp) {
   updateBody($('form#email-form'));
   pymChild.sendHeight();
 }
-
-$(".choose .single-mp").click(function() {
-  var selectedId = parseInt($(this).data('id'));
-  chooseMP(mps[selectedId]);
-});
-
-$('#select-dropdown').on("change", function(e) {
-  var selectedId = parseInt($(this).val());
-  chooseMP(mps[selectedId]);
-});
-
-$(".choose .single-mp").first().click();

@@ -10,7 +10,11 @@
 
   <p>To embed this on your site, copy this code and inset as HTML:</p>
   <code>
+    {% if campaign == "newsmedia" %}
     &lt;script type="text/javascript" src="{{ BASE_URL }}/static/javascript/embed.js" &gt;&lt;/script&gt;
+    {% else %}
+    &lt;script type="text/javascript" src="{{ BASE_URL }}/static/javascript/embed-{{ campaign }}.js" &gt;&lt;/script&gt;
+    {% endif %}
   </code>
 </div>
 
