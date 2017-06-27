@@ -124,6 +124,12 @@ Looks like People's Assembly produces a dump around 01:30 GMT so set a cron job 
 0 0 0 0 0 dokku run --rm ...
 ```
 
+# Undelivered mail
+
+```SQL
+\copy (select from_name, from_email, created_at, subject, body_txt from contactmps_email where lower(to_addresses) like '%andries.nel@parliament.gov.za%') to '/home/jdb/proj/code4sa/contact-mps/undelivered-andries.nel@parliament.gov.za.csv' csv header;
+```
+
 License
 -------
 
