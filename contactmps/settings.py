@@ -186,6 +186,12 @@ PIPELINE = {
             ),
             'output_filename': '%s.js' % CAMPAIGN,
         },
+        'js-ajax': {
+            'source_filenames': (
+                'javascript/%s.js' % CAMPAIGN,
+            ),
+            'output_filename': '%s.js' % CAMPAIGN,
+        },
         'embed.js': {
             'source_filenames': (
                 'javascript/embed.js',
@@ -198,6 +204,12 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/select2.min.css',
+                'stylesheets/%s.scss' % CAMPAIGN,
+            ),
+            'output_filename': '%s.css' % CAMPAIGN,
+        },
+        'css-ajax': {
+            'source_filenames': (
                 'stylesheets/%s.scss' % CAMPAIGN,
             ),
             'output_filename': '%s.css' % CAMPAIGN,
