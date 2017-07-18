@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='email',
             name='secure_id',
-            field=models.CharField(blank=True, default=contactmps.models.secure_id, max_length=100, unique=True),
+            field=models.CharField(blank=True, default=contactmps.models.secure_random_string, max_length=100, unique=True),
         ),
     ]
