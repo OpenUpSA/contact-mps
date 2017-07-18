@@ -47,18 +47,16 @@ def secret_ballot(request, template=None):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
     persons = Person.objects \
+        .filter(pa_id='core_person:4175') \
         .filter(contactdetails__type='email') \
         .annotate(num_emails=Count('email')) \
         .prefetch_related('party', 'contactdetails')
 
-    # of those MPs that are less emailed, randomly choose 4
-    neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
-    persons_json = json.dumps([p.as_dict() for p in persons])
+    recipient = persons.first()
 
     return render(request, template, {
-        'persons': persons,
-        'neglected_persons': neglected_persons,
-        'persons_json': persons_json,
+        'recipient': recipient,
+        'recipient_json': json.dumps(recipient.as_dict()),
         'form': EmailForm(),
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
