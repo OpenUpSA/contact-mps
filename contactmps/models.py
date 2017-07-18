@@ -168,4 +168,4 @@ class SenderQA(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return u"Q: %s...A: %s" % (self.from_email[:100], self.to_addresses)
+        return u"%d Q: %s...A: %s" % (self.email.id, self.question[:100], self.answer)
