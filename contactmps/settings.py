@@ -16,14 +16,18 @@ BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 
 CAMPAIGN = os.environ.get('CAMPAIGN')
 
+SITE_DESCRIPTION = "How do you feel about the vote of no confidence in the President? Email your MP. Your Parliament. Your Voice."
+
 if CAMPAIGN == "newsmedia":
     SITE_HASHTAG = '#NoConfidenceVote'
     SITE_NAME = SITE_HASHTAG
 elif CAMPAIGN == "psam":
     SITE_HASHTAG = '#RepresentMe'
     SITE_NAME = SITE_HASHTAG
-
-SITE_DESCRIPTION = "How do you feel about the vote of no confidence in the President? Email your MP. Your Parliament. Your Voice."
+elif CAMPAIGN == "secretballot":
+    SITE_HASHTAG = '#SecretBallot'
+    SITE_NAME = SITE_HASHTAG
+    SITE_DESCRIPTION = "Do you support a secret ballot for the vote of no confidence?"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -174,10 +178,24 @@ PIPELINE = {
             ),
             'output_filename': 'base.js',
         },
+        'base-ajax': {
+            'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/base.js',
+            ),
+            'output_filename': 'base.js',
+        },
         'js': {
             'source_filenames': (
                 'javascript/select2.min.js',
                 'bower_components/mustache.js/mustache.js',
+                'javascript/%s.js' % CAMPAIGN,
+            ),
+            'output_filename': '%s.js' % CAMPAIGN,
+        },
+        'js-ajax': {
+            'source_filenames': (
                 'javascript/%s.js' % CAMPAIGN,
             ),
             'output_filename': '%s.js' % CAMPAIGN,
@@ -194,6 +212,12 @@ PIPELINE = {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/select2.min.css',
+                'stylesheets/%s.scss' % CAMPAIGN,
+            ),
+            'output_filename': '%s.css' % CAMPAIGN,
+        },
+        'css-ajax': {
+            'source_filenames': (
                 'stylesheets/%s.scss' % CAMPAIGN,
             ),
             'output_filename': '%s.css' % CAMPAIGN,
