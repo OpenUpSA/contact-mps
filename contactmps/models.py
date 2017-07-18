@@ -11,7 +11,7 @@ EMAIL_RE = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 log = logging.getLogger(__name__)
 
 
-def secure_id():
+def secure_random_string():
     return os.urandom(24).encode('hex')
 
 
@@ -105,7 +105,12 @@ class Email(models.Model):
     from_email = models.EmailField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    secure_id = models.CharField(max_length=100, blank=True, unique=True, default=secure_id)
+    # This is what we use make it viewable online, but only to anyone who knows the URL
+    secure_id = models.CharField(max_length=100, blank=True, unique=True, default=secure_random_string)
+    # This is what we only present to the sender so that they can answer questions
+    # that we can tie to an (eventually anonymous) individual.
+    # THIS SHOULD NOT BE PART OF THE STANDARD as_dict dict.
+    sender_secret = models.CharField(max_length=100, blank=True, unique=True, default=secure_random_string)
 
     @property
     def body_html(self):
@@ -153,3 +158,14 @@ class Email(models.Model):
 
     def __unicode__(self):
         return u"From: %s To: %s" % (self.from_email, self.to_addresses)
+
+
+class SenderQA(models.Model):
+    email = models.ForeignKey(Email)
+    question = models.TextField(null=False, blank=False)
+    answer = models.TextField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return u"Q: %s...A: %s" % (self.from_email[:100], self.to_addresses)

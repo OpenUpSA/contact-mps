@@ -12,6 +12,7 @@ import random
 from .models import (
     Email,
     Person,
+    SenderQA,
 )
 import json
 import logging
@@ -63,7 +64,7 @@ def secret_ballot(request, template=None):
 
 
 @xframe_options_exempt
-def create_mail(request, template=None):
+def campaign(request, template=None):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
     persons = Person.objects \
@@ -159,7 +160,28 @@ def api_email(request):
     email.save()
     email.send()
 
-    return JsonResponse(email.as_dict())
+    email_dict = email.as_dict()
+    # Add secret because this is only shown to the sender
+    email_dict['sender_secret'] = email.sender_secret
+    return JsonResponse(email_dict)
+
+
+@require_POST
+@xframe_options_exempt
+def api_qa(request, secure_id):
+    """ Accept URL-encoded request body. Responds with JSON-encoded body """
+
+    email = get_object_or_404(Email, secure_id=secure_id)
+    if email.sender_secret != request.POST['sender_secret']:
+        return JsonResponse({'error': 'incorrect sender_secret'}, status=403)
+
+    SenderQA.objects.create(
+        email=email,
+        question=request.POST['question'],
+        answer=request.POST['answer'],
+    )
+
+    return JsonResponse("success", safe=False)
 
 
 @xframe_options_exempt

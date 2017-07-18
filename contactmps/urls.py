@@ -17,13 +17,14 @@ urlpatterns = [
     # one campaign per instance which is an important assumption right now.
     url(r'^campaign/secretballot/$', cache_page(API_CACHE_SECS)(views.secret_ballot),
         {'template': 'campaigns/secretballot.html'}, name='secret-ballot'),
-    url(r'^campaign/%s/$' % settings.CAMPAIGN, cache_page(API_CACHE_SECS)(views.create_mail),
+    url(r'^campaign/%s/$' % settings.CAMPAIGN, cache_page(API_CACHE_SECS)(views.campaign),
         {'template': 'campaigns/%s.html' % settings.CAMPAIGN}, name='campaign'),
     url(r'^email/$', csrf_exempt(views.email), name='email'),
     url(r'^email/(?P<secure_id>[a-z0-9-]+)/$', cache_page(API_CACHE_SECS)(views.email_detail), name='email-detail'),
 
     # API
     url(r'^api/v1/email/$', csrf_exempt(views.api_email), name='api-email'),
+    url(r'^api/v1/email/(?P<secure_id>[a-z0-9-]+)/qa/$', csrf_exempt(views.api_qa), name='api-qa'),
 
     # UTM - This rather strict regex is part of ensuring we don't let people just
     # inject what they like into a response we give. Think before changing.
