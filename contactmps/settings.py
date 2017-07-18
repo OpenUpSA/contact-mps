@@ -178,6 +178,14 @@ PIPELINE = {
             ),
             'output_filename': 'base.js',
         },
+        'base-ajax': {
+            'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/base.js',
+            ),
+            'output_filename': 'base.js',
+        },
         'js': {
             'source_filenames': (
                 'javascript/select2.min.js',
