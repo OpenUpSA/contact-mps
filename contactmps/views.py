@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
@@ -123,6 +123,45 @@ def email(request):
     email.send()
 
     return redirect(reverse('email-detail', kwargs={'secure_id': email.secure_id}))
+
+
+@require_POST
+@xframe_options_exempt
+def api_email(request):
+    """ Accept URL-encoded request body. Responds with JSON-encoded body """
+    form = EmailForm(request.POST)
+
+    payload = {
+        'secret': settings.RECAPTCHA_SECRET,
+        'response': request.POST['gRecaptchaResponse'],
+    }
+    r = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)
+    r.raise_for_status()
+
+    if not form.is_valid() or (not settings.DEBUG and not r.json()['success']):
+        log.error("Email form validation error: %r", form.errors)
+        return JsonResponse({'errors': form.errors.as_json()}, status=400)
+
+    person = get_object_or_404(Person, pk=form.cleaned_data['person'])
+
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
+    else:
+        remote_ip = request.META.get('REMOTE_ADDR', '')
+
+    email = Email(
+        to_person=person,
+        from_name=form.cleaned_data['name'],
+        from_email=form.cleaned_data['email'],
+        body_txt=form.cleaned_data['body'],
+        subject=form.cleaned_data['subject'],
+        remote_ip=remote_ip,
+        user_agent=request.META.get('HTTP_USER_AGENT')
+    )
+    email.save()
+    email.send()
+
+    return JsonResponse(email.as_dict())
 
 
 @xframe_options_exempt
