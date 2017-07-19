@@ -17,8 +17,8 @@ $(".protest-march-answer-box .toggle-select-protest").click(function() {
   $(this).addClass("selected");
 });
 
-// $("#secret-ballot-preview-message").hide();
-// $("#secret-ballot-sent").hide();
+$("#secret-ballot-preview-message").hide();
+$("#secret-ballot-sent").hide();
 
 $("#previewEmail").click(function(e) {
   e.preventDefault();
@@ -40,7 +40,7 @@ $("#previewEmail").click(function(e) {
   $("#email-title").text(emailSubject);
 
   $("#comment-preview").html("<p>Dear Madam Speaker,</p><p>I am a citizen of South Africa and I want to let you know that <b>" + emailSubject + " in President Jacob Zuma</b>.</p>" + emailContent + "</p><p>You represent all South Africans, including me. Please choose in favour of good governance - a governance that is best suited to realising my hopes for our future.</p><p>Yours sincerely,</p><p>" + senderName + "</p>");
-  // $("#secret-ballot-build-message").hide();
+  $("#secret-ballot-build-message").hide();
   $("#secret-ballot-preview-message").show();
   location.hash = "#secret-ballot-preview-message";
 });
@@ -48,7 +48,7 @@ $("#previewEmail").click(function(e) {
 $("#editEmail").click(function(e) {
   e.preventDefault();
   $("#secret-ballot-build-message").show();
-  // $("#secret-ballot-preview-message").hide();
+  $("#secret-ballot-preview-message").hide();
   location.hash = "#email-secret";
 });
 
