@@ -74,7 +74,7 @@ function submitForm() {
       email: senderEmail,
       body: emailContent,
       subject: emailSubject,
-      gRecaptchaResponse: grecaptcha.getResponse();,
+      // gRecaptchaResponse: grecaptcha.getResponse();,
     },
     success: function(data) {
       console.info("success", data);
