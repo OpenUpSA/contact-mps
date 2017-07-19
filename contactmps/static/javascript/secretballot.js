@@ -50,16 +50,6 @@ $("#editEmail").click(function(e) {
   // $("#secret-ballot-preview-message").hide();
 });
 
-$("#sendEmail").click(function(e) {
-  e.preventDefault();
-
-
-  // $("#secret-ballot-preview-message").hide();
-  // $("#secret-ballot-sent").show();
-
-  location.hash = "#secret-ballot-sent";
-});
-
 function submitForm() {
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
