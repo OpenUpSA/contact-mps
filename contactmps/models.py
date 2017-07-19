@@ -140,18 +140,15 @@ class Email(models.Model):
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
 
             url = settings.BASE_URL + reverse('email-detail', kwargs={'secure_id': self.secure_id})
-            body_txt = "%s\n\nThis message can also be viewed at %s" % (self.body_txt, url)
-            body_html = "%s<br><br>This message can also be viewed at <a href=\"%s\">%s</a>" % (
-                self.body_html, url, url)
 
             email = EmailMultiAlternatives(
                 self.subject,
-                body_txt,
+                self.body_txt,
                 sender,
                 recipients,
                 cc=[sender],
             )
-            email.attach_alternative(body_html, "text/html")
+            email.attach_alternative(self.body_html, "text/html")
             email.send()
         self.to_addresses = ", ".join(recipients)
         self.save()
