@@ -1,3 +1,7 @@
+$(window).on('load', function() {
+    $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
+});
+
 var daysRemaining=(function(){ 
     var oneDay = 24*60*60*1000;
     var decision = new Date(2017, 7, 8, 23, 59);
@@ -42,6 +46,7 @@ function emailSent() {
   $('#follow-up-answer-1').text(q.a[0]);
   $('#follow-up-answer-2').text(q.a[1]);
 
+  $("#secret-ballot-preview-message").hide();
   $("#secret-ballot-sent").show();
 }
 
@@ -99,6 +104,50 @@ $("#editEmail").click(function(e) {
   location.hash = "#email-secret";
 });
 
+var reCaptchaValid = false;
+var gReCaptchaValidated = function() {
+  $("input[type=submit]").removeAttr('disabled');
+  reCaptchaValid = true;
+};
+
+var gReCaptchaExpired = function() {
+  $("input[type=submit]").attr('disabled','disabled');
+  reCaptchaValid = false;
+};
+
+var recaptchaLoaded = function() {
+  grecaptcha.render('recaptcha', {
+    'sitekey': recaptchaKey,
+    'callback': gReCaptchaValidated,
+    'expired-callback': gReCaptchaExpired
+  });
+  if (typeof pymChild !== undefined) {
+    pymChild.sendHeight();
+  }
+};
+
+var reCaptchaValid = false;
+var gReCaptchaValidated = function() {
+  $("input[type=submit]").removeAttr('disabled');
+  reCaptchaValid = true;
+};
+
+var gReCaptchaExpired = function() {
+  $("input[type=submit]").attr('disabled','disabled');
+  reCaptchaValid = false;
+};
+
+var recaptchaLoaded = function() {
+  grecaptcha.render('recaptcha', {
+    'sitekey': recaptchaKey,
+    'callback': gReCaptchaValidated,
+    'expired-callback': gReCaptchaExpired
+  });
+  if (typeof pymChild !== undefined) {
+    pymChild.sendHeight();
+  }
+};
+
 function submitForm() {
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
@@ -108,12 +157,12 @@ function submitForm() {
   jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
-      person: 7720,
+      person: recipient.id,
       name: senderName,
       email: senderEmail,
       body: emailContent,
       subject: emailSubject,
-      // gRecaptchaResponse: grecaptcha.getResponse();,
+      gRecaptchaResponse: grecaptcha.getResponse(),
     },
     success: function(data) {
       console.info("success", data);
