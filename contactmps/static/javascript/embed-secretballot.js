@@ -1,3 +1,10 @@
+
+if (document.location.hostname == "localhost") {
+    var baseurl = "";
+} else {
+    var baseurl = "https://noconfidencevote.openup.org.za";
+}
+
 var agent = navigator.userAgent.toLowerCase();
 if (agent.includes("mobile") && agent.includes("android") && window.location.includes("local.app")) {
   // addEventListener only available in later chrome versions
@@ -24,11 +31,6 @@ if (agent.includes("mobile") && agent.includes("android") && window.location.inc
   });
 }
 
-if (document.location.hostname == "localhost") {
-    var baseurl = "";
-} else {
-    var baseurl = "https://noconfidencevote.openup.org.za";
-}
 document.write('<div id="contactmps-embed-parent"></div>');
 document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.v1.min.js"></script>');
 
