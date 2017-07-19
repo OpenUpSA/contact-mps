@@ -18,6 +18,8 @@ $(".toggle-button-question .toggle-select").click(function() {
 
 
 /* follow-up questions */
+var senderSecret = null,
+    emailId = null;
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -56,15 +58,23 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   $(".follow-up-question-box .toggle-select-follow-up").removeClass("selected");
   $this.addClass("selected");
 
-  var q = $('.follow-up-question').text();
-  var a = $this.text();
+  var q = $('.follow-up-question').text().trim();
+  var a = $this.text().trim();
 
   $('.follow-up-question p').text('Thanks!');
   $('.follow-up-answer-box').hide();
 
-  ga('send', 'event', 'follow-up', 'answered', q);
+  // submit to server
+  jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
+    type: 'POST',
+    data: {
+      question: q,
+      answer: a,
+      sender_secret: senderSecret,
+    },
+  });
 
-  // TODO: submit to server
+  ga('send', 'event', 'follow-up', 'answered', q);
 });
 
 
@@ -166,6 +176,10 @@ function submitForm() {
     },
     success: function(data) {
       console.info("success", data);
+
+      senderSecret = data.sender_secret;
+      emailId = data.secure_id;
+
       emailSent();
     },
     error: function(jqXHR, textStatus, errorThrown) {
