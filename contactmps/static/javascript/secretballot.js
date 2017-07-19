@@ -18,9 +18,7 @@ $(".protest-march-answer-box .toggle-select-protest").click(function() {
     $(this).addclass("selected");
 });
 
-
-
-$("#secret-ballot-preview-message").hide();
+// $("#secret-ballot-preview-message").hide();
 
 var senderName = $(".name-input").val();
 var senderEmail = $(".email-input").val();
