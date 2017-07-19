@@ -16,10 +16,58 @@ $(".toggle-button-question .toggle-select").click(function() {
   $("#previewEmail").removeClass("disabled");
 });
 
-$(".protest-march-answer-box .toggle-select-protest").click(function() {
-  $(".protest-march-answer-box .toggle-select-protest").removeClass("selected");
-  $(this).addClass("selected");
+
+/* follow-up questions */
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+function emailSent() {
+  // prep follow up questions
+  var questions = [
+    {
+      q: "Have you ever participated in a protest march?",
+      a: ["YES, I have", "NO, I have not"],
+    }, {
+      q: "Is this your first time emailing a Member of Parliament?",
+      a: ["YES, it is", "NO, it is not"],
+    }, {
+      q: "Do you know that all MPs are assigned a constituency, and represent those who live in it?",
+      a: ["YES, I know about that", "NO, I did not know"],
+    },
+  ];
+  var q = questions[getRandomInt(0, questions.length)];
+
+  ga('send', 'event', 'follow-up', 'asked', q);
+  $('.follow-up-question p').text(q.q);
+  $('#follow-up-answer-1').text(q.a[0]);
+  $('#follow-up-answer-2').text(q.a[1]);
+
+  $("#secret-ballot-preview-message").hide();
+  $("#secret-ballot-sent").show();
+}
+
+$(".follow-up-question-box .toggle-select-follow-up").click(function() {
+  var $this = $(this);
+
+  $(".follow-up-question-box .toggle-select-follow-up").removeClass("selected");
+  $this.addClass("selected");
+
+  var q = $('.follow-up-question').text();
+  var a = $this.text();
+
+  $('.follow-up-question p').text('Thanks!');
+  $('.follow-up-answer-box').hide();
+
+  ga('send', 'event', 'follow-up', 'answered', q);
+
+  // TODO: submit to server
 });
+
+
 
 $("#secret-ballot-preview-message").hide();
 $("#secret-ballot-sent").hide();
@@ -118,8 +166,7 @@ function submitForm() {
     },
     success: function(data) {
       console.info("success", data);
-      $("#secret-ballot-preview-message").hide();
-      $("#secret-ballot-sent").show();
+      emailSent();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
