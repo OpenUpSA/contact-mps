@@ -196,9 +196,9 @@ PIPELINE = {
         },
         'js-ajax': {
             'source_filenames': (
-                'javascript/%s.js' % CAMPAIGN,
+                'javascript/secretballot.js',
             ),
-            'output_filename': '%s.js' % CAMPAIGN,
+            'output_filename': 'secretballot.js',
         },
         'embed.js': {
             'source_filenames': (
@@ -218,9 +218,9 @@ PIPELINE = {
         },
         'css-ajax': {
             'source_filenames': (
-                'stylesheets/%s.scss' % CAMPAIGN,
+                'stylesheets/secretballot.scss',
             ),
-            'output_filename': '%s.css' % CAMPAIGN,
+            'output_filename': 'secretballot.css',
         },
         'container': {
             'source_filenames': (

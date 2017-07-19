@@ -44,6 +44,12 @@ def embed(request):
 
 
 @xframe_options_exempt
+def embedded_preview(request):
+    return render(request, 'campaign-embedded-preview.html', {
+    })
+
+
+@xframe_options_exempt
 def secret_ballot(request, template=None):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
