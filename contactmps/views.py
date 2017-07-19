@@ -158,7 +158,8 @@ def api_email(request):
         user_agent=request.META.get('HTTP_USER_AGENT')
     )
     email.save()
-    email.send()
+    # HACK HACK HACK don't send real emails via API for now
+    # email.send()
 
     email_dict = email.as_dict()
     # Add secret because this is only shown to the sender
