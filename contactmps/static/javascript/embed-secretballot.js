@@ -5,30 +5,27 @@ if (document.location.hostname == "localhost") {
     var baseurl = "https://noconfidencevote.openup.org.za";
 }
 
-var agent = navigator.userAgent.toLowerCase();
-if (agent.includes("mobile") && agent.includes("android") && window.location.includes("local.app")) {
-  // addEventListener only available in later chrome versions
-  window.addEventListener("load",function(){
-    function doError(msg, url, ln) {
-      var strValues = "errMsg=" + escape(msg);
-      strValues += "&errLine=" + ln;
-      strValues += "&queryString=" + escape(location.search);
-      strValues += "&Url=" + escape(location.pathname);
-      strValues += "&HTTPRef=" + escape(document.referrer);
+function doError(e) {
+  try {
+    var strValues = "errMsg=" + escape(msg);
+    strValues += "&errLine=" + ln;
+    strValues += "&queryString=" + escape(location.search);
+    strValues += "&Url=" + escape(location.pathname);
+    strValues += "&HTTPRef=" + escape(document.referrer);
 
-      if (typeof XMLHttpRequest != "object") {
-        function XMLHttpRequest() {
-          return new ActiveXObject("Microsoft.XMLHTTP");
-        }
-      }
-      var objSave = new XMLHttpRequest();
-      objSave.open("GET", baseurl + "/errorSave/?" + strValues, false);
-      objSave.send("");
-    }
-    window.addEventListener('error', function(e) {
-      try {    window.onerror = doError;}catch(er) {}
-    });
-  });
+    var objSave = new XMLHttpRequest();
+    objSave.open("GET", baseurl + "/errorSave/?" + strValues, false);
+    objSave.send("");
+  } catch (er) {}
+}
+
+var agent = navigator.userAgent.toLowerCase();
+console.log("agent");
+console.log(document.referrer);
+if (agent.includes("mobile") && agent.includes("android") && document.referrer.includes("local.app")) {
+  // addEventListener only available in later chrome versions
+  window.addEventListener('error', doError);
+  console.log("here");
 }
 
 document.write('<div id="contactmps-embed-parent"></div>');
