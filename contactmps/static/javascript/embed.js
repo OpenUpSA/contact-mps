@@ -9,15 +9,34 @@ var initContactMPsPymParent = function() {
 };
 
 var agent = navigator.userAgent.toLowerCase();
-if (agent.includes("mobile") && agent.includes("android") && document.referrer.includes("local.app")) {
+if (agent.includes("mobile") && agent.includes("android")) {
   // addEventListener only available in later chrome versions
   window.addEventListener("load",function(){
+    function doError(msg, url, ln) {
+      var strValues = "errMsg=" + escape(msg);
+      strValues += "&errLine=" + ln;
+      strValues += "&queryString=" + escape(location.search);
+      strValues += "&Url=" + escape(location.pathname);
+      strValues += "&HTTPRef=" + escape(document.referrer);
+
+      if (typeof XMLHttpRequest != "object") {
+        function XMLHttpRequest() {
+          return new ActiveXObject("Microsoft.XMLHTTP");
+        }
+      }
+      var objSave = new XMLHttpRequest();
+      objSave.open("GET", baseurl + "/errorSave/?" + strValues, false);
+      objSave.send("");
+    }
     window.addEventListener('error', function(e) {
-      ga('send', 'event', 'JavaScript Error Parent', e.filename + ':  ' + e.lineno, e.message);
+      try {    window.onerror = doError;}catch(er) {}
     });
   });
   // Don't initialise pymParent! we iframe it ourselves!
-  document.write('<div id="contactmps-embed-parent" style="height: 2500px; background: url(https://noconfidencevote.openup.org.za/static/images/background.svg); background-repeat: no-repeat"><iframe src="' + baseurl + '/campaign/newsmedia/" width="100%" scrolling="no" marginheight="0" frameborder="0" height="2500px" style="height: 2500px">Loading...</iframe></div>');
+  document.write('<div id="contactmps-embed-parent-nonpym" style="height: 2500px; background: url(https://noconfidencevote.openup.org.za/static/images/background.svg); background-repeat: no-repeat"><iframe src="' + baseurl + '/campaign/newsmedia/" width="100%" scrolling="no" marginheight="0" frameborder="0" height="2500px" style="height: 2500px">Loading...</iframe></div>');
+
+  document.write('<div id="contactmps-embed-parent"></div>');
+  document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.v1.min.js" crossorigin="anonymous" async defer onload="initContactMPsPymParent()"></script>');
 
   // test new app below
   document.write('<script type="text/javascript" src="https://noconfidencevote.openup.org.za/static/javascript/embed-secretballot.js"> </script>');
