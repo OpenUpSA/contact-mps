@@ -13,7 +13,7 @@ $(".days-remaining-number").text(daysRemaining + " days");
 $(".toggle-button-question .toggle-select").click(function() {
   $(".toggle-button-question .toggle-select").removeClass("selected");
   $(this).addClass("selected");
-  $("#previewEmail").removeClass("disabled");
+  $("#previewEmail").prop("disabled", false);
 });
 
 
@@ -43,7 +43,7 @@ function emailSent() {
   ];
   var q = questions[getRandomInt(0, questions.length)];
 
-  ga('send', 'event', 'follow-up', 'asked', q);
+  ga('send', 'event', 'follow-up', 'asked', q.q);
   $('.follow-up-question p').text(q.q);
   $('#follow-up-answer-1').text(q.a[0]);
   $('#follow-up-answer-2').text(q.a[1]);
@@ -86,6 +86,19 @@ $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
+
+  if (senderName === '') {
+    alert('Please enter your name');
+    $('.name-input').focus();
+    return;
+  }
+
+  if (senderEmail === '') {
+    alert('Please enter your email');
+    $('.email-input').focus();
+    return;
+  }
+
   if ($("#comment").val() != "") {
     var emailContent = "<p>Other issues that concern me about the future of South Africa are:</p><p>" + ($("#comment").val().replace(/\n/g, '<br>'))
   } else {
@@ -158,7 +171,9 @@ var recaptchaLoaded = function() {
   }
 };
 
-function submitForm() {
+function submitForm(e) {
+  e.preventDefault();
+
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
   var emailSubject = $("#email-title").text();
@@ -186,4 +201,6 @@ function submitForm() {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
     }
   });
-};
+}
+
+$('#email-secret').on('submit', submitForm);
