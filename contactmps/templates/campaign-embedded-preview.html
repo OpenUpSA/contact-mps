@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load pipeline %}
+
+{% block head-css %}
+{% stylesheet "container" %}
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<div class="embed-text row">
+  <div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 col-lg-5 col-lg-offset-3">
+    <script type="text/javascript" src="/static/javascript/embed-secretballot.js"></script>
+  </div>
+</div>
+{% endblock %}

@@ -13,10 +13,11 @@ API_CACHE_SECS = 5 * 60
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^embed.html$', views.embed, name='embed-info'),
-    # formatting the pattern like this is hacky but it helps ensure that there's
-    # one campaign per instance which is an important assumption right now.
+    url(r'^campaign/secretballot/embedded-preview/$', views.embedded_preview, name='embedded-preview'),
     url(r'^campaign/secretballot/$', cache_page(API_CACHE_SECS)(views.secret_ballot),
         {'template': 'campaigns/secretballot.html'}, name='secret-ballot'),
+    # formatting the pattern like this is hacky but it helps ensure that there's
+    # one campaign per instance which is an important assumption right now.
     url(r'^campaign/%s/$' % settings.CAMPAIGN, cache_page(API_CACHE_SECS)(views.campaign),
         {'template': 'campaigns/%s.html' % settings.CAMPAIGN}, name='campaign'),
     url(r'^email/$', csrf_exempt(views.email), name='email'),
