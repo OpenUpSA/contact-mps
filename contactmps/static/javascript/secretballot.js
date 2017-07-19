@@ -2,7 +2,7 @@ $(window).on('load', function() {
     $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
 
-var daysRemaining=(function(){ 
+var daysRemaining=(function(){
     var oneDay = 24*60*60*1000;
     var decision = new Date(2017, 7, 8, 23, 59);
     return Math.floor(Math.abs((Date.now() - decision.getTime())/(oneDay)));
@@ -187,3 +187,27 @@ function submitForm() {
     }
   });
 };
+
+// https://stackoverflow.com/a/901144/1305080
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function getParentUrl() {
+  return getParameterByName('parentUrl');
+}
+
+$(function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'environment',
+    eventAction: 'loaded-by-parent-url',
+    eventLabel: getParentUrl()
+  });
+});

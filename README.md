@@ -130,6 +130,56 @@ Looks like People's Assembly produces a dump around 01:30 GMT so set a cron job 
 \copy (select from_name, from_email, created_at, subject, body_txt from contactmps_email where lower(to_addresses) like '%andries.nel@parliament.gov.za%') to '/home/jdb/proj/code4sa/contact-mps/undelivered-andries.nel@parliament.gov.za.csv' csv header;
 ```
 
+API
+---
+
+### Sending an email to a member of parliament
+
+```javascript
+var submitForm = function() {
+  jQuery.ajax('/api/v1/email/', {
+    type: 'POST',
+    data: {
+      person: 7720,
+      name: 'Fred Bloggs',
+      email: 'bob@dave.lala',
+      body: 'Dear Baleka, stuff.',
+      subject: 'Re: Secret Ballot in Vote of No Confidence in Jacob Zuma as President of the Republic',
+      gRecaptchaResponse: '2398f49f293fjfj20fj'
+    },
+    success: function(data) {
+      console.info("success", data);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
+    }
+  });
+};
+```
+
+### Submitting answers to questions
+
+Submit answers to arbitrary questions like so, substituting email ID and sender_secret using the values returned when sending the email.
+
+```javascript
+var answer = function(question, answer) {
+  jQuery.ajax('/api/v1/email/159e4b14e63eb218da5da84fa28134f9aa8453496463b595/qa/', {
+    type: 'POST',
+    data: {
+      'question': question,
+      'answer': answer,
+      'sender_secret': '18a99151b30de98de0f9be6f2cc9f9f67c3367cff1359f3',
+    },
+    success: function(data) {
+      console.info(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
+    }
+  });
+}
+```
+
 License
 -------
 
