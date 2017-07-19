@@ -12,10 +12,40 @@ $(".toggle-button-question .toggle-select").click(function() {
   $("#previewEmail").removeClass("disabled");
 });
 
-$(".protest-march-answer-box .toggle-select-protest").click(function() {
-  $(".protest-march-answer-box .toggle-select-protest").removeClass("selected");
-  $(this).addClass("selected");
+
+/* follow-up questions */
+
+function emailSent() {
+  // prep follow up questions
+  var q = "Have you ever participated in a protest march?";
+  var answers = ["YES, I have", "NO, I have not"];
+
+  ga('send', 'event', 'follow-up', 'asked', q);
+  $('.follow-up-question p').text(q);
+  $('#follow-up-answer-1').text(answers[0]);
+  $('#follow-up-answer-2').text(answers[1]);
+
+  $("#secret-ballot-sent").show();
+}
+
+$(".follow-up-question-box .toggle-select-follow-up").click(function() {
+  var $this = $(this);
+
+  $(".follow-up-question-box .toggle-select-follow-up").removeClass("selected");
+  $this.addClass("selected");
+
+  var q = $('.follow-up-question').text();
+  var a = $this.text();
+
+  $('.follow-up-question p').text('Thanks!');
+  $('.follow-up-answer-box').hide();
+
+  ga('send', 'event', 'follow-up', 'answered', q);
+
+  // TODO: submit to server
 });
+
+
 
 $("#secret-ballot-preview-message").hide();
 $("#secret-ballot-sent").hide();
@@ -70,6 +100,7 @@ function submitForm() {
     },
     success: function(data) {
       console.info("success", data);
+      emailSent();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
