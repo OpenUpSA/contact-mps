@@ -1,13 +1,5 @@
-var template = "Honourable Member {{{ recipient_name }}},\n\
-\n\
-I am a citizen from {{{ location }}}. I am {{{ concern }}} concerned about the levels of corruption in our country and I feel it is very important for my voice to be heard.\n\
-In particular the upcoming vote of no confidence in parliament is something I feel I want to voice my opinion on. I would urge you {{{ action_request }}} the vote of no confidence.\n\
-{{{ other_issues }}}\
-\n\
-As a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\
-\n\
-Sincerely,\n\
-{{{ sender_name }}}";
+var template = "Honourable Member {{{ recipient_name }}},\n\nI am a citizen from {{{ location }}}. I am {{{ concern }}} concerned about the levels of corruption in our country and I feel it is very important for my voice to be heard.\nIn particular the upcoming vote of no confidence in parliament is something I feel I want to voice my opinion on. I would urge you {{{ action_request }}} the vote of no confidence.\n{{{ other_issues }}}\
+\nAs a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nSincerely,\n{{{ sender_name }}}";
 
 var reCaptchaValid = false;
 var gReCaptchaValidated = function() {
