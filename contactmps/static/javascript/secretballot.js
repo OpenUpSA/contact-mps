@@ -4,11 +4,12 @@ var daysRemaining=(function(){
     return Math.floor(Math.abs((Date.now() - decision.getTime())/(oneDay)));
 })();
 
-$("#days-remaining").text(daysRemaining);
+$(".days-remaining-number").text(daysRemaining + " days");
 
 $(".toggle-button-question .toggle-select").click(function() {
   $(".toggle-button-question .toggle-select").removeClass("selected");
   $(this).addClass("selected");
+  $("#previewEmail").removeClass("disabled");
 });
 
 $(".protest-march-answer-box .toggle-select-protest").click(function() {
@@ -48,6 +49,7 @@ $("#editEmail").click(function(e) {
   e.preventDefault();
   $("#secret-ballot-build-message").show();
   // $("#secret-ballot-preview-message").hide();
+  location.hash = "#email-secret";
 });
 
 function submitForm() {
