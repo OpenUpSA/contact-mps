@@ -56,7 +56,7 @@ function submitForm() {
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
   var emailSubject = $("#email-title").text();
-  var emailContent = $("#comment-preview").html();
+  var emailContent = $("#comment-preview").text();
 
   jQuery.ajax('/api/v1/email/', {
     type: 'POST',
