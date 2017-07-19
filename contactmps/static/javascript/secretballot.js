@@ -1,6 +1,6 @@
 var daysRemaining=(function(){ 
     var oneDay = 24*60*60*1000;
-    var decision = new Date(2017, 6, 25, 23, 59);
+    var decision = new Date(2017, 7, 8, 23, 59);
     return Math.floor(Math.abs((Date.now() - decision.getTime())/(oneDay)));
 })();
 
