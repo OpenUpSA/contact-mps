@@ -9,7 +9,7 @@ var initContactMPsPymParent = function() {
 };
 
 var agent = navigator.userAgent.toLowerCase();
-if (agent.includes("mobile") && agent.includes("android") && document.referrer == "local.app") {
+if (agent.includes("mobile") && agent.includes("android") && document.referrer.includes("local.app")) {
   // addEventListener only available in later chrome versions
   window.addEventListener("load",function(){
     window.addEventListener('error', function(e) {
