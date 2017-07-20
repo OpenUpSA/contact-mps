@@ -22,13 +22,10 @@ function logError(e) {
 }
 
 var agent = navigator.userAgent.toLowerCase();
-console.log(agent);
-console.log(window.location.href);
 if (agent.includes("mobile") && agent.includes("android") && window.location.href.includes("local.app")) {
   // addEventListener only available in later chrome versions
   if ('addEventListener' in window) {
     window.addEventListener('error', logError);
-    console.log("added ajax error logger");
   }
 }
 
