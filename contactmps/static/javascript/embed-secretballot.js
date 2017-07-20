@@ -36,3 +36,11 @@ document.write('<div id="contactmps-embed-parent"></div>');
 document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.v1.min.js"></script>');
 
 document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/secretballot/', {});</script>");
+
+throw {
+    name:        "TestError",
+    level:       "Benign",
+    message:     "Test error thrown",
+    htmlMessage: "<b>Test</b> error thrown",
+    toString:    function(){return this.name + ": " + this.message;}
+};
