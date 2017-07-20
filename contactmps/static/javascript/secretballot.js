@@ -106,7 +106,7 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
 });
 
 $("#secret-ballot-preview-message").hide();
-$("#secret-ballot-sent").hide();
+$("#secret-ballot-build-message").hide();
 
 $("#previewEmail").click(function(e) {
   e.preventDefault();
