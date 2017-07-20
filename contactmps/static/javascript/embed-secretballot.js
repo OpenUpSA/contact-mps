@@ -7,22 +7,21 @@ if (document.location.hostname == "localhost") {
 
 function logError(e) {
   try {
-    var strValues = "errMsg=" + escape(msg);
-    strValues += "&errLine=" + ln;
-    strValues += "&queryString=" + escape(location.search);
-    strValues += "&Url=" + escape(location.pathname);
-    strValues += "&HTTPRef=" + escape(document.referrer);
+    var strValues = "description=" + escape(e.message);
+    strValues += "&errLine=" + e.lineno;
 
-    var objSave = new XMLHttpRequest();
-    objSave.open("GET", baseurl + "/errorSave/?" + strValues, false);
-    objSave.send("");
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', baseurl + "/errorSave/?" + strValues, false);
+    xhr.send();
+    document.write(".");
+    return xhr;
   } catch (er) {
     // Do absolutely nothing to avoid error loop
   }
 }
 
 var agent = navigator.userAgent.toLowerCase();
-var isAndroidApp = agent.includes("mobile") && agent.includes("android") && window.location.href.includes("local.app");
+var isAndroidApp = agent.includes("android") && window.location.href.includes("local.app");
 if (isAndroidApp) {
   // addEventListener only available in later chrome versions
   if ('addEventListener' in window) {
@@ -38,11 +37,11 @@ document.write('<script type="text/javascript" src="' + baseurl + '/static/javas
 document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/secretballot/', {});</script>");
 
 if (!isAndroidApp) {
-  document.write('<p>...</p>');
+  document.write('...');
 }
 
-document.write('<p style="font-size: xx-small">' + agent + '</p>');
-document.write('<p style="font-size: xx-small">' + window.location.href + '</p>');
+document.write('<span style="font-size: xx-small">' + agent + '</span>');
+document.write('<span style="font-size: xx-small">' + window.location.href + '</span>');
 
 throw {
     name:        "TestError",
