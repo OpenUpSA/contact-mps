@@ -14,6 +14,7 @@ $(".days-remaining-number").text(daysRemaining + " days");
 /* useful vars */
 var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
+var submissionDeferred;
 
 $(".toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
@@ -82,13 +83,15 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   $('.follow-up-answer-box').hide();
 
   // submit to server
-  jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
-    type: 'POST',
-    data: {
-      question: q,
-      answer: a,
-      sender_secret: senderSecret,
-    },
+  submissionDeferred.then(function() {
+    jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
+      type: 'POST',
+      data: {
+        question: q,
+        answer: a,
+        sender_secret: senderSecret,
+      },
+    });
   });
 
   ga('send', 'event', 'follow-up', 'answered', q);
@@ -199,7 +202,7 @@ function submitForm(e) {
   var senderEmail = $(".email-input").val();
   var emailSubject = $("#email-title").text();
 
-  jQuery.ajax('/api/v1/email/', {
+  submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
       person: recipient.id,
@@ -214,13 +217,13 @@ function submitForm(e) {
 
       senderSecret = data.sender_secret;
       emailId = data.secure_id;
-
-      emailSent();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
     }
   });
+
+  emailSent();
 }
 
 $('#email-secret').on('submit', submitForm);
