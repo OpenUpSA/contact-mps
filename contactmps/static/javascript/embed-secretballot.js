@@ -5,7 +5,7 @@ if (document.location.hostname == "localhost") {
     var baseurl = "https://noconfidencevote.openup.org.za";
 }
 
-function doError(e) {
+function logError(e) {
   try {
     var strValues = "errMsg=" + escape(msg);
     strValues += "&errLine=" + ln;
@@ -16,16 +16,20 @@ function doError(e) {
     var objSave = new XMLHttpRequest();
     objSave.open("GET", baseurl + "/errorSave/?" + strValues, false);
     objSave.send("");
-  } catch (er) {}
+  } catch (er) {
+    // Do absolutely nothing to avoid error loop
+  }
 }
 
 var agent = navigator.userAgent.toLowerCase();
-console.log("agent");
-console.log(document.referrer);
-if (agent.includes("mobile") && agent.includes("android") && document.referrer.includes("local.app")) {
+console.log(agent);
+console.log(window.location.href);
+if (agent.includes("mobile") && agent.includes("android") && window.location.href.includes("local.app")) {
   // addEventListener only available in later chrome versions
-  window.addEventListener('error', doError);
-  console.log("here");
+  if ('addEventListener' in window) {
+    window.addEventListener('error', logError);
+    console.log("added ajax error logger");
+  }
 }
 
 document.write('<div id="contactmps-embed-parent"></div>');
