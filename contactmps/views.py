@@ -122,7 +122,7 @@ def email(request):
         body_txt=form.cleaned_data['body'],
         subject=form.cleaned_data['subject'],
         remote_ip=remote_ip,
-        user_agent=request.META.get('HTTP_USER_AGENT')
+        user_agent=request.META.get('HTTP_USER_AGENT'),
     )
     email.save()
     email.send()
@@ -161,7 +161,8 @@ def api_email(request):
         body_txt=form.cleaned_data['body'],
         subject=form.cleaned_data['subject'],
         remote_ip=remote_ip,
-        user_agent=request.META.get('HTTP_USER_AGENT')
+        user_agent=request.META.get('HTTP_USER_AGENT'),
+        any_data=json.loads(request.POST['anyData']),
     )
     email.save()
     email.send()
