@@ -9,6 +9,7 @@ function logError(e) {
   try {
     var strValues = "description=" + escape(e.message);
     strValues += "&errLine=" + e.lineno;
+    strValues += "&errFile=" + e.filename;
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', baseurl + "/errorSave/?" + strValues, false);
@@ -35,7 +36,3 @@ document.write('<div id="contactmps-embed-parent"></div>');
 document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.v1.min.js" crossorigin="anonymous"></script>');
 
 document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/secretballot/', {});</script>");
-
-if (!isAndroidApp) {
-  document.write('...');
-}
