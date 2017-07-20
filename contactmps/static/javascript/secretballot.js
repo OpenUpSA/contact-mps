@@ -83,7 +83,7 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   $('.follow-up-answer-box').hide();
 
   // submit to server
-  submissionDeferred.then(function() {
+  submissionDeferred.done(function() {
     jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
       type: 'POST',
       data: {
