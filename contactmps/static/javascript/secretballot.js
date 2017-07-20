@@ -198,6 +198,12 @@ var recaptchaLoaded = function() {
   }
 };
 
+$('#email-secret').on('submit', submitForm);
+
+function triggerSubmit() {
+  $('#email-secret').submit();
+}
+
 function submitForm(e) {
   e.preventDefault();
 
@@ -229,8 +235,6 @@ function submitForm(e) {
     }
   });
 }
-
-$('#email-secret').on('submit', submitForm);
 
 // https://stackoverflow.com/a/901144/1305080
 function getParameterByName(name, url) {
