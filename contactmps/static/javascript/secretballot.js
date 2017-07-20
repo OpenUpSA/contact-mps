@@ -10,10 +10,18 @@ var daysRemaining=(function(){
 
 $(".days-remaining-number").text(daysRemaining + " days");
 
+
+/* useful vars */
+var supportsSecret = null;
+
 $(".toggle-button-question .toggle-select").click(function() {
+  var $this = $(this);
+
   $(".toggle-button-question .toggle-select").removeClass("selected");
-  $(this).addClass("selected");
+  $this.addClass("selected");
   $("#previewEmail").prop("disabled", false);
+
+  supportsSecret = $this.attr('id') == "yes";
 });
 
 
@@ -47,6 +55,11 @@ function emailSent() {
   $('.follow-up-question p').text(q.q);
   $('#follow-up-answer-1').text(q.a[0]);
   $('#follow-up-answer-2').text(q.a[1]);
+
+  // prep sharing
+  var msg = supportsSecret ? 'I support' : 'I do not support';
+  $('.twitter-share').data('message', 'I just emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send an email and make your voice heard. @MbeteBaleka');
+  $('.fb-share').data('message', 'I just emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send an email and make your voice heard.');
 
   $("#secret-ballot-preview-message").hide();
   $("#secret-ballot-sent").show();
