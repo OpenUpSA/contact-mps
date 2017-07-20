@@ -26,7 +26,11 @@ if (agent.includes("mobile") && agent.includes("android") && window.location.hre
   // addEventListener only available in later chrome versions
   if ('addEventListener' in window) {
     window.addEventListener('error', logError);
+  } else {
+    alert("no addEventListener");
   }
+} else {
+  document.write('<p>...</p>');
 }
 
 document.write('<div id="contactmps-embed-parent"></div>');
@@ -41,3 +45,6 @@ throw {
     htmlMessage: "<b>Test</b> error thrown",
     toString:    function(){return this.name + ": " + this.message;}
 };
+
+document.write("<p>" + agent + "</p>");
+document.write("<p>" + window.location.href + "</p>");
