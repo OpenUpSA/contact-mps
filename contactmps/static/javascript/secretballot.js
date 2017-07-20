@@ -52,13 +52,13 @@ function emailSent() {
   var questions = [
     {
       q: "Have you ever participated in a protest march?",
-      a: ["YES, I have", "NO, I have not"],
+      a: ["Yes, I have", "No, I have not"],
     }, {
       q: "Is this your first time emailing a Member of Parliament?",
-      a: ["YES, it is", "NO, it is not"],
+      a: ["Yes, it is", "No, it is not"],
     }, {
       q: "Do you know that all MPs are assigned a constituency, and represent those who live in it?",
-      a: ["YES, I know about that", "NO, I did not know"],
+      a: ["Yes, I know about that", "No, I did not know"],
     },
   ];
   var q = questions[getRandomInt(0, questions.length)];
@@ -70,8 +70,8 @@ function emailSent() {
 
   // prep sharing
   var msg = supportsSecret ? 'I support' : 'I do not support';
-  $('.twitter-share').data('message', 'I just emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send an email and make your voice heard. @MbeteBaleka');
-  $('.fb-share').data('message', 'I just emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send an email and make your voice heard.');
+  $('.twitter-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Make your voice heard too @MbeteBaleka');
+  $('.fb-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send her an email and make your voice heard too.');
 
   $("#secret-ballot-preview-message").hide();
   $("#secret-ballot-sent").show();
