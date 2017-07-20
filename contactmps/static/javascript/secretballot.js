@@ -25,7 +25,13 @@ $(".toggle-button-question .toggle-select").click(function() {
   $("#previewEmail").prop("disabled", false);
 
   supportsSecret = $this.attr('id') == "yes";
-  emailData['supportsSecret'] = supportsSecret;
+  emailData.supportsSecret = supportsSecret;
+});
+
+$(".choose-one li").on('click', function(e) {
+  var $this = $(this);
+  $this.siblings().removeClass('active');
+  $this.addClass('active');
 });
 
 
@@ -106,8 +112,9 @@ $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
-  emailData['senderName'] = senderName;
-  emailData['senderEmail'] = senderEmail;
+  emailData.senderName = senderName;
+  emailData.senderEmail = senderEmail;
+  emailData.age = $('.question-age li.active').text();
 
   if (senderName === '') {
     alert('Please enter your name');
