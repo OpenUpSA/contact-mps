@@ -66,6 +66,7 @@ function emailSent() {
 
   $("#secret-ballot-preview-message").hide();
   $("#secret-ballot-sent").show();
+  pymChild.scrollParentTo('contactmps-embed-parent');
 }
 
 $(".follow-up-question-box .toggle-select-follow-up").click(function() {
@@ -135,6 +136,8 @@ $("#previewEmail").click(function(e) {
   $("#secret-ballot-build-message").hide();
   $("#secret-ballot-preview-message").show();
   location.hash = "#secret-ballot-preview-message";
+
+  pymChild.scrollParentTo('contactmps-embed-parent');
 });
 
 $("#editEmail").click(function(e) {
@@ -142,6 +145,7 @@ $("#editEmail").click(function(e) {
   $("#secret-ballot-build-message").show();
   $("#secret-ballot-preview-message").hide();
   location.hash = "#email-secret";
+  pymChild.scrollParentTo('contactmps-embed-parent');
 });
 
 var reCaptchaValid = false;
