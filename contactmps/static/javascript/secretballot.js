@@ -15,6 +15,7 @@ $(".days-remaining-number").text(daysRemaining + " days");
 var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
 var emailData = {}; // literally whatever data we want to store along with the email
+var submissionDeferred;
 
 $(".toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
@@ -24,7 +25,13 @@ $(".toggle-button-question .toggle-select").click(function() {
   $("#previewEmail").prop("disabled", false);
 
   supportsSecret = $this.attr('id') == "yes";
-  emailData['supportsSecret'] = supportsSecret;
+  emailData.supportsSecret = supportsSecret;
+});
+
+$(".choose-one li").on('click', function(e) {
+  var $this = $(this);
+  $this.siblings().removeClass('active');
+  $this.addClass('active');
 });
 
 
@@ -77,47 +84,37 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   $(".follow-up-question-box .toggle-select-follow-up").removeClass("selected");
   $this.addClass("selected");
 
-  var q = $this.prevAll(".follow-up-question").text().trim();
-  console.log(q);
+  var q = $('.follow-up-question').text().trim();
   var a = $this.text().trim();
 
+  $('.follow-up-question p').text('Thanks!');
+  $('.follow-up-answer-box').hide();
+
   // submit to server
-  jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
-    type: 'POST',
-    data: {
-      question: q,
-      answer: a,
-      sender_secret: senderSecret,
-    },
+  submissionDeferred.done(function() {
+    jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
+      type: 'POST',
+      data: {
+        question: q,
+        answer: a,
+        sender_secret: senderSecret,
+      },
+    });
   });
 
   ga('send', 'event', 'follow-up', 'answered', q);
 });
 
-$(".protest-march .toggle-select-follow-up").click(function() {
-  $('.protest-march').hide();
-  $('.voice-heard').removeClass("hidden");
-});
-
-$(".voice-heard .toggle-select-follow-up").click(function() {
-  $('.voice-heard').hide();
-  $('.assigned-mp').removeClass("hidden");
-});
-
-$(".assigned-mp .toggle-select-follow-up").click(function() {
-  $('.assigned-mp').hide();
-  $('.follow-up-question-box').hide();
-});
-
 $("#secret-ballot-preview-message").hide();
-$("#secret-ballot-sent").hide();
+$("#secret-ballot-build-message").hide();
 
 $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
-  emailData['senderName'] = senderName;
-  emailData['senderEmail'] = senderEmail;
+  emailData.senderName = senderName;
+  emailData.senderEmail = senderEmail;
+  emailData.age = $('.question-age li.active').text();
 
   if (senderName === '') {
     alert('Please enter your name');
@@ -224,7 +221,7 @@ function submitForm(e) {
   var senderEmail = $(".email-input").val();
   var emailSubject = $("#email-title").text();
 
-  jQuery.ajax('/api/v1/email/', {
+  submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
       person: recipient.id,
@@ -240,13 +237,13 @@ function submitForm(e) {
 
       senderSecret = data.sender_secret;
       emailId = data.secure_id;
-
-      emailSent();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
     }
   });
+
+  emailSent();
 }
 
 // https://stackoverflow.com/a/901144/1305080
