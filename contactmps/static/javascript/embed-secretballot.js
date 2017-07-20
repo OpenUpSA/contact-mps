@@ -22,21 +22,27 @@ function logError(e) {
 }
 
 var agent = navigator.userAgent.toLowerCase();
-if (agent.includes("mobile") && agent.includes("android") && window.location.href.includes("local.app")) {
+var isAndroidApp = agent.includes("mobile") && agent.includes("android") && window.location.href.includes("local.app");
+if (isAndroidApp) {
   // addEventListener only available in later chrome versions
   if ('addEventListener' in window) {
     window.addEventListener('error', logError);
   } else {
     alert("no addEventListener");
   }
-} else {
-  document.write('<p>...</p>');
 }
 
 document.write('<div id="contactmps-embed-parent"></div>');
 document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.v1.min.js"></script>');
 
 document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/secretballot/', {});</script>");
+
+if (!isAndroidApp) {
+  document.write('<p>...</p>');
+}
+
+document.write('<p style="font-size: xx-small">' + agent + '</p>');
+document.write('<p style="font-size: xx-small">' + window.location.href + '</p>');
 
 throw {
     name:        "TestError",
@@ -45,6 +51,3 @@ throw {
     htmlMessage: "<b>Test</b> error thrown",
     toString:    function(){return this.name + ": " + this.message;}
 };
-
-document.write("<p>" + agent + "</p>");
-document.write("<p>" + window.location.href + "</p>");
