@@ -1,6 +1,8 @@
-$(function() {
-  window.addEventListener('error', function(e) {
-    ga('send', 'event', 'JavaScript Error', e.filename + ':  ' + e.lineno, e.message);
+$(window).on('error', function(e) {
+  e = e.originalEvent;
+  ga('send', 'exception', {
+    'exDescription': e.message + ' @ ' + e.filename + ': ' + e.lineno,
+    'exFatal': true,
   });
 });
 
