@@ -123,6 +123,7 @@ def email(request):
         subject=form.cleaned_data['subject'],
         remote_ip=remote_ip,
         user_agent=request.META.get('HTTP_USER_AGENT'),
+        any_data={},
     )
     email.save()
     email.send()
