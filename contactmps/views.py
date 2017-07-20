@@ -104,7 +104,7 @@ def email(request):
     r.raise_for_status()
 
     if not form.is_valid() or (not settings.DEBUG and not r.json()['success']):
-        log.error("Email form validation error: %r", form.errors)
+        log.error("Email form validation error: %r; captcha=%s", form.errors, r.json())
         qs = urlencode({'errors': form.errors.as_json()})
         return redirect(reverse('campaign') + '?' + qs)
 
