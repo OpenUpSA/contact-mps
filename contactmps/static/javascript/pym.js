@@ -513,6 +513,7 @@
         this._processMessage = function(e) {
             // First, punt if this isn't from an acceptable xdomain.
             if (!_isSafeMessage(e, this.settings)) {
+                document.write('not safe: ' + JSON.stringify(e));
                 return;
             }
 
