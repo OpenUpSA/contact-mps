@@ -1,4 +1,5 @@
-window.addEventListener('error', function(e) {
+$(window).on('error', function(e) {
+  e = e.originalEvent;
   ga('send', 'exception', {
     'exDescription': e.message + ' @ ' + e.filename + ': ' + e.lineno,
     'exFatal': true,
