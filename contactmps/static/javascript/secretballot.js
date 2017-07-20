@@ -14,6 +14,7 @@ $(".days-remaining-number").text(daysRemaining + " days");
 /* useful vars */
 var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
+var emailData = {}; // literally whatever data we want to store along with the email
 
 $(".toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
@@ -23,6 +24,7 @@ $(".toggle-button-question .toggle-select").click(function() {
   $("#previewEmail").prop("disabled", false);
 
   supportsSecret = $this.attr('id') == "yes";
+  emailData['supportsSecret'] = supportsSecret;
 });
 
 
@@ -101,6 +103,8 @@ $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
+  emailData['senderName'] = senderName;
+  emailData['senderEmail'] = senderEmail;
 
   if (senderName === '') {
     alert('Please enter your name');
@@ -115,7 +119,9 @@ $("#previewEmail").click(function(e) {
   }
 
   if ($("#comment").val() != "") {
-    var otherIssues = "\n\nOther issues that concern me about the future of South Africa are:\n\n" + ($("#comment").val())
+    var otherIssues = $("#comment").val();
+    emailData['otherIssues'] = otherIssues.trim();
+    otherIssues = "\n\nOther issues that concern me about the future of South Africa are:\n\n" + (otherIssues);
   } else {
     var otherIssues = "";
   };
@@ -207,6 +213,7 @@ function submitForm(e) {
       email: senderEmail,
       body: emailTxt,
       subject: emailSubject,
+      anyData: JSON.stringify(emailData),
       gRecaptchaResponse: grecaptcha.getResponse(),
     },
     success: function(data) {
