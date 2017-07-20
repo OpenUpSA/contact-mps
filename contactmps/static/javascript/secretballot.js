@@ -77,11 +77,9 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   $(".follow-up-question-box .toggle-select-follow-up").removeClass("selected");
   $this.addClass("selected");
 
-  var q = $('.follow-up-question').text().trim();
+  var q = $this.prevAll(".follow-up-question").text().trim();
+  console.log(q);
   var a = $this.text().trim();
-
-  $('.follow-up-question p').text('Thanks!');
-  $('.follow-up-answer-box').hide();
 
   // submit to server
   jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
@@ -94,6 +92,21 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   });
 
   ga('send', 'event', 'follow-up', 'answered', q);
+});
+
+$(".protest-march .toggle-select-follow-up").click(function() {
+  $('.protest-march').hide();
+  $('.voice-heard').removeClass("hidden");
+});
+
+$(".voice-heard .toggle-select-follow-up").click(function() {
+  $('.voice-heard').hide();
+  $('.assigned-mp').removeClass("hidden");
+});
+
+$(".assigned-mp .toggle-select-follow-up").click(function() {
+  $('.assigned-mp').hide();
+  $('.follow-up-question-box').hide();
 });
 
 $("#secret-ballot-preview-message").hide();
