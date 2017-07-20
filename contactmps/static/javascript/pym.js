@@ -404,6 +404,7 @@
             this.iframe.setAttribute('scrolling', 'no');
             this.iframe.setAttribute('marginheight', '0');
             this.iframe.setAttribute('frameborder', '0');
+            this.iframe.setAttribute('height', '1257px');
 
             if (this.settings.title) {
                 this.iframe.setAttribute('title', this.settings.title);
@@ -513,7 +514,6 @@
         this._processMessage = function(e) {
             // First, punt if this isn't from an acceptable xdomain.
             if (!_isSafeMessage(e, this.settings)) {
-                document.write('not safe: ' + JSON.stringify(e));
                 return;
             }
 
