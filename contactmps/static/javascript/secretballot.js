@@ -13,6 +13,7 @@ $(".days-remaining-number").text(daysRemaining + " days");
 
 /* useful vars */
 var supportsSecret = null;
+var emailTxt = ""; // global for preview and then send
 
 $(".toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
@@ -92,13 +93,8 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   ga('send', 'event', 'follow-up', 'answered', q);
 });
 
-
-
 $("#secret-ballot-preview-message").hide();
 $("#secret-ballot-sent").hide();
-
-// global for preview and then send
-var emailTxt = "";
 
 $("#previewEmail").click(function(e) {
   e.preventDefault();
