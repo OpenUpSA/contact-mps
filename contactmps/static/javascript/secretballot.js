@@ -36,6 +36,8 @@ function getRandomInt(min, max) {
 }
 
 function emailSent() {
+  ga('send', 'event', 'secret-ballot-email', 'sent');
+
   // prep follow up questions
   var questions = [
     {
