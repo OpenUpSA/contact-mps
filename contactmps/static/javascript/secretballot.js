@@ -13,6 +13,7 @@ $(".days-remaining-number").text(daysRemaining + " days");
 
 /* useful vars */
 var supportsSecret = null;
+var emailTxt = ""; // global for preview and then send
 
 $(".toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
@@ -92,8 +93,6 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   ga('send', 'event', 'follow-up', 'answered', q);
 });
 
-
-
 $("#secret-ballot-preview-message").hide();
 $("#secret-ballot-sent").hide();
 
@@ -115,7 +114,7 @@ $("#previewEmail").click(function(e) {
   }
 
   if ($("#comment").val() != "") {
-    var emailContent = "<p>Other issues that concern me about the future of South Africa are:</p><p>" + ($("#comment").val().replace(/\n/g, '<br>'))
+    var emailContent = "\n\nOther issues that concern me about the future of South Africa are:\n\n" + ($("#comment").val().replace(/\n/g, '<br/>'))
   } else {
     var emailContent = "";
   };
@@ -129,7 +128,10 @@ $("#previewEmail").click(function(e) {
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  $("#comment-preview").html("<p>Dear Madam Speaker,</p><p>I am a citizen of South Africa and I want to let you know that <b>" + emailSubject + " in President Jacob Zuma</b>.</p>" + emailContent + "</p><p>You represent all South Africans, including me. Please choose in favour of good governance - a governance that is best suited to realising my hopes for our future.</p><p>Yours sincerely,</p><p>" + senderName + "</p>");
+  emailTxt = "Dear Madam Speaker,\n\nI am a citizen of South Africa and I want to let you know that " + emailSubject + " in President Jacob Zuma." + emailContent + "\n\nYou represent all South Africans, including me. Please choose in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nYours sincerely,\n\n" + senderName;
+  emailHtml = emailTxt.replace(/\n/g, '<br/>');
+
+  $("#comment-preview").html(emailHtml);
   $("#secret-ballot-build-message").hide();
   $("#secret-ballot-preview-message").show();
   location.hash = "#secret-ballot-preview-message";
@@ -192,7 +194,6 @@ function submitForm(e) {
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
   var emailSubject = $("#email-title").text();
-  var emailContent = $("#comment-preview").text();
 
   jQuery.ajax('/api/v1/email/', {
     type: 'POST',
@@ -200,7 +201,7 @@ function submitForm(e) {
       person: recipient.id,
       name: senderName,
       email: senderEmail,
-      body: emailContent,
+      body: emailTxt,
       subject: emailSubject,
       gRecaptchaResponse: grecaptcha.getResponse(),
     },
