@@ -10,10 +10,19 @@ var daysRemaining=(function(){
 
 $(".days-remaining-number").text(daysRemaining + " days");
 
+
+/* useful vars */
+var supportsSecret = null;
+var emailTxt = ""; // global for preview and then send
+
 $(".toggle-button-question .toggle-select").click(function() {
+  var $this = $(this);
+
   $(".toggle-button-question .toggle-select").removeClass("selected");
-  $(this).addClass("selected");
-  $("#previewEmail").removeClass("disabled");
+  $this.addClass("selected");
+  $("#previewEmail").prop("disabled", false);
+
+  supportsSecret = $this.attr('id') == "yes";
 });
 
 
@@ -28,6 +37,8 @@ function getRandomInt(min, max) {
 }
 
 function emailSent() {
+  ga('send', 'event', 'secret-ballot-email', 'sent');
+
   // prep follow up questions
   var questions = [
     {
@@ -43,10 +54,15 @@ function emailSent() {
   ];
   var q = questions[getRandomInt(0, questions.length)];
 
-  ga('send', 'event', 'follow-up', 'asked', q);
+  ga('send', 'event', 'follow-up', 'asked', q.q);
   $('.follow-up-question p').text(q.q);
   $('#follow-up-answer-1').text(q.a[0]);
   $('#follow-up-answer-2').text(q.a[1]);
+
+  // prep sharing
+  var msg = supportsSecret ? 'I support' : 'I do not support';
+  $('.twitter-share').data('message', 'I just emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send an email and make your voice heard. @MbeteBaleka');
+  $('.fb-share').data('message', 'I just emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send an email and make your voice heard.');
 
   $("#secret-ballot-preview-message").hide();
   $("#secret-ballot-sent").show();
@@ -77,8 +93,6 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   ga('send', 'event', 'follow-up', 'answered', q);
 });
 
-
-
 $("#secret-ballot-preview-message").hide();
 $("#secret-ballot-sent").hide();
 
@@ -86,10 +100,23 @@ $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
+
+  if (senderName === '') {
+    alert('Please enter your name');
+    $('.name-input').focus();
+    return;
+  }
+
+  if (senderEmail === '') {
+    alert('Please enter your email');
+    $('.email-input').focus();
+    return;
+  }
+
   if ($("#comment").val() != "") {
-    var emailContent = "<p>Other issues that concern me about the future of South Africa are:</p><p>" + ($("#comment").val().replace(/\n/g, '<br>'))
+    var otherIssues = "\n\nOther issues that concern me about the future of South Africa are:\n\n" + ($("#comment").val())
   } else {
-    var emailContent = "";
+    var otherIssues = "";
   };
   if ($(".toggle-select.selected").attr("id") == "no") {
     var emailSubject = "I do not support a secret ballot in the vote of no confidence";
@@ -101,7 +128,10 @@ $("#previewEmail").click(function(e) {
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  $("#comment-preview").html("<p>Dear Madam Speaker,</p><p>I am a citizen of South Africa and I want to let you know that <b>" + emailSubject + " in President Jacob Zuma</b>.</p>" + emailContent + "</p><p>You represent all South Africans, including me. Please choose in favour of good governance - a governance that is best suited to realising my hopes for our future.</p><p>Yours sincerely,</p><p>" + senderName + "</p>");
+  emailTxt = "Dear Madam Speaker,\n\nI am a citizen of South Africa and I want to let you know that " + emailSubject + " in President Jacob Zuma." + otherIssues + "\n\nYou represent all South Africans, including me. Please choose in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nYours sincerely,\n\n" + senderName;
+  emailHtml = emailTxt.replace(/\n/g, '<br/>');
+
+  $("#comment-preview").html(emailHtml);
   $("#secret-ballot-build-message").hide();
   $("#secret-ballot-preview-message").show();
   location.hash = "#secret-ballot-preview-message";
@@ -158,11 +188,12 @@ var recaptchaLoaded = function() {
   }
 };
 
-function submitForm() {
+function submitForm(e) {
+  e.preventDefault();
+
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
   var emailSubject = $("#email-title").text();
-  var emailContent = $("#comment-preview").text();
 
   jQuery.ajax('/api/v1/email/', {
     type: 'POST',
@@ -170,7 +201,7 @@ function submitForm() {
       person: recipient.id,
       name: senderName,
       email: senderEmail,
-      body: emailContent,
+      body: emailTxt,
       subject: emailSubject,
       gRecaptchaResponse: grecaptcha.getResponse(),
     },
@@ -186,7 +217,9 @@ function submitForm() {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
     }
   });
-};
+}
+
+$('#email-secret').on('submit', submitForm);
 
 // https://stackoverflow.com/a/901144/1305080
 function getParameterByName(name, url) {

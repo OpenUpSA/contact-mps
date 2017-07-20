@@ -1,6 +1,8 @@
-$(function() {
-  window.addEventListener('error', function(e) {
-    ga('send', 'event', 'JavaScript Error', e.filename + ':  ' + e.lineno, e.message);
+$(window).on('error', function(e) {
+  e = e.originalEvent;
+  ga('send', 'exception', {
+    'exDescription': e.message + ' @ ' + e.filename + ': ' + e.lineno,
+    'exFatal': true,
   });
 });
 
@@ -15,18 +17,23 @@ $(window).on('load', function() {
 // social-sharing
 $('.fb-share').on('click', function(e) {
   e.preventDefault();
-  var url = encodeURIComponent($(this).data('url'));
+  var $this = $(this),
+      url = encodeURIComponent($this.data('url')),
+      msg = encodeURIComponent($this.data('message') || '');
 
-  window.open("https://www.facebook.com/sharer/sharer.php?u=" + url, "share", "width=600, height=400, scrollbars=no");
-    ga('send', 'social', 'facebook', 'share', url);
+  window.open("https://www.facebook.com/sharer/sharer.php?u=" + url + "&quote=" + msg, "share", "width=600, height=400, scrollbars=no");
+  ga('send', 'social', 'facebook', 'share', url);
 });
 
 $('.twitter-share').on('click', function(e) {
   e.preventDefault();
-  var url = encodeURIComponent($(this).data('url')),
-      hashtag = encodeURIComponent($(this).data('hashtag').replace('#', ''));
 
-  window.open("https://twitter.com/intent/tweet?&url=" + url + "&hashtags=" + hashtag, "share", "width=600, height=400, scrollbars=no");
+  var $this = $(this),
+      url = encodeURIComponent($this.data('url')),
+      hashtag = encodeURIComponent($this.data('hashtag').replace('#', '')),
+      msg = encodeURIComponent($this.data('message') || '');
+
+  window.open("https://twitter.com/intent/tweet?&url=" + url + "&hashtags=" + hashtag + "&text=" + msg, "share", "width=600, height=400, scrollbars=no");
   ga('send', 'social', 'twitter', 'share', url);
 });
 
