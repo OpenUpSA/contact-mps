@@ -39,14 +39,3 @@ document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent'
 if (!isAndroidApp) {
   document.write('...');
 }
-
-document.write('<span style="font-size: xx-small">' + agent + '</span>');
-document.write('<span style="font-size: xx-small">' + window.location.href + '</span>');
-
-throw {
-    name:        "TestError",
-    level:       "Benign",
-    message:     "Test error thrown",
-    htmlMessage: "<b>Test</b> error thrown",
-    toString:    function(){return this.name + ": " + this.message;}
-};
