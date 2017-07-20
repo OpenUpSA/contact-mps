@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -111,6 +112,9 @@ class Email(models.Model):
     # that we can tie to an (eventually anonymous) individual.
     # THIS SHOULD NOT BE PART OF THE STANDARD as_dict dict.
     sender_secret = models.CharField(max_length=100, blank=True, unique=True, default=secure_random_string)
+    # Any data we'd like connected to the email in structured form.
+    # This makes no promises about keys being present from one email to another.
+    any_data = JSONField()
 
     @property
     def body_html(self):
@@ -129,6 +133,7 @@ class Email(models.Model):
             'from_name': self.from_name,
             'from_email': self.from_email,
             'secure_id': self.secure_id,
+            'any_data': self.any_data,
         }
 
     def send(self):
