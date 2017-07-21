@@ -32,9 +32,12 @@ class EmailForm(forms.Form):
 
 @xframe_options_exempt
 def home(request):
-    return render(request, 'index.html', {
-        'campaign': settings.CAMPAIGN,
-    })
+    if settings.CAMPAIGN == 'psam':
+        return campaign(request, 'campaigns/psam.html')
+    else:
+        return render(request, 'index.html', {
+            'campaign': settings.CAMPAIGN,
+        })
 
 
 @xframe_options_exempt
