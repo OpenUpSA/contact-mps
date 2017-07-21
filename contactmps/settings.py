@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 
-CAMPAIGN = os.environ.get('CAMPAIGN', 'psam')
+CAMPAIGN = os.environ.get('CAMPAIGN', 'secretballot')
 
 SITE_DESCRIPTION = "How do you feel about the vote of no confidence in the President? Email your MP. Your Parliament. Your Voice."
 
