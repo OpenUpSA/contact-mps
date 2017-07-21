@@ -501,6 +501,18 @@ header {
   }
 }
 
+.share-opt-in {
+  background-color: #007C59;
+  margin-top: 20px;
+  padding: 10px;
+
+  font-size: 16px;
+
+  label {
+    font-weight: normal;
+  }
+}
+
 footer {
   color: #fff;
   background-color: #000;
@@ -523,4 +535,3 @@ footer {
     }
   }
 }
-
