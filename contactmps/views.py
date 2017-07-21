@@ -27,6 +27,7 @@ class EmailForm(forms.Form):
     email = forms.EmailField(label='Your email address', required=True)
     body = forms.CharField(label='Body', required=True)
     subject = forms.CharField(label='Subject', required=True, initial="Motion of No Confidence in the President of the Republic")
+    share = forms.CharField(required=False)
 
 
 @xframe_options_exempt
@@ -123,7 +124,7 @@ def email(request):
         subject=form.cleaned_data['subject'],
         remote_ip=remote_ip,
         user_agent=request.META.get('HTTP_USER_AGENT'),
-        any_data={},
+        any_data={'share-opt-in': form.cleaned_data['share']},
     )
     email.save()
     email.send()
@@ -145,7 +146,7 @@ def api_email(request):
     r.raise_for_status()
 
     if not form.is_valid() or (not settings.DEBUG and not r.json()['success']):
-        log.error("Email form validation error: %r", form.errors)
+        log.error("Email form validation error: %r; captcha=%s", form.errors, r.json())
         return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
     person = get_object_or_404(Person, pk=form.cleaned_data['person'])
