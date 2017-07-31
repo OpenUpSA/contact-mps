@@ -19,6 +19,8 @@ import json
 import logging
 import requests
 
+DEFAULT_SUBJECT = 'Motion of No Confidence in the President of the Republic'
+
 log = logging.getLogger(__name__)
 
 
@@ -28,14 +30,14 @@ class EmailForm(forms.Form):
     name = forms.CharField(label='Your name', required=True)
     email = forms.EmailField(label='Your email address', required=True)
     body = forms.CharField(label='Body', required=True)
-    subject = forms.CharField(label='Subject', required=True, initial="Motion of No Confidence in the President of the Republic")
+    subject = forms.CharField(label='Subject', required=True, initial=DEFAULT_SUBJECT)
     share = forms.CharField(required=False)
 
 
 @xframe_options_exempt
 def home(request):
     if settings.CAMPAIGN == 'psam':
-        return campaign(request, 'campaigns/psam.html')
+        return campaign(request, 'psam')
     else:
         return render(request, 'index.html', {
             'campaign_slug': settings.CAMPAIGN,
@@ -63,7 +65,10 @@ def secret_ballot(request):
     return render(request, 'campaigns/secretballot.html', {
         'recipient': recipient,
         'recipient_json': json.dumps(recipient.as_dict()),
-        'form': EmailForm({'campaign_slug': 'secretballot'}),
+        'form': EmailForm({
+            'campaign_slug': 'secretballot',
+            'subject': DEFAULT_SUBJECT,
+        }),
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
 
@@ -86,7 +91,10 @@ def campaign(request, campaign_slug):
         'persons': persons,
         'neglected_persons': neglected_persons,
         'persons_json': persons_json,
-        'form': EmailForm({'campaign_slug': campaign_slug}),
+        'form': EmailForm({
+            'campaign_slug': campaign_slug,
+            'subject': DEFAULT_SUBJECT,
+        }),
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
 
@@ -106,7 +114,7 @@ def email(request):
     if not form.is_valid() or (not settings.DEBUG and not r.json()['success']):
         log.error("Email form validation error: %r; captcha=%s", form.errors, r.json())
         qs = urlencode({'errors': form.errors.as_json()})
-        return redirect(reverse('campaign') + '?' + qs)
+        return redirect(reverse('campaign', args=[form.cleaned_data['campaign_slug']]) + '?' + qs)
 
     person = get_object_or_404(Person, pk=form.cleaned_data['person'])
     campaign = get_object_or_404(Campaign, slug=form.cleaned_data['campaign_slug'])
