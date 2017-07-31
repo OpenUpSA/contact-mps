@@ -4,7 +4,7 @@
 {% load staticfiles %}
 
 {% block head-css %}
-<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
 {% stylesheet "css" %}
 {% endblock %}
 
@@ -23,7 +23,6 @@
 
       <a class="btn btn-twitter twitter-share" href="#" data-url="{{ BASE_URL }}{{ request.path }}" data-hashtag="{{ SITE_HASHTAG }}"><i class="fa fa-twitter"></i> Tweet</a>
 
-      <div class="center-block embed-a"><a href="/embed.html" target="_blank"><i class="fa fa-code" aria-hidden="true"></i> Embed this on your site</a></div>
     </div>
     {% endblock social_sharing %}
 

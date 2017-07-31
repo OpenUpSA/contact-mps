@@ -9,14 +9,10 @@
 {{ block.super }}
 <div class="embed-text">
   <div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 col-lg-5 col-lg-offset-3">
-    {% if campaign == 'newsmedia' %}
+    {% if campaign_slug == 'newsmedia' %}
     <script type="text/javascript" src="/static/javascript/embed.js"></script>
-    {% elif campaign == 'psam' %}
-    <script type="text/javascript" src="/static/javascript/embed-psam.js"></script>
-    {% elif campaign == 'secretballot' %}
-    <script type="text/javascript" src="/static/javascript/embed-secretballot.js"></script>
     {% else %}
-    No campaign
+    <script type="text/javascript" src="/static/javascript/embed-{{ campaign_slug }}.js"></script>
     {% endif %}
   </div>
 </div>

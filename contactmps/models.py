@@ -95,6 +95,10 @@ class ContactDetail(models.Model):
         return "%s (%s) %s" % (self.person.name, self.type, self.value,)
 
 
+class Campaign(models.Model):
+    slug = models.CharField(max_length=100)
+
+
 class Email(models.Model):
     to_person = models.ForeignKey(Person)
     to_addresses = models.TextField(null=True, blank=True, help_text="The actuall address(es) we sent to belonging to the recipient at the time, regardless of the addresses that we currently have for them.")
@@ -115,6 +119,7 @@ class Email(models.Model):
     # Any data we'd like connected to the email in structured form.
     # This makes no promises about keys being present from one email to another.
     any_data = JSONField()
+    campaign = models.ForeignKey(Campaign)
 
     @property
     def body_html(self):

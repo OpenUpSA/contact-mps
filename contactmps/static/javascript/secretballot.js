@@ -231,6 +231,7 @@ function submitForm(e) {
       subject: emailSubject,
       anyData: JSON.stringify(emailData),
       gRecaptchaResponse: grecaptcha.getResponse(),
+      campaign_slug: 'secretballot',
     },
     success: function(data) {
       console.info("success", data);
