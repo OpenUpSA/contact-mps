@@ -10,6 +10,7 @@ from urllib import urlencode
 import random
 
 from .models import (
+    Campaign,
     Email,
     Person,
     SenderQA,
@@ -22,6 +23,7 @@ log = logging.getLogger(__name__)
 
 
 class EmailForm(forms.Form):
+    campaign_slug = forms.CharField(label='campaign_slug', required=True)
     person = forms.CharField(label='person', required=True)
     name = forms.CharField(label='Your name', required=True)
     email = forms.EmailField(label='Your email address', required=True)
@@ -36,15 +38,8 @@ def home(request):
         return campaign(request, 'campaigns/psam.html')
     else:
         return render(request, 'index.html', {
-            'campaign': settings.CAMPAIGN,
+            'campaign_slug': settings.CAMPAIGN,
         })
-
-
-@xframe_options_exempt
-def embed(request):
-    return render(request, 'embed.html', {
-        'campaign': settings.CAMPAIGN,
-    })
 
 
 @xframe_options_exempt
@@ -54,7 +49,7 @@ def embedded_preview(request):
 
 
 @xframe_options_exempt
-def secret_ballot(request, template=None):
+def secret_ballot(request):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
     persons = Person.objects \
@@ -65,16 +60,16 @@ def secret_ballot(request, template=None):
 
     recipient = persons.first()
 
-    return render(request, template, {
+    return render(request, 'campaigns/secretballot.html', {
         'recipient': recipient,
         'recipient_json': json.dumps(recipient.as_dict()),
-        'form': EmailForm(),
+        'form': EmailForm({'campaign_slug': 'secretballot'}),
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
 
 
 @xframe_options_exempt
-def campaign(request, template=None):
+def campaign(request, campaign_slug):
     # Only retuns persons with at least one email address
     # Count the number of emails we've sent them
     persons = Person.objects \
@@ -86,11 +81,12 @@ def campaign(request, template=None):
     neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
     persons_json = json.dumps([p.as_dict() for p in persons])
 
+    template = 'campaigns/%s.html' % campaign_slug
     return render(request, template, {
         'persons': persons,
         'neglected_persons': neglected_persons,
         'persons_json': persons_json,
-        'form': EmailForm(),
+        'form': EmailForm({'campaign_slug': campaign_slug}),
         'recaptcha_key': settings.RECAPTCHA_KEY,
     })
 
@@ -113,6 +109,7 @@ def email(request):
         return redirect(reverse('campaign') + '?' + qs)
 
     person = get_object_or_404(Person, pk=form.cleaned_data['person'])
+    campaign = get_object_or_404(Campaign, slug=form.cleaned_data['campaign_slug'])
 
     if 'HTTP_X_FORWARDED_FOR' in request.META:
         remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -128,6 +125,7 @@ def email(request):
         remote_ip=remote_ip,
         user_agent=request.META.get('HTTP_USER_AGENT'),
         any_data={'share-opt-in': form.cleaned_data['share']},
+        campaign=campaign,
     )
     email.save()
     email.send()
@@ -153,6 +151,7 @@ def api_email(request):
         return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
     person = get_object_or_404(Person, pk=form.cleaned_data['person'])
+    campaign = get_object_or_404(Campaign, slug=form.cleaned_data['campaign_slug'])
 
     if 'HTTP_X_FORWARDED_FOR' in request.META:
         remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -168,6 +167,7 @@ def api_email(request):
         remote_ip=remote_ip,
         user_agent=request.META.get('HTTP_USER_AGENT'),
         any_data=json.loads(request.POST['anyData']),
+        campaign=campaign,
     )
     email.save()
     email.send()
@@ -201,7 +201,7 @@ def email_detail(request, secure_id):
     email = get_object_or_404(Email, secure_id=secure_id)
     return render(request, 'email-detail-%s.html' % settings.CAMPAIGN, {
         'email': email,
-        'campaign': settings.CAMPAIGN,
+        'campaign_slug': settings.CAMPAIGN,
     })
 
 
