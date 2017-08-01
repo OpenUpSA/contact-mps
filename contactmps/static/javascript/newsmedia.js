@@ -150,7 +150,7 @@ function chooseMP(mp) {
   $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
   // we pick up the MP name from here so fix message composition if you change this
   $(".recipient").text(mp.name);
-  $(".selected-mp .mp-img-wrapper").css({"background-image": mp.portrait_url ? ('url(' + mp.portrait_url + ')') : ''});
+  $(".selected-mp .mp-img-wrapper").css({"background-image": mp.local_portrait_url ? ('url(' + mp.local_portrait_url + ')') : ''});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
   $(".pa-link").attr("href", mp.pa_url);
   $("form input[name=person]").val(mp.id);
