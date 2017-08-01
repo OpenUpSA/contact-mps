@@ -62,6 +62,11 @@ class Person(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def local_portrait_url(self):
+        if self.portrait_url:
+            return '/static/images/portraits/' + self.portrait_url[39:]
+
     def as_dict(self):
         return {
             'id': self.id,
@@ -69,7 +74,7 @@ class Person(models.Model):
             'name': self.name,
             'contactdetails': [d.as_dict() for d in self.contactdetails.all()],
             'pa_url': self.pa_url,
-            'portrait_url': self.portrait_url,
+            'local_portrait_url': self.local_portrait_url,
             'party': self.party.as_dict() if self.party else None,
         }
 

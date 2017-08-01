@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% load pipeline %}
 {% load staticfiles %}
-{% load portrait_url %}
 
 {% block title %}Send a message to a Member of Parliament{% endblock %}
 {% block body-class %}create-email-page{% endblock %}
@@ -45,7 +44,7 @@
         <div class="col-xs-6 mp-wrap">
           <div class="single-mp row" data-id="{{ person.id }}">
             <div class="col-xs-4">
-              <div class="mp-img-wrapper center-block" {% if person.portrait_url %}style="background-image:url({{ person.portrait_url | portrait_url }})"{% endif %}>
+              <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
                 {% if person.party %}
                 <img class="party-logo" src="{{ person.party.icon_url }}">
                 {% endif %}
