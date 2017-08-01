@@ -106,6 +106,9 @@ class Campaign(models.Model):
     hashtag = models.CharField(max_length=100)
     site_name = models.CharField(max_length=100)
     site_description = models.CharField(max_length=200)
+    single_recipient = models.ForeignKey(Person, null=True, blank=True)
+    load_neglected_persons = models.BooleanField(default=False)
+    load_all_persons = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

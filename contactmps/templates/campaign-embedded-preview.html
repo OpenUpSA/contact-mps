@@ -9,7 +9,11 @@
 {{ block.super }}
 <div class="embed-text row">
   <div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 col-lg-5 col-lg-offset-3">
-    <script type="text/javascript" src="/static/javascript/embed-secretballot.js"></script>
+    {% if campaign.slug == 'newsmedia' %}
+    <script type="text/javascript" src="/static/javascript/embed.js"></script>
+    {% else %}
+    <script type="text/javascript" src="/static/javascript/embed-{{ campaign.slug }}.js"></script>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

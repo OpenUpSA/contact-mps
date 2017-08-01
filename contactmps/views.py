@@ -51,62 +51,61 @@ def home(request):
     if settings.HOME_CAMPAIGN == 'psam':
         return campaign(request, 'psam')
     else:
+        campaign = get_object_or_404(Campaign, slug=settings.HOME_CAMPAIGN)
         return render(request, 'index.html', {
-            'campaign_slug': settings.HOME_CAMPAIGN,
+            'campaign': campaign,
         })
 
 
 @xframe_options_exempt
-def embedded_preview(request):
+def embedded_preview(request, campaign_slug):
+    campaign = get_object_or_404(Campaign, slug=campaign_slug)
     return render(request, 'campaign-embedded-preview.html', {
-    })
-
-
-@xframe_options_exempt
-def secret_ballot(request):
-    # Only retuns persons with at least one email address
-    # Count the number of emails we've sent them
-    persons = Person.objects \
-        .filter(pa_id='core_person:4175') \
-        .filter(contactdetails__type='email') \
-        .annotate(num_emails=Count('email')) \
-        .prefetch_related('party', 'contactdetails')
-
-    recipient = persons.first()
-    campaign = get_object_or_404(Campaign, slug='secretballot')
-
-    return render(request, 'campaigns/secretballot.html', {
-        'recipient': recipient,
-        'recipient_json': json.dumps(recipient.as_dict()),
-        'form': EmailForm({
-            'campaign_slug': campaign.slug,
-            'subject': DEFAULT_SUBJECT,
-        }),
-        'recaptcha_key': settings.RECAPTCHA_KEY,
         'campaign': campaign,
     })
 
 
 @xframe_options_exempt
 def campaign(request, campaign_slug):
-    # Only retuns persons with at least one email address
-    # Count the number of emails we've sent them
-    persons = Person.objects \
-        .filter(contactdetails__type='email') \
-        .annotate(num_emails=Count('email')) \
-        .prefetch_related('party', 'contactdetails')
-
-    # of those MPs that are less emailed, randomly choose 4
-    neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
-    persons_json = json.dumps([p.as_dict() for p in persons])
-
+    context = {}
     campaign = get_object_or_404(Campaign, slug=campaign_slug)
 
-    template = 'campaigns/%s.html' % campaign_slug
-    return render(request, template, {
-        'persons': persons,
-        'neglected_persons': neglected_persons,
-        'persons_json': persons_json,
+    if campaign.load_all_persons or campaign.load_neglected_persons:
+        # Only retuns persons with at least one email address
+        # Count the number of emails we've sent them
+        persons = Person.objects \
+            .filter(contactdetails__type='email') \
+            .annotate(num_emails=Count('email')) \
+            .prefetch_related('party', 'contactdetails')
+
+    if campaign.load_all_persons:
+        persons_json = json.dumps([p.as_dict() for p in persons])
+        context.update({
+            'persons': persons,
+            'persons_json': persons_json,
+        })
+
+    if campaign.load_neglected_persons:
+        # of those MPs that are less emailed, randomly choose 4
+        neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
+        context.update({
+            'neglected_persons': neglected_persons,
+        })
+
+    if campaign.single_recipient is not None:
+        persons = Person.objects \
+            .filter(id=campaign.single_recipient.id) \
+            .filter(contactdetails__type='email') \
+            .annotate(num_emails=Count('email')) \
+            .prefetch_related('party', 'contactdetails')
+
+        recipient = persons.first()
+        context.update({
+            'recipient': recipient,
+            'recipient_json': json.dumps(recipient.as_dict()),
+        })
+
+    context.update({
         'form': EmailForm({
             'campaign_slug': campaign_slug,
             'subject': DEFAULT_SUBJECT,
@@ -114,6 +113,8 @@ def campaign(request, campaign_slug):
         'recaptcha_key': settings.RECAPTCHA_KEY,
         'campaign': campaign,
     })
+    template = 'campaigns/%s.html' % campaign_slug
+    return render(request, template, context)
 
 
 @require_POST
