@@ -8,6 +8,11 @@
 {# whatsapp_msg must be urlencoded #}
 {% block whatsapp_msg %}I,%20{{ email.from_name|urlencode }},%20sent%20a%20message%20to%20{{ email.to_person.name|urlencode }}%20MP!%20Will%20you?%20{{ BASE_URL }}{{ request.path }}wa/{% endblock %}
 
+{% block head-css %}
+  {{ block.super }}
+  {% stylesheet "css-newsmedia" %}
+{% endblock head-css %}
+
 {% block content %}
 
 <div id="sent-page">
@@ -82,7 +87,7 @@
 
 	{% block js %}
 	{{ block.super }}
-	{% javascript "campaign" %}
+	{% javascript "js-newsmedia" %}
 	{% endblock %}
 
 	{% block attribution %}
