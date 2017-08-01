@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import (
+    Campaign,
     ContactDetail,
     Email,
     Person,
@@ -29,6 +30,7 @@ class EmailAdmin(admin.ModelAdmin):
 
 admin.site.site_header = 'Contact MPs administration'
 
+admin.site.register(Campaign)
 admin.site.register(ContactDetail, ContactDetailAdmin)
 admin.site.register(Email, EmailAdmin)
 admin.site.register(Person, PersonAdmin)

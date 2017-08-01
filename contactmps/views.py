@@ -2,7 +2,8 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django import shortcuts
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
 from django import forms
@@ -24,6 +25,17 @@ DEFAULT_SUBJECT = 'Motion of No Confidence in the President of the Republic'
 log = logging.getLogger(__name__)
 
 
+def render(request, template, context):
+    campaign = context.get('campaign', None)
+    if campaign:
+        context.update({
+            'SITE_NAME': campaign.site_name,
+            'SITE_DESCRIPTION': campaign.site_description,
+            'SITE_HASHTAG': campaign.hashtag,
+        })
+    return shortcuts.render(request, template, context)
+
+
 class EmailForm(forms.Form):
     campaign_slug = forms.CharField(label='campaign_slug', required=True)
     person = forms.CharField(label='person', required=True)
@@ -36,11 +48,11 @@ class EmailForm(forms.Form):
 
 @xframe_options_exempt
 def home(request):
-    if settings.CAMPAIGN == 'psam':
+    if settings.HOME_CAMPAIGN == 'psam':
         return campaign(request, 'psam')
     else:
         return render(request, 'index.html', {
-            'campaign_slug': settings.CAMPAIGN,
+            'campaign_slug': settings.HOME_CAMPAIGN,
         })
 
 
@@ -61,15 +73,17 @@ def secret_ballot(request):
         .prefetch_related('party', 'contactdetails')
 
     recipient = persons.first()
+    campaign = get_object_or_404(Campaign, slug='secretballot')
 
     return render(request, 'campaigns/secretballot.html', {
         'recipient': recipient,
         'recipient_json': json.dumps(recipient.as_dict()),
         'form': EmailForm({
-            'campaign_slug': 'secretballot',
+            'campaign_slug': campaign.slug,
             'subject': DEFAULT_SUBJECT,
         }),
         'recaptcha_key': settings.RECAPTCHA_KEY,
+        'campaign': campaign,
     })
 
 
@@ -86,6 +100,8 @@ def campaign(request, campaign_slug):
     neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
     persons_json = json.dumps([p.as_dict() for p in persons])
 
+    campaign = get_object_or_404(Campaign, slug=campaign_slug)
+
     template = 'campaigns/%s.html' % campaign_slug
     return render(request, template, {
         'persons': persons,
@@ -96,6 +112,7 @@ def campaign(request, campaign_slug):
             'subject': DEFAULT_SUBJECT,
         }),
         'recaptcha_key': settings.RECAPTCHA_KEY,
+        'campaign': campaign,
     })
 
 
@@ -207,9 +224,9 @@ def api_qa(request, secure_id):
 @xframe_options_exempt
 def email_detail(request, secure_id):
     email = get_object_or_404(Email, secure_id=secure_id)
-    return render(request, 'email-detail-%s.html' % settings.CAMPAIGN, {
+    return render(request, email.campaign.email_detail_template, {
         'email': email,
-        'campaign_slug': settings.CAMPAIGN,
+        'campaign': email.campaign,
     })
 
 
