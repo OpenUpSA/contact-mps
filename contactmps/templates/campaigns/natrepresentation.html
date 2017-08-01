@@ -1,0 +1,104 @@
+{% extends "layout-ajax.html" %}
+{% load pipeline %}
+{% load staticfiles %}
+
+{% block title %}National Representation{% endblock %}
+
+{% block head-css %}
+{% stylesheet "css-natrepresentation" %}
+{% endblock %}
+
+{% block js %}
+<script>
+  var persons = {{ persons_json|safe }};
+  var recaptchaKey = '{{ recaptcha_key }}';
+</script>
+
+{{ block.super }}
+{% javascript "js-natrepresentation" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Baleka Build Message -->
+<section id="secret-ballot-build-message">
+  <h2><b>How are you represented in national government?</b></h2>
+  <div class="days-remaining-box">
+    <div>There are only</div>
+    <div class="days-remaining-number"></div>
+    <div>left before the vote</div>
+  </div>
+  <div class="why-box gray-box row">
+    <div class="col-sm-6">
+      <h4><b>Why is this important?</b></h4>
+    </div>
+  </div>
+
+  <form id="email-secret" autocomplete="off">
+
+    <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
+
+  </form>
+</section>
+
+<!-- Baleka Preview Message -->
+<section id="secret-ballot-preview-message">
+  <h2>Preview your open letter</h2>
+  <div class="gray-box">
+    <table class="sender-info">
+      <tr>
+        <td class="left">From</td>
+        <td>
+          <span id="name"></span><br>
+          <span id="email"></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="left">Subject</td>
+        <td id="email-title"></td>
+      </tr>
+    </table>
+    <div id="comment-preview"></div>
+    </div>
+  </div>
+  <div id="recaptcha"></div>
+  <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Send your email">
+  <div id="editEmail" class="change-email-position">Change your email</div>
+</section>
+
+<!-- Baleka Email Sent -->
+<section id="secret-ballot-sent">
+  <h2><b>Thank you, your email has been sent</b></h2>
+  <h4>While we have you, do you mind if we ask you a quick question?</h4>
+  <div class="follow-up-question-box gray-box">
+    <div class="follow-up-question">
+      <p>Have you ever participated in a protest march?</p>
+    </div>
+    <div class="follow-up-answer-box">
+      <span id="follow-up-answer-1" class="toggle-select-follow-up">
+        YES, I have
+      </span>
+      <span id="follow-up-answer-2" class="toggle-select-follow-up">
+        NO, I have not
+      </span>
+    </div>
+  </div>
+  <h3>Help others get their voices heard, share this on social media</h3>
+  <div class="row">
+    <div class="col-xs-6 text-center">
+      <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
+
+    <div class="col-xs-6 text-center">
+      <input class="twitter-share" type="button" value="Tweet" data-hashtag="NationalRepresentation" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
+  </div>
+
+  {% if is_mobile %}
+  <!--
+  <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
+  -->
+  {% endif %}
+
+</section>
+{% endblock content %}

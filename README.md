@@ -84,10 +84,18 @@ HOME_CAMPAIGN=psam python manage.py runserver
 Development
 ------------------
 
-* Put javascript into ``contactmps/static/javascript/app.js``
-* Put SCSS stylesheets into ``contactmps/static/stylesheets/app.scss``
 * Install new asset packs with Bower: ``bower install -Sp package-to-install``
 * Get better debugging with ``python manage.py runserver_plus``
+
+## Campaigns
+
+* Put javascript into ``contactmps/static/javascript/{{ campaign_slug }}.js``
+* Put SCSS stylesheets into ``contactmps/static/stylesheets/{{ campaign_slug }}.scss``
+* Implement a campaign page template in ``contactmps/templates/campaigns/{{ campaign_slug }}.html``
+* Implement an email detail page template in ``contactmps/templates/email-detail-{{ campaign_slug }}.html``
+* Add CSS and javascript to `settings.PIPELINE`: the convention is `js-{{ campaign_slug }}` and `css-{{ campaign_slug }}` which is then included by your template.
+* Add an embed javascript script into ``contactmps/static/javascript/embed-{{ campaign_slug }}.js``
+* Add a Campaign model instance via `/admin` with the appropriate settings for your campaign
 
 
 Production deployment
@@ -115,13 +123,6 @@ dokku config:set  DJANGO_DEBUG=false \
 git push dokku master
 
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
-```
-
-## Nightly data updates
-
-Looks like People's Assembly produces a dump around 01:30 GMT so set a cron job for around 02:00 GMT
-```
-0 0 0 0 0 dokku run --rm ...
 ```
 
 # Undelivered mail
