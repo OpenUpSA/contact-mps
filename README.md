@@ -3,7 +3,7 @@ Contact MPs
 
 This is a project intended to make it easier to contact Members of Parliament.
 
-Two campaigns are currently run on dedicated instances: psam and newsmedia.
+Multiple campaigns can run on the same instance. The campaign shown on the home page is determined by the HOME_CAMPAIGN environment variable.
 
 ## Principles
 
@@ -12,7 +12,7 @@ Two campaigns are currently run on dedicated instances: psam and newsmedia.
 - Embedding is important for distribution, especially via online news outlets
   - When embedded, in-site navigation happens inside the iframe. So when you send a message, the content of the iframe changes to the next page. The parent doesn't change.
   - Watch out! Links that should not load inside the iframe should set the target to _blank or _parent
-  - The home page (/) embeds the default campaign message creation page. This helps ensure we thoroughly test embedding
+  - The home page (/) embeds the configured `HOME_CAMPAIGN` page. This helps ensure we thoroughly test embedding
   - The whole site must also work non-embedded! Social sharing links link directly to the current page which means visitors will see that, not the parent (e.g. the news article or whatever that embedded it)
 - Sharing on social media and mobile chat apps like WhatsApp is another important marketing mechanism
   - Allowing users to share pages with relevant, personal OG metadata improves the quality of this
@@ -78,7 +78,7 @@ python manage.py migrate
 python manage.py createsuperuser
 export RECAPTCHA_KEY=...
 export RECAPTCHA_SECRET=...
-CAMPAIGN=psam python manage.py runserver
+HOME_CAMPAIGN=psam python manage.py runserver
 ```
 
 Development
@@ -111,7 +111,7 @@ dokku config:set  DJANGO_DEBUG=false \
                   RECAPTCHA_KEY=... \
                   RECAPTCHA_SECRET=... \
                   BASE_URL=https://production.url.com \
-                  CAMPAIGN=...
+                  HOME_CAMPAIGN=...
 git push dokku master
 
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
