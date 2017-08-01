@@ -224,7 +224,9 @@ def api_qa(request, secure_id):
 @xframe_options_exempt
 def email_detail(request, secure_id):
     email = get_object_or_404(Email, secure_id=secure_id)
-    return render(request, email.campaign.email_detail_template, {
+    template = 'email-detail-%s.html' % email.campaign.slug
+
+    return render(request, template, {
         'email': email,
         'campaign': email.campaign,
     })

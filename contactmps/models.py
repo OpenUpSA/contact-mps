@@ -106,8 +106,6 @@ class Campaign(models.Model):
     hashtag = models.CharField(max_length=100)
     site_name = models.CharField(max_length=100)
     site_description = models.CharField(max_length=200)
-    campaign_template = models.CharField(max_length=100)
-    email_detail_template = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
