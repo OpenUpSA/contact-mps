@@ -46,20 +46,11 @@ postgres=#
 Allow passwordless database connections locally, or give your DB user a password
 and set the DATABASE_URL environment variable accordingly.
 
-Set the following environment variables:
-
-```
-RECAPTCHA_KEY=...
-RECAPTCHA_SECRET=...
-```
-
 Initialise and run.
 
 ```
 python manage.py migrate
 python manage.py createsuperuser
-export RECAPTCHA_KEY=...
-export RECAPTCHA_SECRET=...
 python manage.py runserver
 ```
 
