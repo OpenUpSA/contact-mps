@@ -5,7 +5,8 @@ This is a project intended to make it easier to contact Members of Parliament.
 
 Multiple campaigns can run on the same instance. The campaign shown on the home page is determined by the HOME_CAMPAIGN environment variable.
 
-## Principles
+Principles
+----------
 
 - The public should learn that they are directly represented by MPs via constituency time, and can easily contact their MPs
 - It should be as quick and easy as possible to contact your MP for legitimate relevant conversation
@@ -21,27 +22,8 @@ Multiple campaigns can run on the same instance. The campaign shown on the home 
   - Search engines shouldn't index them
   - We use secure random email IDs to be difficult to guess, but anyone who knows the secure ID can view it.
 
-## Embed examples
-
-- [Standard embed code](https://jsfiddle.net/jbothma_openup/mdu1dfzp/1/)
-- [Embedded result](https://jsfiddle.net/jbothma_openup/1ommh6qn/4/)
-
-## Data updates
-
-Member of Parliament data is downloaded from [People's Assembly](pa.org.za).
-
-You can manually download the data and update the database with
-```
-python manage.py loadpa
-```
-
-You can manually update the database from a file on the server using
-```
-python manage.py loadpa --file=path/to/pombola.json
-```
-
 Setting up dev env
------------------------
+------------------
 
 ```
 virtualenv --no-site-packages env
@@ -81,13 +63,13 @@ export RECAPTCHA_SECRET=...
 HOME_CAMPAIGN=psam python manage.py runserver
 ```
 
-Development
-------------------
+## Development
+
 
 * Install new asset packs with Bower: ``bower install -Sp package-to-install``
 * Get better debugging with ``python manage.py runserver_plus``
 
-## Campaigns
+### Campaigns
 
 * Put javascript into ``contactmps/static/javascript/{{ campaign_slug }}.js``
 * Put SCSS stylesheets into ``contactmps/static/stylesheets/{{ campaign_slug }}.scss``
@@ -101,7 +83,28 @@ Development
 Production deployment
 ---------------------
 
-Production deployment assumes you're running on Heroku.
+### Embed examples
+
+- [Standard embed code](https://jsfiddle.net/jbothma_openup/mdu1dfzp/1/)
+- [Embedded result](https://jsfiddle.net/jbothma_openup/1ommh6qn/4/)
+
+### Data updates
+
+Member of Parliament data is downloaded from [People's Assembly](pa.org.za).
+
+You can manually download the data and update the database with
+```
+python manage.py loadpa
+```
+
+You can manually update the database from a file on the server using
+```
+python manage.py loadpa --file=path/to/pombola.json
+```
+
+### Deployment
+
+Production deployment assumes you're running on dokku
 
 You will need:
 
@@ -125,7 +128,8 @@ git push dokku master
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
 ```
 
-# Undelivered mail
+Undelivered mail
+----------------
 
 ```SQL
 \copy (select from_name, from_email, created_at, subject, body_txt from contactmps_email where lower(to_addresses) like '%andries.nel@parliament.gov.za%') to '/home/jdb/proj/code4sa/contact-mps/undelivered-andries.nel@parliament.gov.za.csv' csv header;
@@ -134,11 +138,11 @@ To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
 Web Resources
 -------------
 
-## /campaign/_campaignname_/
+### /campaign/_campaignname_/
 
 The web view of the campaign where messages can be composed and sent
 
-## /email/_emailsecretid_/
+### /email/_emailsecretid_/
 
 The public view of an email - a nice way for a sender to show to peers what they sent
 
