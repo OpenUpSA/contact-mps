@@ -291,5 +291,9 @@ EMAIL_PORT = 587
 # use this to stop sending emails
 SEND_EMAILS = os.environ.get('DJANGO_SEND_EMAILS') == 'True'
 
-RECAPTCHA_KEY = os.environ.get('RECAPTCHA_KEY')
-RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET')
+RECAPTCHA_KEY = os.environ.get('RECAPTCHA_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')
+
+if DEBUG:
+    RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET', '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe')
+else:
+    RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET')
