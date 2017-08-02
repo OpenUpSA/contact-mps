@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-from contactmps.models import Campaign
 
 
 def forwards(apps, schema_editor):
@@ -50,6 +49,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='email',
             name='campaign',
-            field=models.ForeignKey(Campaign),
+            field=models.ForeignKey('contactmps.Campaign'),
         ),
     ]

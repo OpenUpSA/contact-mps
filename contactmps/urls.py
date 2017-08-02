@@ -12,10 +12,8 @@ API_CACHE_SECS = 5 * 60
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
-    url(r'^campaign/secretballot/embedded-preview/$', views.embedded_preview,
+    url(r'^campaign/(?P<campaign_slug>[a-z0-9-]+)/embedded-preview/$', views.embedded_preview,
         name='embedded-preview'),
-    url(r'^campaign/secretballot/$', cache_page(API_CACHE_SECS)(views.secret_ballot),
-        name='secret-ballot'),
     url(r'^campaign/(?P<campaign_slug>[a-z0-9-]+)/$', cache_page(API_CACHE_SECS)(views.campaign),
         name='campaign'),
     url(r'^email/$', csrf_exempt(views.email), name='email'),

@@ -7,6 +7,11 @@
 {# whatsapp_msg must be urlencoded #}
 {% block whatsapp_msg %}I,%20{{ email.from_name|urlencode }},%20sent%20a%20message%20to%20{{ email.to_person.name|urlencode }}%20MP!%20Will%20you?%20{{ BASE_URL }}{{ request.path }}wa/{% endblock %}
 
+{% block head-css %}
+  {{ block.super }}
+  {% stylesheet "css-psam" %}
+{% endblock head-css %}
+
 {% block content %}
 
 <div id="sent-page">
@@ -40,14 +45,14 @@
   </div>
 
   <div class="restart text-center">
-    <a class="btn btn-contact" href="/campaign/{{ campaign_slug }}/"><i class="fa fa-university" aria-hidden="true"></i> Contact your MP</a>
+    <a class="btn btn-contact" href="/campaign/{{ campaign.slug }}/"><i class="fa fa-university" aria-hidden="true"></i> Contact your MP</a>
   </div>
 
   {% endblock content %}
 
   {% block js %}
   {{ block.super }}
-  {% javascript "campaign" %}
+  {% javascript "js-psam" %}
   {% endblock %}
 
   {% block attribution %}
