@@ -60,7 +60,7 @@ python manage.py migrate
 python manage.py createsuperuser
 export RECAPTCHA_KEY=...
 export RECAPTCHA_SECRET=...
-HOME_CAMPAIGN=psam python manage.py runserver
+python manage.py runserver
 ```
 
 ## Development

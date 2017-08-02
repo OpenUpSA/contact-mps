@@ -27,7 +27,7 @@ else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 if DEBUG:
-    HOME_CAMPAIGN = os.environ.get('HOME_CAMPAIGN', 'newsmedia')
+    HOME_CAMPAIGN = os.environ.get('HOME_CAMPAIGN', 'natrepresentation')
 else:
     HOME_CAMPAIGN = os.environ.get('HOME_CAMPAIGN')
 
