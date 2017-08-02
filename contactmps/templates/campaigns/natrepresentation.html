@@ -22,7 +22,7 @@
 
 <!-- Baleka Build Message -->
 <section id="secret-ballot-build-message">
-  <h2><b>How are you represented in national government?</b></h2>
+  <h2><b>How well are you represented in national government?</b></h2>
   <div class="days-remaining-box">
     <div>There are only</div>
     <div class="days-remaining-number"></div>
@@ -30,16 +30,42 @@
   </div>
   <div class="why-box gray-box row">
     <div class="col-sm-6">
-      <h4><b>Why is this important?</b></h4>
+      <h4><b>Write an open letter</b></h4>
     </div>
   </div>
 
   <form id="email-secret" autocomplete="off">
+    <section class="choose">
+      <h3>1. Choose a Member of Parliament:</h3>
+
+      <div class="row">
+      {% for person in neglected_persons %}
+        <div class="col-xs-6 mp-wrap">
+          <div class="single-mp row" data-id="{{ person.id }}">
+            <div class="col-xs-4">
+              <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
+                {% if person.party %}
+                <img class="party-logo" src="{{ person.party.icon_url }}">
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-xs-8">
+              <div class="mp-name">{{ person.name }}</div>
+              <div class="email-count">
+                <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
 
     <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
 
   </form>
 </section>
+
 
 <!-- Baleka Preview Message -->
 <section id="secret-ballot-preview-message">

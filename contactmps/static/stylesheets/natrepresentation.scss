@@ -1,3 +1,280 @@
-p {
-    font-color: blue;
+// select things from bootstrap
+// Core variables and mixins
+@import "bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+// Reset and dependencies
+@import "bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+// Core CSS
+@import "bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/type";
+// @import "bootstrap/code";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/tables";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/forms";
+// Utility classes
+@import "bootstrap-sass/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+
+
+
+$font-serif: 'Helvetica', 'Open-Sans', sans-serif;
+
+h1, h2, h3, h4 {
+  color: #4a4a4a;
+}
+
+.header-text {
+  font-size: 24px;
+  color: #4a4a4a;
+  font-family: $font-serif !important;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-weight: bold;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.gray-box {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+.btn-continue {
+  border-radius: 0;
+  border: none;
+  background-color: #167937;
+  color: #fff;
+  font-family: $font-serif !important;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+textarea,
+input[type=text],
+input[type=email] {
+  font-size: 16px;  // avoid iOS zooming in
+}
+
+#secret-ballot-build-message {
+  padding-bottom: 40px;
+    .secret-ballot-page {
+        background-color: #fff;
+        text-align: center;
+    }
+}
+
+textarea, input {
+  border-radius: 4px;
+  border: solid 1px #d2d2d2;
+  resize: none;
+  padding: 8px;
+  width: 100%;
+}
+
+#secret-ballot-build-message {
+  .days-remaining-box {
+    border-radius: 4px 4px 0 0;
+    background-color: #c20000;
+    margin-top: 15px;
+    font-family: $font-serif;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    padding: 8px;
+    .days-remaining-number {
+      font-size: 36px;
+    }
+  }
+  .why-box {
+    h4 {
+      margin-bottom: 5px;
+    }
+    p:first-of-type {
+      margin-bottom: 20px;
+    }
+  }
+  .img-baleka {
+    margin-left: 10px;
+    float: right;
+  }
+  .pa-box {
+    background-color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    text-align: center;
+    a {
+      color: #4a4a4a;
+    }
+  }
+  .send-email-header {
+    font-family; $font-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    color: #4a4a4a;
+    margin-top: 15px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  #email-secret {
+    .number {
+      height: 50px;
+      width: 50px;
+      background-color: #167937;
+      border-radius: 100%;
+      font-family: $font-serif;
+      line-height: 50px;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      color: #fff;
+    }
+    .question {
+      margin-top: -50px;
+      margin-left: 60px;
+
+      h5 {
+	font-weight: normal;
+      }
+    }
+    textarea {
+      margin-left: 60px;
+      width: calc(100% - 60px);
+      margin-top: 8px;
+    }
+    .name-input {
+      margin-bottom: 8px;
+    }
+  }
+  .toggle-button-question {
+    margin-left: 60px;
+    margin-top: 10px;
+    .toggle-select {
+      background-color: #fff;
+      color: #4a4a4a;
+      font-size: 16px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      display: inline-block;
+      @media only screen and (min-width: 560px) {
+        width: 49%;
+      }
+      &#no {
+        border-top: 3px solid #f0f0f0;
+      }
+      &.selected {
+        background-color: #167937;
+        color: #fff;
+      }
+    }
+  }
+  .preview-email {
+    border-radius: 0;
+    border: none;
+    background-color: #167937;
+    color: #fff;
+    font-family: $font-serif !important;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .preview-submit-position {
+    margin-top: 15px;
+    text-align: center;
+  }
+}
+
+#secret-ballot-preview-message {
+  .sender-info {
+    .left {
+      min-width: 65px;
+      padding-right: 15px;
+      vertical-align: top;
+      font-weight: bold;
+    }
+    td {
+      padding-bottom: 10px;
+    }
+  }
+  #comment-preview {
+    padding-top: 15px;
+    border-top: 1px solid #d2d2d2;
+    margin-top: 5px;
+  }
+  #sendEmail {
+    margin-top: 20px;
+  }
+  #editEmail {
+    font-family: $font-serif !important;
+    font-size: 18px;
+    color: #4a4a4a;
+    text-decoration: underline;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+  }
+}
+
+#secret-ballot-sent {  
+  padding-bottom: 40px; 
+  .follow-up-question {
+    font-size: 16px;
+  }
+  .follow-up-question-box {
+    .toggle-select-follow-up {
+      margin-top: 3px;
+      background-color: #fff;
+      color: #4a4a4a;
+      font-size: 16px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      display: inline-block;
+      @media only screen and (min-width: 430px) {
+        width: 49%;
+      }
+      &.selected {
+        background-color: #167937;
+        color: #fff;
+      }
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .fb-share,
+  .twitter-share {
+    border: none;
+    color: #fff;
+  }
+  .fb-share {
+    background-color: #3b5998;
+  }
+
+  .twitter-share {
+    background-color: #4990e2;
+  }
+}
+
+ul.choose-one {
+  padding-left: 0px;
+
+  li {
+    list-style: none;
+    display: inline-block;
+    background-color: white;
+    padding: 5px 12px;
+    margin: 0px 5px 5px 0px;
+    font-size: 16px;
+    cursor: pointer;
+    &.active {
+      background-color: #167937;
+      color: white;
+    }
+  }
 }
