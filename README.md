@@ -131,10 +131,23 @@ To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
 \copy (select from_name, from_email, created_at, subject, body_txt from contactmps_email where lower(to_addresses) like '%andries.nel@parliament.gov.za%') to '/home/jdb/proj/code4sa/contact-mps/undelivered-andries.nel@parliament.gov.za.csv' csv header;
 ```
 
+Web Resources
+-------------
+
+## /campaign/_campaignname_/
+
+The web view of the campaign where messages can be composed and sent
+
+## /email/_emailsecretid_/
+
+The public view of an email - a nice way for a sender to show to peers what they sent
+
 API
 ---
 
 ### Sending an email to a member of parliament
+
+Submit an email body and any structured data one might want to attach to the email (e.g. the answer for whether the data is allowed to be used for analysis later and published)
 
 ```javascript
 var submitForm = function() {
@@ -146,7 +159,9 @@ var submitForm = function() {
       email: 'bob@dave.lala',
       body: 'Dear Baleka, stuff.',
       subject: 'Re: Secret Ballot in Vote of No Confidence in Jacob Zuma as President of the Republic',
-      gRecaptchaResponse: '2398f49f293fjfj20fj'
+      gRecaptchaResponse: '2398f49f293fjfj20fj',
+      campaign_slug: 'secretballot',
+      anyData: JSON.stringify(emailData),
     },
     success: function(data) {
       console.info("success", data);
