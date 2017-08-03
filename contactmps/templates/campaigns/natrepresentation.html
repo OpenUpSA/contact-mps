@@ -150,37 +150,10 @@
 
 <!-- Baleka Email Sent -->
 <section id="message-sent">
-  <h2><b>Thank you, your letter has been sent and published</b></h2>
-  {% if mp.twitter %}
-    <h3>Share your open letter with [MP] on twitter</h3>
-    <div class="mp-tweet gray-box">
-      <img class="twitter-logo" src="{% static 'images/twitter-logo.svg' %}" alt="Twitter" height="26">
-      <div class="handle"><a href="https://twitter.com/@MP_Handle">@MP_Handle</a></div>
-      <div class="tweet-content">
-        Hey @MP_Handle, I've written a letter I think you should read: <a href="">LettersToParliament.org.za/982a3fsd</a> <a href="">#LetterToParliament</a>
-      </div>
-      <input class="twitter-share" type="button" value="Tweet" data-hashtag="LetterToParliament" data-url="https://LettersToParliament.org.za/982a3fsd">
-    </div>
-  {% else %}
-    <h3>Share your open letter with the world</h3>
-    <div class="row">
-      <div class="col-xs-6 text-center">
-        <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
-      </div>
-
-      <div class="col-xs-6 text-center">
-        <input class="twitter-share" type="button" value="Tweet" data-hashtag="NationalRepresentation" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
-      </div>
-    </div>
-  {% endif %}
-
-  {% if is_mobile %}
-  <!--
-  <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
-  -->
-  {% endif %}
+  <h2><b>Thank you. Your open letter has been sent and published.</b></h2>
 
   <h4>While we have you, do you mind if we ask you a quick question?</h4>
+
   <div class="follow-up-question-box gray-box">
     <div class="follow-up-question">
       <p>Have you ever participated in a protest march?</p>
@@ -194,7 +167,24 @@
       </span>
     </div>
   </div>
-  <h3>Help others get their voices heard, share this on social media</h3>
+
+  <h3>Help others get their voices heard</h3>
+
+  <div class="row">
+    <div class="col-xs-6 text-center">
+      <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
+
+    <div class="col-xs-6 text-center">
+      <input class="twitter-share" type="button" value="Tweet" data-hashtag="NationalRepresentation" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
+  </div>
+
+  {% if is_mobile %}
+  <!--
+  <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
+  -->
+  {% endif %}
 
 
 </section>
