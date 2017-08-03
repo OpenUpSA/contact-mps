@@ -2,27 +2,27 @@
 {% load pipeline %}
 {% load staticfiles %}
 
-{% block title %}Secret Ballot{% endblock %}
+{% block title %}National Representation{% endblock %}
 
 {% block head-css %}
-{% stylesheet "css-secretballot" %}
+{% stylesheet "css-natrepresentation" %}
 {% endblock %}
 
 {% block js %}
 <script>
-  var recipient = {{ recipient_json|safe }};
+  var persons = {{ persons_json|safe }};
   var recaptchaKey = '{{ recaptcha_key }}';
 </script>
 
 {{ block.super }}
-{% javascript "js-secretballot" %}
+{% javascript "js-natrepresentation" %}
 {% endblock %}
 
 {% block content %}
 
 <!-- Baleka Build Message -->
 <section id="secret-ballot-build-message">
-  <h2><b>Do you support a secret vote?</b></h2>
+  <h2><b>How well are you represented in national government?</b></h2>
   <div class="days-remaining-box">
     <div>There are only</div>
     <div class="days-remaining-number"></div>
@@ -30,68 +30,46 @@
   </div>
   <div class="why-box gray-box row">
     <div class="col-sm-6">
-      <h4><b>Why is this important?</b></h4>
-      <p class="why-important">In South Africa, Members of Parliament usually vote along party lines. If the vote is made secret, this will allow MPs to vote based on their opinion, and not what their political party dictates.</p>
-    </div>
-    <div class="col-sm-6">
-      <img class="img-baleka" src="../../static/images/Mbete_Baleka_0003.jpg" height="80"/>
-      <h4><b>Why email Baleka Mbete?</b></h4>
-      <p>As Speaker of the National Assembly, Baleka Mbete has the power to declare the vote secret.</p>
-      <div class="pa-box">
-        <a href="https://www.pa.org.za/person/baleka-mbete/" target="_blank">Learn more about Ms Mbete</a>
-        <a href="https://www.pa.org.za/person/baleka-mbete/" target="_blank"><img src="../../static/images/pa-logo-dark.png" height="32" width="64" alt=""/></a>
-      </div>
+      <h4><b>Write an open letter</b></h4>
     </div>
   </div>
 
   <form id="email-secret" autocomplete="off">
-  <h2>Send an email to Baleka Mbete</h2>
+    <section class="choose">
+      <h3>1. Choose a Member of Parliament:</h3>
 
-    <div class="question-1 gray-box">
-      <div class="number">1</div>
-      <div class="question">Do you think that the Parliamentary vote of no confidence in President Jacob Zuma should be a secret vote?</div>
-      <div class="toggle-button-question">
-        <div id="yes" class="toggle-select">
-          <b>Yes</b>, it <b>should</b> be a secret
+      <div class="row">
+      {% for person in neglected_persons %}
+        <div class="col-xs-6 mp-wrap">
+          <div class="single-mp row" data-id="{{ person.id }}">
+            <div class="col-xs-4">
+              <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
+                {% if person.party %}
+                <img class="party-logo" src="{{ person.party.icon_url }}">
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-xs-8">
+              <div class="mp-name">{{ person.name }}</div>
+              <div class="email-count">
+                <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="no" class="toggle-select">
-          <b>No</b>, it should <b>not</b> be a secret
-        </div>
+        {% endfor %}
       </div>
-    </div>
-
-    <div class="question-2 gray-box">
-      <div class="number">2</div>
-      <div class="question">What three things concern you the most about the future of South Africa? (Optional)</div>
-      <textarea id="comment" name="question2"></textarea>
-    </div>
-
-    <div class="question-3 gray-box">
-      <div class="number">3</div>
-      <div class="question">
-        <input class="name-input" type="text" name="name" placeholder="Your name" value="">
-        <input class="email-input" type="email" name="email" placeholder="Your email address" value="">
-
-	<div class="question-age">
-	  <h5>How old are you?</h5>
-	  <ul class="choose-one">
-	    <li>Under 20</li>
-	    <li>20 - 29</li>
-	    <li>30 - 39</li>
-	    <li>40 or older</li>
-	  </ul>
-	</div>
-      </div>
-    </div>
+    </section>
 
     <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
 
   </form>
 </section>
 
+
 <!-- Baleka Preview Message -->
 <section id="secret-ballot-preview-message">
-  <h2>Preview your email to Baleka Mbete</h2>
+  <h2>Preview your open letter</h2>
   <div class="gray-box">
     <table class="sender-info">
       <tr>
@@ -138,7 +116,7 @@
     </div>
 
     <div class="col-xs-6 text-center">
-      <input class="twitter-share" type="button" value="Tweet" data-hashtag="SecretBallot" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+      <input class="twitter-share" type="button" value="Tweet" data-hashtag="NationalRepresentation" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
     </div>
   </div>
 

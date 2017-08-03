@@ -2,7 +2,8 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django import shortcuts
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
 from django import forms
@@ -24,6 +25,17 @@ DEFAULT_SUBJECT = 'Motion of No Confidence in the President of the Republic'
 log = logging.getLogger(__name__)
 
 
+def render(request, template, context):
+    campaign = context.get('campaign', None)
+    if campaign:
+        context.update({
+            'SITE_NAME': campaign.site_name,
+            'SITE_DESCRIPTION': campaign.site_description,
+            'SITE_HASHTAG': campaign.hashtag,
+        })
+    return shortcuts.render(request, template, context)
+
+
 class EmailForm(forms.Form):
     campaign_slug = forms.CharField(label='campaign_slug', required=True)
     person = forms.CharField(label='person', required=True)
@@ -36,67 +48,73 @@ class EmailForm(forms.Form):
 
 @xframe_options_exempt
 def home(request):
-    if settings.CAMPAIGN == 'psam':
+    if settings.HOME_CAMPAIGN == 'psam':
         return campaign(request, 'psam')
     else:
+        campaign = get_object_or_404(Campaign, slug=settings.HOME_CAMPAIGN)
         return render(request, 'index.html', {
-            'campaign_slug': settings.CAMPAIGN,
+            'campaign': campaign,
         })
 
 
 @xframe_options_exempt
-def embedded_preview(request):
+def embedded_preview(request, campaign_slug):
+    campaign = get_object_or_404(Campaign, slug=campaign_slug)
     return render(request, 'campaign-embedded-preview.html', {
-    })
-
-
-@xframe_options_exempt
-def secret_ballot(request):
-    # Only retuns persons with at least one email address
-    # Count the number of emails we've sent them
-    persons = Person.objects \
-        .filter(pa_id='core_person:4175') \
-        .filter(contactdetails__type='email') \
-        .annotate(num_emails=Count('email')) \
-        .prefetch_related('party', 'contactdetails')
-
-    recipient = persons.first()
-
-    return render(request, 'campaigns/secretballot.html', {
-        'recipient': recipient,
-        'recipient_json': json.dumps(recipient.as_dict()),
-        'form': EmailForm({
-            'campaign_slug': 'secretballot',
-            'subject': DEFAULT_SUBJECT,
-        }),
-        'recaptcha_key': settings.RECAPTCHA_KEY,
+        'campaign': campaign,
     })
 
 
 @xframe_options_exempt
 def campaign(request, campaign_slug):
-    # Only retuns persons with at least one email address
-    # Count the number of emails we've sent them
-    persons = Person.objects \
-        .filter(contactdetails__type='email') \
-        .annotate(num_emails=Count('email')) \
-        .prefetch_related('party', 'contactdetails')
+    context = {}
+    campaign = get_object_or_404(Campaign, slug=campaign_slug)
 
-    # of those MPs that are less emailed, randomly choose 4
-    neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
-    persons_json = json.dumps([p.as_dict() for p in persons])
+    if campaign.load_all_persons or campaign.load_neglected_persons:
+        # Only retuns persons with at least one email address
+        # Count the number of emails we've sent them
+        persons = Person.objects \
+            .filter(contactdetails__type='email') \
+            .annotate(num_emails=Count('email')) \
+            .prefetch_related('party', 'contactdetails')
 
-    template = 'campaigns/%s.html' % campaign_slug
-    return render(request, template, {
-        'persons': persons,
-        'neglected_persons': neglected_persons,
-        'persons_json': persons_json,
+    if campaign.load_all_persons:
+        persons_json = json.dumps([p.as_dict() for p in persons])
+        context.update({
+            'persons': persons,
+            'persons_json': persons_json,
+        })
+
+    if campaign.load_neglected_persons:
+        # of those MPs that are less emailed, randomly choose 4
+        neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
+        context.update({
+            'neglected_persons': neglected_persons,
+        })
+
+    if campaign.single_recipient is not None:
+        persons = Person.objects \
+            .filter(id=campaign.single_recipient.id) \
+            .filter(contactdetails__type='email') \
+            .annotate(num_emails=Count('email')) \
+            .prefetch_related('party', 'contactdetails')
+
+        recipient = persons.first()
+        context.update({
+            'recipient': recipient,
+            'recipient_json': json.dumps(recipient.as_dict()),
+        })
+
+    context.update({
         'form': EmailForm({
             'campaign_slug': campaign_slug,
             'subject': DEFAULT_SUBJECT,
         }),
         'recaptcha_key': settings.RECAPTCHA_KEY,
+        'campaign': campaign,
     })
+    template = 'campaigns/%s.html' % campaign_slug
+    return render(request, template, context)
 
 
 @require_POST
@@ -207,9 +225,11 @@ def api_qa(request, secure_id):
 @xframe_options_exempt
 def email_detail(request, secure_id):
     email = get_object_or_404(Email, secure_id=secure_id)
-    return render(request, 'email-detail-%s.html' % settings.CAMPAIGN, {
+    template = 'email-detail-%s.html' % email.campaign.slug
+
+    return render(request, template, {
         'email': email,
-        'campaign_slug': settings.CAMPAIGN,
+        'campaign': email.campaign,
     })
 
 

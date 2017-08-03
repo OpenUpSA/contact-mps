@@ -14,21 +14,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 
-CAMPAIGN = os.environ.get('CAMPAIGN', 'secretballot')
-
-SITE_DESCRIPTION = "How do you feel about the vote of no confidence in the President? Email your MP. Your Parliament. Your Voice."
-
-if CAMPAIGN == "newsmedia":
-    SITE_HASHTAG = '#NoConfidenceVote'
-    SITE_NAME = SITE_HASHTAG
-elif CAMPAIGN == "psam":
-    SITE_HASHTAG = '#RepresentMe'
-    SITE_NAME = SITE_HASHTAG
-elif CAMPAIGN == "secretballot":
-    SITE_HASHTAG = '#SecretBallot'
-    SITE_NAME = SITE_HASHTAG
-    SITE_DESCRIPTION = "Do you support a secret ballot for the vote of no confidence?"
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -41,7 +26,10 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID', '')
+if DEBUG:
+    HOME_CAMPAIGN = os.environ.get('HOME_CAMPAIGN', 'natrepresentation')
+else:
+    HOME_CAMPAIGN = os.environ.get('HOME_CAMPAIGN')
 
 ALLOWED_HOSTS = ['*']
 
@@ -169,58 +157,75 @@ PIPELINE = {
     'PIPELINE_ENABLED': not DEBUG,
     'PIPELINE_COLLECTOR_ENABLED': True,
     'JAVASCRIPT': {
-        # Every page must include this
-        'base': {
+        'js-newsmedia': {
             'source_filenames': (
                 'bower_components/jquery/dist/jquery.min.js',
                 'javascript/pym.v1.min.js',
                 'javascript/base.js',
-            ),
-            'output_filename': 'base.js',
-        },
-        'base-ajax': {
-            'source_filenames': (
-                'bower_components/jquery/dist/jquery.min.js',
-                'javascript/pym.v1.min.js',
-                'javascript/base.js',
-            ),
-            'output_filename': 'base.js',
-        },
-        'js': {
-            'source_filenames': (
                 'javascript/select2.min.js',
                 'bower_components/mustache.js/mustache.js',
-                'javascript/%s.js' % CAMPAIGN,
+                'javascript/newsmedia.js',
             ),
-            'output_filename': '%s.js' % CAMPAIGN,
+            'output_filename': 'newsmedia.js',
         },
-        'js-ajax': {
+        'js-psam': {
             'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/base.js',
+                'javascript/select2.min.js',
+                'bower_components/mustache.js/mustache.js',
+                'javascript/psam.js',
+            ),
+            'output_filename': 'psam.js',
+        },
+        'js-secretballot': {
+            'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/base.js',
                 'javascript/secretballot.js',
             ),
             'output_filename': 'secretballot.js',
         },
-        'embed.js': {
+        'js-natrepresentation': {
             'source_filenames': (
-                'javascript/embed.js',
+                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/base.js',
+                'javascript/natrepresentation.js',
             ),
-            'output_filename': 'embed.js',
+            'output_filename': 'natrepresentation.js',
         },
     },
     'STYLESHEETS': {
-        'css': {
+        'css-newsmedia': {
             'source_filenames': (
                 'bower_components/fontawesome/css/font-awesome.css',
                 'stylesheets/select2.min.css',
-                'stylesheets/%s.scss' % CAMPAIGN,
+                'stylesheets/newsmedia.scss',
             ),
-            'output_filename': '%s.css' % CAMPAIGN,
+            'output_filename': 'newsmedia.css',
         },
-        'css-ajax': {
+        'css-psam': {
+            'source_filenames': (
+                'bower_components/fontawesome/css/font-awesome.css',
+                'stylesheets/select2.min.css',
+                'stylesheets/psam.scss',
+            ),
+            'output_filename': 'psam.css',
+        },
+        'css-secretballot': {
             'source_filenames': (
                 'stylesheets/secretballot.scss',
             ),
             'output_filename': 'secretballot.css',
+        },
+        'css-natrepresentation': {
+            'source_filenames': (
+                'stylesheets/natrepresentation.scss',
+            ),
+            'output_filename': 'natrepresentation.css',
         },
         'container': {
             'source_filenames': (
