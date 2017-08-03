@@ -61,9 +61,6 @@ $(".multiple-choice .option").click(function() {
   $(".multiple-choice .option").removeClass("selected");
   $this.addClass("selected");
   $("#previewEmail").prop("disabled", false);
-
-  supportsSecret = $this.attr('id') == "yes";
-  emailData.supportsSecret = supportsSecret;
 });
 
 $(".choose-one li").on('click', function(e) {
@@ -84,7 +81,7 @@ function getRandomInt(min, max) {
 }
 
 function emailSent() {
-  ga('send', 'event', 'secret-ballot-email', 'sent');
+  ga('send', 'event', 'representation-email', 'sent');
 
   // prep follow up questions
   var questions = [
@@ -101,9 +98,8 @@ function emailSent() {
   $('#follow-up-answer-2').text(q.a[1]);
 
   // prep sharing
-  var msg = supportsSecret ? 'I support' : 'I do not support';
-  $('.twitter-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Make your voice heard too @MbeteBaleka');
-  $('.fb-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send her an email and make your voice heard too.');
+  $('.twitter-share').data('message', 'I wrote an open letter to ' + selectedMP.name + ' about being heard in Parliament, you should too.');
+  $('.fb-share').data('message', 'I wrote an open letter to ' + selectedMP.name + ' about being heard in Parliament, you should too.');
 
   $("#preview-message").hide();
   $("#message-sent").show();
