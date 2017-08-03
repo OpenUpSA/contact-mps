@@ -22,19 +22,18 @@
 
 <!-- Baleka Build Message -->
 <section id="build-message">
-  <h2><b>How do you seek representation in national government?</b></h2>
+  <h2><b>How do you make your voice heard in Parliament?</b></h2>
   <form id="representation" autocomplete="off">
-    <h4><b>Write a letter to an MP with 124 other people</b></h4>
+    <h4><b>Write an open letter to an MP</b></h4>
     <div class="choose-mp gray-box">
       <div class="number">1</div>
       <div class="task">
-        <div class="instruction">Which MP would you like to write?</div>
-        <h4>Choose any MP</h4>
+        <div class="instruction">Which MP would you like to write to?</div>
         <div class="dropdown-wrap">
           <select id="select-dropdown" class="use-select2"></select>
         </div>
         <div class="or">or</div>
-        <h4>Choose from the least contacted MPs</h4>
+        <h4>Choose one of these less emailed MPs</h4>
         <div class="row">
         {% for person in neglected_persons %}
           <div class="col-xs-6 mp-wrap">
@@ -49,7 +48,7 @@
               <div class="col-xs-8">
                 <div class="mp-name">{{ person.name }}</div>
                 <div class="email-count">
-                  <small>{% if person.num_emails == 0 %}Not addressed yet{% else %}addressed {{ person.num_emails }} times{% endif %}</small>
+                  <small>{% if person.num_emails == 0 %}No letters yet{% else %}Written to {{ person.num_emails }} times{% endif %}</small>
                 </div>
               </div>
             </div>
