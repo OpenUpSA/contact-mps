@@ -6,6 +6,11 @@
 {% block body-class %}create-email-page{% endblock %}
 {% block og-image %}https://representme.co.za/static/images/pw-logo-fb.png{% endblock %}
 
+{% block head-css %}
+  {{ block.super }}
+  {% stylesheet "css-psam" %}
+{% endblock head-css %}
+
 {% block js %}
   <script>
     var persons = {{ persons_json|safe }};
@@ -13,7 +18,7 @@
   </script>
 
   {{ block.super }}
-  {% javascript "js" %}
+  {% javascript "js-psam" %}
 {% endblock %}
 
 {% block content %}
