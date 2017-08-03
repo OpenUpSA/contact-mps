@@ -194,6 +194,7 @@ PIPELINE = {
                 'javascript/pym.v1.min.js',
                 'javascript/base.js',
                 'bower_components/mustache.js/mustache.js',
+                'javascript/select2.min.js',
                 'javascript/natrepresentation.js',
             ),
             'output_filename': 'natrepresentation.js',

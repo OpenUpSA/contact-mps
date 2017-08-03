@@ -255,7 +255,7 @@ function submitForm(e) {
   submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
-      person: recipient.id,
+      person: 100,
       name: senderName,
       email: senderEmail,
       body: emailTxt,
@@ -302,25 +302,18 @@ $(function() {
   });
 });
 
+var template = "Honourable Member {{{ recipient_name }}},\n\n{{{ content }}}\n{{{ other_issues }}}\
+\nAs a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nSincerely,\n{{{ sender_name }}}";
+
 function updateBody($form, recipientName) {
-  var concern = $form.find('input[name=concern]:checked').val(),
-      vote = $form.find('input[name=vote]:checked').val(),
-      senderName = $form.find('input[name=name]').val();
-
-  var issues = $form.find('[name=issues]').val();
-  var otherIssues = "";
-
-  if (issues) {
-    otherIssues = "\nOther issues that I feel very strongly about are: \n" + issues + "\n";
-  }
+  var senderName = $form.find('input[name=name]').val();
+  var letterContent = $form.find('[name=letter-content]').val();
 
   var context = {
-    'recipient_name': $(".recipient").first().text(),
-    'concern': concern,
-    'action_request': vote,
-    'other_issues': otherIssues,
+    'recipient_name': "Piet Keizer",
+    'content': letterContent,
+    'other_issues': " other issues we might include ",
     'sender_name': senderName,
-    'location': $form.find('select[name=province]').val()
   };
   var body = Mustache.render(template, context);
   $form.find('input[name=body]').val(body);
