@@ -28,10 +28,13 @@
     <div class="choose-mp gray-box">
       <div class="number">1</div>
       <div class="task">
-        <div class="instruction">Choose a Member of Parliament</div>
+        <div class="instruction">Which MP would you like to write?</div>
+        <h4>Choose any MP</h4>
         <div class="dropdown-wrap">
           <select id="select-dropdown" class="use-select2"></select>
         </div>
+        <div class="or">or</div>
+        <h4>Choose from the least contacted MPs</h4>
         <div class="row">
         {% for person in neglected_persons %}
           <div class="col-xs-6 mp-wrap">
@@ -52,6 +55,21 @@
             </div>
           </div>
           {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="gray-box selected-mp-wrap hidden">
+      <h4>You're writing to <span class="recipient"></span></h4>
+      <div class="row single-mp selected-mp">
+        <div class="col-xs-6">
+          <div class="mp-img-wrapper center-block">
+            <img class="party-logo">
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <a href=""><img class="center-block" src="{% static 'images/pa-logo-dark.png' %}" alt="PA.org.za" height="40"></a>
+          <a href="">Profile on PA.org.za</a>
         </div>
       </div>
     </div>
