@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
@@ -113,7 +114,7 @@ def campaign(request, campaign_slug):
         'recaptcha_key': settings.RECAPTCHA_KEY,
         'campaign': campaign,
     })
-    template = 'campaigns/%s.html' % campaign_slug
+    template = 'campaigns/%s.html' % campaign.slug
     return render(request, template, context)
 
 
@@ -157,6 +158,17 @@ def email(request):
     email.send()
 
     return redirect(reverse('email-detail', kwargs={'secure_id': email.secure_id}))
+
+
+def campaign_email(request, campaign_slug):
+    campaign = get_object_or_404(Campaign, slug=campaign_slug)
+    emails = campaign.emails.filter(any_data__allowPublicListing=True) \
+                            .order_by('-created_at').all()[:25]
+
+    template = 'campaign-emails-%s.html' % campaign.slug
+    return render(request, template, {
+        'emails': emails,
+    })
 
 
 @require_POST

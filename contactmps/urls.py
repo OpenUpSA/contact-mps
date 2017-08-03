@@ -16,6 +16,7 @@ urlpatterns = [
         name='embedded-preview'),
     url(r'^campaign/(?P<campaign_slug>[a-z0-9-]+)/$', cache_page(API_CACHE_SECS)(views.campaign),
         name='campaign'),
+    url(r'^campaign/(?P<campaign_slug>[a-z0-9-]+)/email/$', cache_page(API_CACHE_SECS)(views.campaign_email), name='campaign-emails'),
     url(r'^email/$', csrf_exempt(views.email), name='email'),
     url(r'^email/(?P<secure_id>[a-z0-9-]+)/$', cache_page(API_CACHE_SECS)(views.email_detail),
         name='email-detail'),
@@ -23,6 +24,7 @@ urlpatterns = [
     # API
     url(r'^api/v1/email/$', csrf_exempt(views.api_email), name='api-email'),
     url(r'^api/v1/email/(?P<secure_id>[a-z0-9-]+)/qa/$', csrf_exempt(views.api_qa), name='api-qa'),
+    #url(r'^api/v1/campaign/(?P<campaign_slug>[a-z0-9-]+)/email/$', cache_page(API_CACHE_SECS)(views.api_campaign_email), name='api-campaign-emails'),
 
     # UTM - This rather strict regex is part of ensuring we don't let people just
     # inject what they like into a response we give. Think before changing.

@@ -136,7 +136,7 @@ class Email(models.Model):
     # Any data we'd like connected to the email in structured form.
     # This makes no promises about keys being present from one email to another.
     any_data = JSONField()
-    campaign = models.ForeignKey(Campaign)
+    campaign = models.ForeignKey(Campaign, related_name='emails')
 
     @property
     def body_html(self):
@@ -153,7 +153,6 @@ class Email(models.Model):
             'body_html': self.body_html,
             'body_txt': self.body_txt,
             'from_name': self.from_name,
-            'from_email': self.from_email,
             'secure_id': self.secure_id,
             'any_data': self.any_data,
         }
