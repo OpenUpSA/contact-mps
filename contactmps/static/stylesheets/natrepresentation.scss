@@ -155,9 +155,29 @@ textarea, input, .choose-province {
             width: 100%;
             display: inline-block;
             @media only screen and (min-width: 320px) {
-              width: 49%;
+              width: 32%;
             }
-            &#no {
+            &#no, &#unsure {
+              border-top: 3px solid #f0f0f0;
+            }
+            &.selected {
+              background-color: #167937;
+              color: #fff;
+            }
+          }
+        }
+        .checkbox {
+          margin-top: 10px;
+          .option {
+            background-color: #fff;
+            color: #4a4a4a;
+            font-size: 16px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            display: inline-block;
+            &#direct-contact, &#contact-office {
               border-top: 3px solid #f0f0f0;
             }
             &.selected {
