@@ -28,15 +28,21 @@
     <div class="days-remaining-number"></div>
     <div>left before the vote</div>
   </div>
-  <div class="why-box gray-box row">
-    <div class="col-sm-6">
-      <h4><b>Write an open letter</b></h4>
-    </div>
-  </div>
-
   <form id="email-secret" autocomplete="off">
+    <div class="why-box gray-box">
+      <h4><b>Write an open letter</b></h4>
+      <b>Do you feel sufficiently represented as a citizen in National Assembly by members of parliament?</b>
+      <textarea class="letter-content"></textarea>
+      <input class="name-input" type="text" name="input-name" placeholder="Name">
+      <input class="email-input" type="email" name="input-email" placeholder="E-mail address">
+    </div>
+
     <section class="choose">
-      <h3>1. Choose a Member of Parliament:</h3>
+      <h3>Choose a Member of Parliament:</h3>
+
+      <div class="dropdown-wrap">
+        <select id="select-dropdown" class="use-select2"></select>
+      </div>
 
       <div class="row">
       {% for person in neglected_persons %}
@@ -84,7 +90,7 @@
         <td id="email-title"></td>
       </tr>
     </table>
-    <div id="comment-preview"></div>
+    <div id="letter-preview"></div>
     </div>
   </div>
   <div id="recaptcha"></div>

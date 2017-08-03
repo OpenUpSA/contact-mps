@@ -1,5 +1,38 @@
 $(window).on('load', function() {
-    $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
+  // load the data into the dropdown
+  var mps = {};
+
+  var data = persons.map(function(p) {
+    mps[p.id] = p;
+
+    return {
+      id: p.id,
+      text: p.name + (p.party ? (' - ' + p.party.name) : ''),
+    };
+  });
+
+  data.sort(function(a, b) {
+    return a.text.localeCompare(b.text);
+  });
+
+  $(".choose .single-mp").click(function() {
+    var selectedId = parseInt($(this).data('id'));
+    chooseMP(mps[selectedId]);
+  });
+
+  $('#select-dropdown').on("change", function(e) {
+    var selectedId = parseInt($(this).val());
+    chooseMP(mps[selectedId]);
+  });
+
+  $(".choose .single-mp").first().click();
+
+  $('select.use-select2').select2({
+    data: data,
+    placeholder: 'Choose an MP',
+  });
+
+  $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
 
 var daysRemaining=(function(){
@@ -16,6 +49,9 @@ var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
 var emailData = {}; // literally whatever data we want to store along with the email
 var submissionDeferred;
+
+$("#previewEmail").prop("disabled", false);
+
 
 $(".toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
@@ -111,10 +147,12 @@ $("#secret-ballot-sent").hide();
 $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
+  console.log(senderName);
   var senderEmail = $(".email-input").val();
-  emailData.senderName = senderName;
-  emailData.senderEmail = senderEmail;
-  emailData.age = $('.question-age li.active').text();
+  console.log(senderEmail);
+  var emailSubject = "Letter to Parliament";
+  var letterContent = $(".letter-content").val();
+  console.log(letterContent);
 
   if (senderName === '') {
     alert('Please enter your name');
@@ -128,30 +166,23 @@ $("#previewEmail").click(function(e) {
     return;
   }
 
-  if ($("#comment").val() != "") {
-    var otherIssues = $("#comment").val();
-    emailData['otherIssues'] = otherIssues.trim();
-    otherIssues = "\n\nOther issues that concern me about the future of South Africa are:\n\n" + (otherIssues);
-  } else {
-    var otherIssues = "";
-  };
-  if ($(".toggle-select.selected").attr("id") == "no") {
-    var emailSubject = "I do not support a secret ballot in the vote of no confidence";
+  if (letterContent === '') {
+    alert('Please write your letter');
+    $('.letter-content').focus();
+    return;
   }
-  else if ($(".toggle-select.selected").attr("id") == "yes") {
-    var emailSubject = "I support a secret ballot in the vote of no confidence";
-  };
+
   $("#name").text(senderName);
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
+  $("#letter-preview").text(letterContent);
 
-  emailTxt = "Dear Madam Speaker,\n\nI am a citizen of South Africa and I want to let you know that " + emailSubject + " in President Jacob Zuma." + otherIssues + "\n\nYou represent all South Africans, including me. Please choose in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nYours sincerely,\n\n" + senderName;
-  emailHtml = emailTxt.replace(/\n/g, '<br/>');
-
-  $("#comment-preview").html(emailHtml);
   $("#secret-ballot-build-message").hide();
   $("#secret-ballot-preview-message").show();
   location.hash = "#secret-ballot-preview-message";
+
+  emailTxt = "Dear MP,\n\nThis is my message:" + letterContent  + "With kind regards, " + senderName;
+  emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   pymChild.scrollParentTo('contactmps-embed-parent');
 });
@@ -270,3 +301,42 @@ $(function() {
     eventLabel: getParentUrl()
   });
 });
+
+function updateBody($form, recipientName) {
+  var concern = $form.find('input[name=concern]:checked').val(),
+      vote = $form.find('input[name=vote]:checked').val(),
+      senderName = $form.find('input[name=name]').val();
+
+  var issues = $form.find('[name=issues]').val();
+  var otherIssues = "";
+
+  if (issues) {
+    otherIssues = "\nOther issues that I feel very strongly about are: \n" + issues + "\n";
+  }
+
+  var context = {
+    'recipient_name': $(".recipient").first().text(),
+    'concern': concern,
+    'action_request': vote,
+    'other_issues': otherIssues,
+    'sender_name': senderName,
+    'location': $form.find('select[name=province]').val()
+  };
+  var body = Mustache.render(template, context);
+  $form.find('input[name=body]').val(body);
+}
+
+function chooseMP(mp) {
+  // mark an MP as chosen
+  $(".choose .single-mp").removeClass("selected");
+  $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
+  // we pick up the MP name from here so fix message composition if you change this
+  $(".recipient").text(mp.name);
+  $(".selected-mp .mp-img-wrapper").css({"background-image": mp.local_portrait_url ? ('url(' + mp.local_portrait_url + ')') : ''});
+  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
+  $(".pa-link").attr("href", mp.pa_url);
+  $("form input[name=person]").val(mp.id);
+
+  updateBody($('form#email-form'));
+  pymChild.sendHeight();
+}
