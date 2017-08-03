@@ -237,10 +237,10 @@ var recaptchaLoaded = function() {
   }
 };
 
-$('#email-secret').on('submit', submitForm);
+$('#representation').on('submit', submitForm);
 
 function triggerSubmit() {
-  $('#email-secret').submit();
+  $('#representation').submit();
 }
 
 function submitForm(e) {
