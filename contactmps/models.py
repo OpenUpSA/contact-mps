@@ -27,11 +27,16 @@ class Party(models.Model):
     def icon_url(self):
         return '/static/images/parties/%s.png' % self.slug
 
+    @property
+    def abbr(self):
+        return self.name.split('(', 1)[1].strip(')')
+
     def as_dict(self):
         return {
             'id': self.id,
             'pa_id': self.pa_id,
             'name': self.name,
+            'abbr': self.abbr,
             'slug': self.slug,
             'icon_url': self.icon_url,
         }

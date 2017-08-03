@@ -7,7 +7,7 @@ $(window).on('load', function() {
 
     return {
       id: p.id,
-      text: p.name + (p.party ? (' - ' + p.party.name) : ''),
+      text: p.name + (p.party ? (' - ' + p.party.abbr) : ''),
     };
   });
 
