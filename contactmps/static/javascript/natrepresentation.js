@@ -45,6 +45,7 @@ $(".days-remaining-number").text(daysRemaining + " days");
 
 
 /* useful vars */
+var selectedMP = null;
 var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
 var emailData = {}; // literally whatever data we want to store along with the email
@@ -255,7 +256,7 @@ function submitForm(e) {
   submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
-      person: 100,
+      person: selectedMP.id,
       name: senderName,
       email: senderEmail,
       body: emailTxt,
@@ -329,6 +330,7 @@ function chooseMP(mp) {
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
   $(".pa-link").attr("href", mp.pa_url);
   $("form input[name=person]").val(mp.id);
+  selectedMP = mp;
 
   updateBody($('form#email-form'));
   pymChild.sendHeight();
