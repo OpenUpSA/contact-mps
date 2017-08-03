@@ -295,7 +295,9 @@ var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected memb
 function composeMessage() {
   var sufficientlyRepresentedOption = $('#sufficiently-represented .option.selected').data('value');
   var howVoiceHeardOptions = $('#how-voice-heard .option.selected').map(
-    function() { return $(this).data('value'); }).get();
+    function() { return $(this).data('value'); }).get(); // This get() is Reeeeeeally important
+  //   ... because without it we have a jQuery collection which doesn't have
+  //   ... join and causes cross-site request issues.
   var howElseVoiceHeard = $('#how-else-voice-heard textarea').val();
   var voiceHeardOutcome = $('#voice-heard-outcome .option.selected').data('value');
   var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
