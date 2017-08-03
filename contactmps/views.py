@@ -51,9 +51,9 @@ def home(request):
     if settings.HOME_CAMPAIGN == 'psam':
         return campaign(request, 'psam')
     else:
-        campaign = get_object_or_404(Campaign, slug=settings.HOME_CAMPAIGN)
+        campaign_obj = get_object_or_404(Campaign, slug=settings.HOME_CAMPAIGN)
         return render(request, 'index.html', {
-            'campaign': campaign,
+            'campaign': campaign_obj,
         })
 
 
