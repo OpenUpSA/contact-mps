@@ -1,5 +1,38 @@
 $(window).on('load', function() {
-    $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
+  // load the data into the dropdown
+  var mps = {};
+
+  var data = persons.map(function(p) {
+    mps[p.id] = p;
+
+    return {
+      id: p.id,
+      text: p.name + (p.party ? (' - ' + p.party.name) : ''),
+    };
+  });
+
+  data.sort(function(a, b) {
+    return a.text.localeCompare(b.text);
+  });
+
+  $(".choose-mp .single-mp").click(function() {
+    var selectedId = parseInt($(this).data('id'));
+    chooseMP(mps[selectedId]);
+  });
+
+  $('#select-dropdown').on("change", function(e) {
+    var selectedId = parseInt($(this).val());
+    chooseMP(mps[selectedId]);
+  });
+
+  $(".choose-mp .single-mp").first().click();
+
+  $('select.use-select2').select2({
+    data: data,
+    placeholder: 'Choose an MP',
+  });
+
+  $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
 
 var daysRemaining=(function(){
@@ -12,15 +45,19 @@ $(".days-remaining-number").text(daysRemaining + " days");
 
 
 /* useful vars */
+var selectedMP = null;
 var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
 var emailData = {}; // literally whatever data we want to store along with the email
 var submissionDeferred;
 
-$(".toggle-button-question .toggle-select").click(function() {
+$("#previewEmail").prop("disabled", false);
+
+
+$(".multiple-choice .option").click(function() {
   var $this = $(this);
 
-  $(".toggle-button-question .toggle-select").removeClass("selected");
+  $(".multiple-choice .option").removeClass("selected");
   $this.addClass("selected");
   $("#previewEmail").prop("disabled", false);
 
@@ -73,8 +110,8 @@ function emailSent() {
   $('.twitter-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Make your voice heard too @MbeteBaleka');
   $('.fb-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send her an email and make your voice heard too.');
 
-  $("#secret-ballot-preview-message").hide();
-  $("#secret-ballot-sent").show();
+  $("#preview-message").hide();
+  $("#message-sent").show();
   pymChild.scrollParentTo('contactmps-embed-parent');
 }
 
@@ -105,16 +142,15 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   ga('send', 'event', 'follow-up', 'answered', q);
 });
 
-$("#secret-ballot-preview-message").hide();
-$("#secret-ballot-sent").hide();
+$("#preview-message").hide();
+$("#message-sent").hide();
 
 $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
-  emailData.senderName = senderName;
-  emailData.senderEmail = senderEmail;
-  emailData.age = $('.question-age li.active').text();
+  var emailSubject = "Representation of the public in the national assembly";
+  var letterContent = $(".letter-content").val();
 
   if (senderName === '') {
     alert('Please enter your name');
@@ -128,38 +164,31 @@ $("#previewEmail").click(function(e) {
     return;
   }
 
-  if ($("#comment").val() != "") {
-    var otherIssues = $("#comment").val();
-    emailData['otherIssues'] = otherIssues.trim();
-    otherIssues = "\n\nOther issues that concern me about the future of South Africa are:\n\n" + (otherIssues);
-  } else {
-    var otherIssues = "";
-  };
-  if ($(".toggle-select.selected").attr("id") == "no") {
-    var emailSubject = "I do not support a secret ballot in the vote of no confidence";
+  if (letterContent === '') {
+    alert('Please write your letter');
+    $('.letter-content').focus();
+    return;
   }
-  else if ($(".toggle-select.selected").attr("id") == "yes") {
-    var emailSubject = "I support a secret ballot in the vote of no confidence";
-  };
+
   $("#name").text(senderName);
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
+  $("#letter-preview").text("Dear so and so" + letterContent + "With kind regards, " + senderName);
 
-  emailTxt = "Dear Madam Speaker,\n\nI am a citizen of South Africa and I want to let you know that " + emailSubject + " in President Jacob Zuma." + otherIssues + "\n\nYou represent all South Africans, including me. Please choose in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nYours sincerely,\n\n" + senderName;
+  $("#build-message").hide();
+  $("#preview-message").show();
+  location.hash = "#preview-message";
+
+  emailTxt = "Dear MP,\n\nThis is my message:" + letterContent  + "With kind regards, " + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
-
-  $("#comment-preview").html(emailHtml);
-  $("#secret-ballot-build-message").hide();
-  $("#secret-ballot-preview-message").show();
-  location.hash = "#secret-ballot-preview-message";
 
   pymChild.scrollParentTo('contactmps-embed-parent');
 });
 
-$("#editEmail").click(function(e) {
+$("#editMessage").click(function(e) {
   e.preventDefault();
-  $("#secret-ballot-build-message").show();
-  $("#secret-ballot-preview-message").hide();
+  $("#build-message").show();
+  $("#preview-message").hide();
   location.hash = "#email-secret";
   pymChild.scrollParentTo('contactmps-embed-parent');
 });
@@ -224,7 +253,7 @@ function submitForm(e) {
   submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
-      person: recipient.id,
+      person: selectedMP.id,
       name: senderName,
       email: senderEmail,
       body: emailTxt,
@@ -270,3 +299,36 @@ $(function() {
     eventLabel: getParentUrl()
   });
 });
+
+var template = "Honourable Member {{{ recipient_name }}},\n\n{{{ content }}}\n{{{ other_issues }}}\
+\nAs a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nSincerely,\n{{{ sender_name }}}";
+
+function updateBody($form, recipientName) {
+  var senderName = $form.find('input[name=name]').val();
+  var letterContent = $form.find('[name=letter-content]').val();
+
+  var context = {
+    'recipient_name': "Piet Keizer",
+    'content': letterContent,
+    'other_issues': " other issues we might include ",
+    'sender_name': senderName,
+  };
+  var body = Mustache.render(template, context);
+  $form.find('input[name=body]').val(body);
+}
+
+function chooseMP(mp) {
+  // mark an MP as chosen
+  $(".choose-mp .single-mp").removeClass("selected");
+  $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
+  // we pick up the MP name from here so fix message composition if you change this
+  $(".recipient").text(mp.name);
+  $(".selected-mp .mp-img-wrapper").css({"background-image": mp.local_portrait_url ? ('url(' + mp.local_portrait_url + ')') : ''});
+  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
+  $(".pa-link").attr("href", mp.pa_url);
+  $("form input[name=person]").val(mp.id);
+  selectedMP = mp;
+
+  updateBody($('form#email-form'));
+  pymChild.sendHeight();
+}

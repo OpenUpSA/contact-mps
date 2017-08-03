@@ -21,45 +21,83 @@
 {% block content %}
 
 <!-- Baleka Build Message -->
-<section id="secret-ballot-build-message">
-  <h2><b>How well are you represented in national government?</b></h2>
-  <div class="days-remaining-box">
-    <div>There are only</div>
-    <div class="days-remaining-number"></div>
-    <div>left before the vote</div>
-  </div>
-  <div class="why-box gray-box row">
-    <div class="col-sm-6">
-      <h4><b>Write an open letter</b></h4>
-    </div>
-  </div>
-
-  <form id="email-secret" autocomplete="off">
-    <section class="choose">
-      <h3>1. Choose a Member of Parliament:</h3>
-
-      <div class="row">
-      {% for person in neglected_persons %}
-        <div class="col-xs-6 mp-wrap">
-          <div class="single-mp row" data-id="{{ person.id }}">
-            <div class="col-xs-4">
-              <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
-                {% if person.party %}
-                <img class="party-logo" src="{{ person.party.icon_url }}">
-                {% endif %}
+<section id="build-message">
+  <h2><b>How do you seek representation in national government?</b></h2>
+  <form id="representation" autocomplete="off">
+    <h4><b>Write a letter to an MP with 124 other people</b></h4>
+    <div class="choose-mp gray-box">
+      <div class="number">1</div>
+      <div class="task">
+        <div class="instruction">Choose a Member of Parliament</div>
+        <div class="dropdown-wrap">
+          <select id="select-dropdown" class="use-select2"></select>
+        </div>
+        <div class="row">
+        {% for person in neglected_persons %}
+          <div class="col-xs-6 mp-wrap">
+            <div class="single-mp row" data-id="{{ person.id }}">
+              <div class="col-xs-4">
+                <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
+                  {% if person.party %}
+                  <img class="party-logo" src="{{ person.party.icon_url }}">
+                  {% endif %}
+                </div>
               </div>
-            </div>
-            <div class="col-xs-8">
-              <div class="mp-name">{{ person.name }}</div>
-              <div class="email-count">
-                <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+              <div class="col-xs-8">
+                <div class="mp-name">{{ person.name }}</div>
+                <div class="email-count">
+                  <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}addressed {{ person.num_emails }} times{% endif %}</small>
+                </div>
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
-    </section>
+    </div>
+
+    <div class="gray-box">
+      <div class="number">2</div>
+      <div class="task">
+        <div class="instruction">Compose your letter</div>
+        <div class="question">
+          <h4>Do you feel sufficiently represented?</h4>
+          <div class="multiple-choice">
+            <div id="yes" class="option">
+              <b>Yes</b>, I do
+            </div>
+            <div id="no" class="option">
+              <b>No</b>, I don't
+            </div>
+          </div>
+        </div>
+        <div class="question">
+          <h4>What do you have to say?</h4>
+          <textarea name="letter-content" class="letter-content"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="gray-box">
+      <div class="number">3</div>
+      <div class="task">
+        <div class="instruction">Sign your letter</div>
+        <input class="name-input" type="text" name="input-name" placeholder="Name">
+        <input class="email-input" type="email" name="input-email" placeholder="E-mail address (we will not publish this)">
+        <select class="choose-province" name="province" required>
+          <option value="" disabled selected>Where do you live?</option>
+          <option value="the Eastern Cape">Eastern Cape</option>
+          <option value="the Free State">Free State</option>
+          <option value="Gauteng">Gauteng</option>
+          <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+          <option value="Limpopo">Limpopo</option>
+          <option value="Mpumalanga">Mpumalanga</option>
+          <option value="the North West">North West</option>
+          <option value="the Northern Cape">Northern Cape</option>
+          <option value="the Western Cape">Western Cape</option>
+        </select>
+      </div>
+    </div>
 
     <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
 
@@ -68,7 +106,7 @@
 
 
 <!-- Baleka Preview Message -->
-<section id="secret-ballot-preview-message">
+<section id="preview-message">
   <h2>Preview your open letter</h2>
   <div class="gray-box">
     <table class="sender-info">
@@ -84,17 +122,47 @@
         <td id="email-title"></td>
       </tr>
     </table>
-    <div id="comment-preview"></div>
+    <div id="letter-preview"></div>
     </div>
   </div>
   <div id="recaptcha"></div>
-  <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Send your email">
-  <div id="editEmail" class="change-email-position">Change your email</div>
+  Your name will be published along with your letter. Your email address will not be published but will be emailed to the MP to allow them to reply.
+  <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Publish your letter">
+  <div id="editMessage">Change your letter</div>
 </section>
 
 <!-- Baleka Email Sent -->
-<section id="secret-ballot-sent">
-  <h2><b>Thank you, your email has been sent</b></h2>
+<section id="message-sent">
+  <h2><b>Thank you, your letter has been sent and published</b></h2>
+  {% if mp.twitter %}
+    <h3>Share your open letter with [MP] on twitter</h3>
+    <div class="mp-tweet gray-box">
+      <img class="twitter-logo" src="{% static 'images/twitter-logo.svg' %}" alt="Twitter" height="26">
+      <div class="handle"><a href="https://twitter.com/@MP_Handle">@MP_Handle</a></div>
+      <div class="tweet-content">
+        Hey @MP_Handle, I've written a letter I think you should read: <a href="">LettersToParliament.org.za/982a3fsd</a> <a href="">#LetterToParliament</a>
+      </div>
+      <input class="twitter-share" type="button" value="Tweet" data-hashtag="LetterToParliament" data-url="https://LettersToParliament.org.za/982a3fsd">
+    </div>
+  {% else %}
+    <h3>Share your open letter with the world</h3>
+    <div class="row">
+      <div class="col-xs-6 text-center">
+        <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+      </div>
+
+      <div class="col-xs-6 text-center">
+        <input class="twitter-share" type="button" value="Tweet" data-hashtag="NationalRepresentation" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+      </div>
+    </div>
+  {% endif %}
+
+  {% if is_mobile %}
+  <!--
+  <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
+  -->
+  {% endif %}
+
   <h4>While we have you, do you mind if we ask you a quick question?</h4>
   <div class="follow-up-question-box gray-box">
     <div class="follow-up-question">
@@ -110,21 +178,7 @@
     </div>
   </div>
   <h3>Help others get their voices heard, share this on social media</h3>
-  <div class="row">
-    <div class="col-xs-6 text-center">
-      <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
-    </div>
 
-    <div class="col-xs-6 text-center">
-      <input class="twitter-share" type="button" value="Tweet" data-hashtag="NationalRepresentation" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
-    </div>
-  </div>
-
-  {% if is_mobile %}
-  <!--
-  <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
-  -->
-  {% endif %}
 
 </section>
 {% endblock content %}

@@ -193,6 +193,8 @@ PIPELINE = {
                 'bower_components/jquery/dist/jquery.min.js',
                 'javascript/pym.v1.min.js',
                 'javascript/base.js',
+                'bower_components/mustache.js/mustache.js',
+                'javascript/select2.min.js',
                 'javascript/natrepresentation.js',
             ),
             'output_filename': 'natrepresentation.js',
@@ -291,5 +293,9 @@ EMAIL_PORT = 587
 # use this to stop sending emails
 SEND_EMAILS = os.environ.get('DJANGO_SEND_EMAILS') == 'True'
 
-RECAPTCHA_KEY = os.environ.get('RECAPTCHA_KEY')
-RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET')
+if DEBUG:
+    RECAPTCHA_KEY = os.environ.get('RECAPTCHA_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')
+    RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET', '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe')
+else:
+    RECAPTCHA_KEY = os.environ.get('RECAPTCHA_KEY')
+    RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET')
