@@ -36,7 +36,7 @@
         <h4>Choose one of these less emailed MPs</h4>
         <div class="row">
         {% for person in neglected_persons %}
-          <div class="col-xs-6 mp-wrap">
+          <div class="col-xs-6 mp-wrap neglected-mps">
             <div class="single-mp row" data-id="{{ person.id }}">
               <div class="col-xs-4">
                 <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
@@ -94,13 +94,13 @@
         <div class="question" id="how-voice-heard">
           <h4>How have you made your voice heard in Parliament? <small>(tick all that apply)</small></h4>
           <div class="checkbox">
-            <div data-value="branch-meeting" class="option">
+            <div data-value="attending a party branch meeting" class="option">
               <b>Attended a political party branch meeting</b>
             </div>
-            <div data-value="direct-contact" class="option">
+            <div data-value="contacting a Member of Parliament directly" class="option">
               <b>Contacted a Member of Parliament directly</b>
             </div>
-            <div data-value="contact-office" class="option">
+            <div data-value="contacting a constituency office" class="option">
               <b>Contacted a Constituency office</b>
             </div>
           </div>

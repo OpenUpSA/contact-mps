@@ -20,6 +20,8 @@ $(window).on('load', function() {
     chooseMP(mps[selectedId]);
   });
 
+  $(".neglected-mps .single-mp").first().click();
+
   $('#select-dropdown').on("change", function(e) {
     var selectedId = parseInt($(this).val());
     chooseMP(mps[selectedId]);
@@ -158,17 +160,17 @@ $("#previewEmail").click(function(e) {
     return;
   }
 
+  emailTxt = composeMessage();
+  emailHtml = emailTxt.replace(/\n/g, '<br/>');
+
   $("#name").text(senderName);
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
-  $("#letter-preview").text("Dear so and so" + letterContent + "With kind regards, " + senderName);
+  $("#letter-preview").html(emailHtml);
 
   $("#build-message").hide();
   $("#preview-message").show();
   location.hash = "#preview-message";
-
-  emailTxt = "Dear MP,\n\nThis is my message:" + letterContent  + "With kind regards, " + senderName;
-  emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   pymChild.scrollParentTo('contactmps-embed-parent');
 });
@@ -178,7 +180,7 @@ $("#editMessage").click(function(e) {
   $("#build-message").show();
   $("#preview-message").hide();
   location.hash = "#email-secret";
-  pymChild.scrollParentTo('contactmps-embed-parent');
+  //pymChild.scrollParentTo('contactmps-embed-parent');
 });
 
 var reCaptchaValid = false;
@@ -288,19 +290,38 @@ $(function() {
   });
 });
 
-var template = "Honourable Member {{{ recipient_name }}},\n\n{{{ content }}}\n{{{ other_issues }}}\
-\nAs a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nSincerely,\n{{{ sender_name }}}";
-var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI do not feel that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\nI've sought national representation by attending a party branch meeting, phoning an MP, and jumped on my head. Nobody answered the phone, ever!\n\nI would like to be able to raise my concerns about issues of national government with you by speaking on the phone and dialogue at a party branch meeting. I expect my concerns to be acknowledged by you.\n\nMy biggest concerns about South Africa are such and such.\n\nI believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\nPiet Pompies\nNoordwes\n";
+var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{ sufficiently_represented }}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\nI've sought national representation by {{ how_voice_heard }}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{ how_should_voice_heard }}.\n\nMy biggest concerns about South Africa are {{ concerns }}.\n\nI believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{ sender_name }}\n";
 
 function composeMessage() {
-  var sufficientlyRepresented = $('#sufficiently-represented .option.selected').data('value');
-  var howVoiceHeard = $('#how-voice-heard .option.selected').map(
+  var sufficientlyRepresentedOption = $('#sufficiently-represented .option.selected').data('value');
+  var howVoiceHeardOptions = $('#how-voice-heard .option.selected').map(
     function() { return $(this).data('value'); });
   var howElseVoiceHeard = $('#how-else-voice-heard textarea').val();
   var voiceHeardOutcome = $('#voice-heard-outcome .option.selected').data('value');
   var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
   var concerns = $('#concerns textarea').val();
   var senderName = $('input[name=input-name]').val();
+  var sufficientlyRepresented,
+      howVoiceHeard;
+
+  if (howElseVoiceHeard !== "")
+    howVoiceHeardOptions.push(howElseVoiceHeard);
+
+  if (sufficientlyRepresentedOption === "yes")
+    sufficientlyRepresented = "feel ";
+  else if (sufficientlyRepresentedOption === "no")
+    sufficientlyRepresented = "do not feel ";
+  else if (sufficientlyRepresentedOption === "unsure")
+    sufficientlyRepresented = "am not sure ";
+
+  if (howVoiceHeardOptions.length === 0)
+    howVoiceHeard = "I have not tried institutional mechanisms for seeking national representation."
+  else if (howVoiceHeardOptions.length === 1)
+    howVoiceHeard = howVoiceHeardOptions[0];
+  else if (howVoiceHeardOptions.length === 2)
+    howVoiceHeard = howVoiceHeardOptions[0] + " and " + howVoiceHeardOptions[1];
+  else
+    howVoiceHeard = howVoiceHeardOptions.slice(0, -1).join(", ") + ", and " + howVoiceHeardOptions.slice(-1)[0];
 
   var context = {
     'recipient_name': selectedMP.name,
@@ -312,7 +333,16 @@ function composeMessage() {
     'concerns': concerns,
     'sender_name': senderName
   };
-  console.log(context);
+  emailData['sufficientlyRepresentedOption'] = sufficientlyRepresentedOption;
+  emailData['sufficientlyRepresented'] = sufficientlyRepresented;
+  emailData['howVoiceHeardOptions'] = howVoiceHeardOptions;
+  emailData['howVoiceHeard'] = howVoiceHeard;
+  emailData['howElseVoiceHEard'] = howElseVoiceHeard;
+  emailData['voiceHeardOutcome'] = voiceHeardOutcome;
+  emailData['howShouldVoiceHeard'] = howShouldVoiceHeard;
+  emailData['concerns'] = concerns;
+
+  console.log(emailData);
   return Mustache.render(template, context);
 }
 
