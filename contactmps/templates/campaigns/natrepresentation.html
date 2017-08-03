@@ -77,21 +77,61 @@
       <div class="number">2</div>
       <div class="task">
         <div class="instruction">Compose your letter</div>
-        <div class="question">
-          <h4>Do you feel sufficiently represented?</h4>
+        <div class="question" id="sufficiently-represented">
+          <h4>Do you feel sufficiently represented by MPs in Parliament?</h4>
           <div class="multiple-choice">
             <div id="yes" class="option">
-              <b>Yes</b>, I do
+              <b>Yes</b>
             </div>
             <div id="no" class="option">
-              <b>No</b>, I don't
+              <b>No</b>
+            </div>
+            <div id="unsure" class="option">
+              <b>Unsure</b>
             </div>
           </div>
         </div>
-        <div class="question">
-          <h4>What do you have to say?</h4>
-          <textarea name="letter-content" class="letter-content"></textarea>
+        <div class="question" id="how-voice-heard">
+          <h4>How have you made your voice heard in Parliament? <small>(tick all that apply)</small></h4>
+          <div class="checkbox">
+            <div id="branch-meeting" class="option">
+              <b>Attended a political party branch meeting</b>
+            </div>
+            <div id="direct-contact" class="option">
+              <b>Contacted a Member of Parliament directly</b>
+            </div>
+            <div id="contact-office" class="option">
+              <b>Contacted a Constituency office</b>
+            </div>
+          </div>
         </div>
+        <div class="question" id="how-else-voice-heard">
+          <h4>How else have you made your voice heard in Parliament?</h4>
+          <textarea name="ways-voice-heard"></textarea>
+        </div>
+        <div class="question" id="voice-heard-outcome">
+          <h4>Was your voice heard, even if the outcome wasn’t what you hoped for?</h4>
+          <div class="multiple-choice">
+            <div id="yes" class="option">
+              <b>Yes</b>
+            </div>
+            <div id="no" class="option">
+              <b>No</b>
+            </div>
+            <div id="unsure" class="option">
+              <b>Unsure</b>
+            </div>
+          </div>
+        </div>
+        <div class="question" id="how-should-voice-heard">
+          <h4>How do you think you, and all other South Africans, should be able to make their voice heard in Parliament?</h4>
+          <textarea name="how-should-voice-heard"></textarea>
+        </div>
+        <div class="question" id="concerns">
+          <h4>What are your biggest concerns about South Africa?</h4>
+          <textarea name="concerns"></textarea>
+        </div>
+
       </div>
     </div>
 

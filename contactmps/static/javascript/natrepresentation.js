@@ -58,12 +58,18 @@ $("#previewEmail").prop("disabled", false);
 $(".multiple-choice .option").click(function() {
   var $this = $(this);
 
-  $(".multiple-choice .option").removeClass("selected");
+  $this.siblings(".multiple-choice .option").removeClass("selected");
   $this.addClass("selected");
   $("#previewEmail").prop("disabled", false);
 
   supportsSecret = $this.attr('id') == "yes";
   emailData.supportsSecret = supportsSecret;
+});
+
+$(".checkbox .option").click(function() {
+  var $this = $(this);
+
+  $this.toggleClass("selected");
 });
 
 $(".choose-one li").on('click', function(e) {
