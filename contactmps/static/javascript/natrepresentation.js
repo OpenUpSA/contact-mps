@@ -25,8 +25,6 @@ $(window).on('load', function() {
     chooseMP(mps[selectedId]);
   });
 
-  $(".choose-mp .single-mp").first().click();
-
   $('select.use-select2').select2({
     data: data,
     placeholder: 'Choose an MP',
@@ -317,6 +315,7 @@ function updateBody($form, recipientName) {
 function chooseMP(mp) {
   // mark an MP as chosen
   $(".choose-mp .single-mp").removeClass("selected");
+  $(".selected-mp-wrap").removeClass("hidden");
   $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
   // we pick up the MP name from here so fix message composition if you change this
   $(".recipient").text(mp.name);

@@ -226,8 +226,30 @@ textarea, input, .choose-province {
           }
         }
       }
-      .selected-mp {
-        background-color: #a1a1a1;
+      .or {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+        margin: 8px 0;
+      }
+    }
+  }
+  .selected-mp {
+    text-align: center;
+    .mp-img-wrapper {
+      border-radius: 100%;
+      width: 75px;
+      height: 75px;
+      background-position: center;
+      background-size: cover;
+      position: relative;
+      margin-bottom: 10px;
+      .party-logo {
+        position: absolute;
+        right: -8px;
+        bottom: -8px;
+        max-width: 35px;
+        max-height: 35px;
       }
     }
   }
