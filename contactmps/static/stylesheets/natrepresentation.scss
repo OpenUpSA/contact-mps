@@ -277,7 +277,7 @@ textarea, input, .choose-province {
   }
 }
 
-#message-sent {  
+#message-sent {
   padding-bottom: 40px;
   .mp-tweet {
     position: relative;
@@ -350,5 +350,50 @@ ul.choose-one {
       background-color: #167937;
       color: white;
     }
+  }
+}
+
+.dropdown-wrap {
+  padding: 20px 5px;
+  #select-dropdown {
+    width: 100%;
+  }
+}
+
+.select2-dropdown {
+  border-width: 0px;
+  border-radius: 0;
+}
+
+.select2-container--default {
+  .select2-selection--single {
+    border-radius: 12px;
+    height: 35px;
+    .select2-selection__arrow {
+      height: 28px;
+      position: absolute;
+      top: 1px;
+      right: 15px;
+      width: 25px;
+      b {
+        border-width: 10px 8px 0 8px;
+      }
+    }
+    .select2-selection__rendered {
+      font-size: 18px;
+      line-height: 35px;
+    }
+  }
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
+  height: 28px;
+  position: absolute;
+  top: 1px;
+  right: 15px;
+  width: 25px;
+  b {
+    border-color: transparent transparent #fff transparent;
+    border-width: 0 8px 10px 8px;
   }
 }
