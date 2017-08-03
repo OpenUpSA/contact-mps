@@ -48,7 +48,10 @@ $(".days-remaining-number").text(daysRemaining + " days");
 var selectedMP = null;
 var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
-var emailData = {}; // literally whatever data we want to store along with the email
+// literally whatever data we want to store along with the email
+var emailData = {
+  allowPublicListing: true // It's an open letter in this campaign
+};
 var submissionDeferred;
 
 $("#previewEmail").prop("disabled", false);
@@ -237,10 +240,10 @@ var recaptchaLoaded = function() {
   }
 };
 
-$('#email-secret').on('submit', submitForm);
+$('#representation').on('submit', submitForm);
 
 function triggerSubmit() {
-  $('#email-secret').submit();
+  $('#representation').submit();
 }
 
 function submitForm(e) {
