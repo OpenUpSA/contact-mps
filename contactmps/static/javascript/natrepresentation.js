@@ -290,17 +290,18 @@ $(function() {
   });
 });
 
-var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{ sufficiently_represented }}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\nI've sought national representation by {{ how_voice_heard }}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{ how_should_voice_heard }}.\n\nMy biggest concerns about South Africa are {{ concerns }}.\n\nI believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{ sender_name }}\n";
+var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{ sufficiently_represented }}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\n{{ how_voice_heard }}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{ how_should_voice_heard }}.\n\nMy biggest concerns about South Africa are {{ concerns }}.\n\nI believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{ sender_name }}\n{{ province }}";
 
 function composeMessage() {
   var sufficientlyRepresentedOption = $('#sufficiently-represented .option.selected').data('value');
   var howVoiceHeardOptions = $('#how-voice-heard .option.selected').map(
-    function() { return $(this).data('value'); });
+    function() { return $(this).data('value'); }).get();
   var howElseVoiceHeard = $('#how-else-voice-heard textarea').val();
   var voiceHeardOutcome = $('#voice-heard-outcome .option.selected').data('value');
   var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
   var concerns = $('#concerns textarea').val();
   var senderName = $('input[name=input-name]').val();
+  var province = $('input[name=province]').val();
   var sufficientlyRepresented,
       howVoiceHeard;
 
@@ -314,14 +315,15 @@ function composeMessage() {
   else if (sufficientlyRepresentedOption === "unsure")
     sufficientlyRepresented = "am not sure ";
 
+  var haveTried = "I've sought national representation by ";
   if (howVoiceHeardOptions.length === 0)
-    howVoiceHeard = "I have not tried institutional mechanisms for seeking national representation."
+    howVoiceHeard = "I have not tried institutional mechanisms for seeking national representation"
   else if (howVoiceHeardOptions.length === 1)
-    howVoiceHeard = howVoiceHeardOptions[0];
+    howVoiceHeard = haveTried + howVoiceHeardOptions[0];
   else if (howVoiceHeardOptions.length === 2)
-    howVoiceHeard = howVoiceHeardOptions[0] + " and " + howVoiceHeardOptions[1];
+    howVoiceHeard = haveTried + howVoiceHeardOptions[0] + " and " + howVoiceHeardOptions[1];
   else
-    howVoiceHeard = howVoiceHeardOptions.slice(0, -1).join(", ") + ", and " + howVoiceHeardOptions.slice(-1)[0];
+    howVoiceHeard = haveTried + howVoiceHeardOptions.slice(0, -1).join(", ") + ", and " + howVoiceHeardOptions.slice(-1)[0];
 
   var context = {
     'recipient_name': selectedMP.name,
@@ -331,16 +333,18 @@ function composeMessage() {
     'voice_heard_outcome': voiceHeardOutcome,
     'how_should_voice_heard': howShouldVoiceHeard,
     'concerns': concerns,
-    'sender_name': senderName
+    'sender_name': senderName,
+    'province': province,
   };
-  emailData['sufficientlyRepresentedOption'] = sufficientlyRepresentedOption;
-  emailData['sufficientlyRepresented'] = sufficientlyRepresented;
-  emailData['howVoiceHeardOptions'] = howVoiceHeardOptions;
-  emailData['howVoiceHeard'] = howVoiceHeard;
-  emailData['howElseVoiceHEard'] = howElseVoiceHeard;
-  emailData['voiceHeardOutcome'] = voiceHeardOutcome;
-  emailData['howShouldVoiceHeard'] = howShouldVoiceHeard;
-  emailData['concerns'] = concerns;
+  emailData.sufficientlyRepresentedOption = sufficientlyRepresentedOption;
+  emailData.sufficientlyRepresented = sufficientlyRepresented;
+  emailData.howVoiceHeardOptions = howVoiceHeardOptions;
+  emailData.howVoiceHeard = howVoiceHeard;
+  emailData.howElseVoiceHEard = howElseVoiceHeard;
+  emailData.voiceHeardOutcome = voiceHeardOutcome;
+  emailData.howShouldVoiceHeard = howShouldVoiceHeard;
+  emailData.concerns = concerns;
+  emailData.province = province;
 
   console.log(emailData);
   return Mustache.render(template, context);
