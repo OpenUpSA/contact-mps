@@ -1,0 +1,34 @@
+{% extends "layout-ajax.html" %}
+{% load pipeline %}
+{% load staticfiles %}
+
+{% block title %}National Representation{% endblock %}
+
+{% block head-css %}
+{% stylesheet "css-natrepresentation" %}
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% javascript "js-natrepresentation" %}
+{% endblock %}
+
+{% block content %}
+
+<h2>Latest open letters</h2>
+
+<section id="messages">
+
+  {% for email in emails %}
+  <div>
+    <div>
+      {{ email.created_at }}
+    </div>
+    <div>
+      {{ email.body_html | safe }}
+    </div>
+  </div>
+  {% endfor %}
+
+</section>
+{% endblock content %}

@@ -114,6 +114,7 @@ class Campaign(models.Model):
     single_recipient = models.ForeignKey(Person, null=True, blank=True)
     load_neglected_persons = models.BooleanField(default=False)
     load_all_persons = models.BooleanField(default=False)
+    divert_emails = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -166,7 +167,12 @@ class Email(models.Model):
         if not EMAIL_RE.match(self.from_email):
             self.from_email = "noreply@openup.org.za"
         sender = "%s <%s>" % (self.from_name, self.from_email)
-        recipients = ["%s <%s>" % (self.to_person.name.strip(), c.value.strip()) for c in self.to_person.contactdetails.filter(type='email').all()]
+        if self.campaign.divert_emails:
+            recipients = ["%s <webapps+contactmps@openup.org.za>" % self.to_person.name.strip()
+                          for c in self.to_person.contactdetails.filter(type='email').all()]
+        else:
+            recipients = ["%s <%s>" % (self.to_person.name.strip(), c.value.strip())
+                          for c in self.to_person.contactdetails.filter(type='email').all()]
         if settings.SEND_EMAILS:
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
 
