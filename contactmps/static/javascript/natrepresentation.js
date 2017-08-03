@@ -33,15 +33,6 @@ $(window).on('load', function() {
   $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
 
-var daysRemaining=(function(){
-    var oneDay = 24*60*60*1000;
-    var decision = new Date(2017, 7, 8, 23, 59);
-    return Math.floor(Math.abs((Date.now() - decision.getTime())/(oneDay)));
-})();
-
-$(".days-remaining-number").text(daysRemaining + " days");
-
-
 /* useful vars */
 var selectedMP = null;
 var supportsSecret = null;
@@ -303,19 +294,30 @@ $(function() {
 
 var template = "Honourable Member {{{ recipient_name }}},\n\n{{{ content }}}\n{{{ other_issues }}}\
 \nAs a member of parliament you represent all South Africans, including me. Please vote in favour of good governance - a governance that is best suited to realising my hopes for our future.\n\nSincerely,\n{{{ sender_name }}}";
+var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI do not feel that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\nI've sought national representation by attending a party branch meeting, phoning an MP, and jumped on my head. Nobody answered the phone, ever!\n\nI would like to be able to raise my concerns about issues of national government with you by speaking on the phone and dialogue at a party branch meeting. I expect my concerns to be acknowledged by you.\n\nMy biggest concerns about South Africa are such and such.\n\nI believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\nPiet Pompies\nNoordwes\n";
 
-function updateBody($form, recipientName) {
-  var senderName = $form.find('input[name=name]').val();
-  var letterContent = $form.find('[name=letter-content]').val();
+function composeMessage() {
+  var sufficientlyRepresented = $('#sufficiently-represented .option.selected').data('value');
+  var howVoiceHeard = $('#how-voice-heard .option.selected').map(
+    function() { return $(this).data('value'); });
+  var howElseVoiceHeard = $('#how-else-voice-heard textarea').val();
+  var voiceHeardOutcome = $('#voice-heard-outcome .option.selected').data('value');
+  var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
+  var concerns = $('#concerns textarea').val();
+  var senderName = $('input[name=input-name]').val();
 
   var context = {
-    'recipient_name': "Piet Keizer",
-    'content': letterContent,
-    'other_issues': " other issues we might include ",
-    'sender_name': senderName,
+    'recipient_name': selectedMP.name,
+    'sufficiently_represented': sufficientlyRepresented,
+    'how_else_voice_heard': howElseVoiceHeard,
+    'how_voice_heard': howVoiceHeard,
+    'voice_heard_outcome': voiceHeardOutcome,
+    'how_should_voice_heard': howShouldVoiceHeard,
+    'concerns': concerns,
+    'sender_name': senderName
   };
-  var body = Mustache.render(template, context);
-  $form.find('input[name=body]').val(body);
+  console.log(context);
+  return Mustache.render(template, context);
 }
 
 function chooseMP(mp) {
@@ -331,6 +333,6 @@ function chooseMP(mp) {
   $("form input[name=person]").val(mp.id);
   selectedMP = mp;
 
-  updateBody($('form#email-form'));
+  composeMessage();
   pymChild.sendHeight();
 }
