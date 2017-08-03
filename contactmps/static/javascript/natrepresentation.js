@@ -88,14 +88,8 @@ function emailSent() {
   // prep follow up questions
   var questions = [
     {
-      q: "Have you ever participated in a protest march?",
-      a: ["Yes, I have", "No, I have not"],
-    }, {
-      q: "Is this your first time emailing a Member of Parliament?",
-      a: ["Yes, it is", "No, it is not"],
-    }, {
-      q: "Do you know that all MPs are assigned a constituency, and represent those who live in it?",
-      a: ["Yes, I know about that", "No, I did not know"],
+      q: "Would you like to get updates about tools such as this?",
+      a: ["Yes, please", "No, thanks"],
     },
   ];
   var q = questions[getRandomInt(0, questions.length)];
