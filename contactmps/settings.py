@@ -225,6 +225,7 @@ PIPELINE = {
         },
         'css-natrepresentation': {
             'source_filenames': (
+                'stylesheets/select2.min.css',
                 'stylesheets/natrepresentation.scss',
             ),
             'output_filename': 'natrepresentation.css',
