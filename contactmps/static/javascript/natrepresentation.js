@@ -15,7 +15,7 @@ $(window).on('load', function() {
     return a.text.localeCompare(b.text);
   });
 
-  $(".choose .single-mp").click(function() {
+  $(".choose-mp .single-mp").click(function() {
     var selectedId = parseInt($(this).data('id'));
     chooseMP(mps[selectedId]);
   });
@@ -25,7 +25,7 @@ $(window).on('load', function() {
     chooseMP(mps[selectedId]);
   });
 
-  $(".choose .single-mp").first().click();
+  $(".choose-mp .single-mp").first().click();
 
   $('select.use-select2').select2({
     data: data,
@@ -54,10 +54,10 @@ var submissionDeferred;
 $("#previewEmail").prop("disabled", false);
 
 
-$(".toggle-button-question .toggle-select").click(function() {
+$(".multiple-choice .option").click(function() {
   var $this = $(this);
 
-  $(".toggle-button-question .toggle-select").removeClass("selected");
+  $(".multiple-choice .option").removeClass("selected");
   $this.addClass("selected");
   $("#previewEmail").prop("disabled", false);
 
@@ -110,8 +110,8 @@ function emailSent() {
   $('.twitter-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Make your voice heard too @MbeteBaleka');
   $('.fb-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send her an email and make your voice heard too.');
 
-  $("#secret-ballot-preview-message").hide();
-  $("#secret-ballot-sent").show();
+  $("#preview-message").hide();
+  $("#message-sent").show();
   pymChild.scrollParentTo('contactmps-embed-parent');
 }
 
@@ -142,18 +142,15 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   ga('send', 'event', 'follow-up', 'answered', q);
 });
 
-$("#secret-ballot-preview-message").hide();
-$("#secret-ballot-sent").hide();
+$("#preview-message").hide();
+$("#message-sent").hide();
 
 $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
-  console.log(senderName);
   var senderEmail = $(".email-input").val();
-  console.log(senderEmail);
-  var emailSubject = "Letter to Parliament";
+  var emailSubject = "Representation of the public in the national assembly";
   var letterContent = $(".letter-content").val();
-  console.log(letterContent);
 
   if (senderName === '') {
     alert('Please enter your name');
@@ -176,11 +173,11 @@ $("#previewEmail").click(function(e) {
   $("#name").text(senderName);
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
-  $("#letter-preview").text(letterContent);
+  $("#letter-preview").text("Dear so and so" + letterContent + "With kind regards, " + senderName);
 
-  $("#secret-ballot-build-message").hide();
-  $("#secret-ballot-preview-message").show();
-  location.hash = "#secret-ballot-preview-message";
+  $("#build-message").hide();
+  $("#preview-message").show();
+  location.hash = "#preview-message";
 
   emailTxt = "Dear MP,\n\nThis is my message:" + letterContent  + "With kind regards, " + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
@@ -190,8 +187,8 @@ $("#previewEmail").click(function(e) {
 
 $("#editEmail").click(function(e) {
   e.preventDefault();
-  $("#secret-ballot-build-message").show();
-  $("#secret-ballot-preview-message").hide();
+  $("#build-message").show();
+  $("#preview-message").hide();
   location.hash = "#email-secret";
   pymChild.scrollParentTo('contactmps-embed-parent');
 });
@@ -322,7 +319,7 @@ function updateBody($form, recipientName) {
 
 function chooseMP(mp) {
   // mark an MP as chosen
-  $(".choose .single-mp").removeClass("selected");
+  $(".choose-mp .single-mp").removeClass("selected");
   $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
   // we pick up the MP name from here so fix message composition if you change this
   $(".recipient").text(mp.name);

@@ -57,15 +57,15 @@ input[type=email] {
   font-size: 16px;  // avoid iOS zooming in
 }
 
-#secret-ballot-build-message {
+#build-message {
   padding-bottom: 40px;
-    .secret-ballot-page {
-        background-color: #fff;
-        text-align: center;
-    }
+  .secret-ballot-page {
+    background-color: #fff;
+    text-align: center;
+  }
 }
 
-textarea, input {
+textarea, input, .choose-province {
   border-radius: 4px;
   border: solid 1px #d2d2d2;
   resize: none;
@@ -73,7 +73,7 @@ textarea, input {
   width: 100%;
 }
 
-#secret-ballot-build-message {
+#build-message {
   .days-remaining-box {
     border-radius: 4px 4px 0 0;
     background-color: #c20000;
@@ -119,7 +119,7 @@ textarea, input {
     padding-left: 8px;
     padding-right: 8px;
   }
-  #email-secret {
+  form {
     .number {
       height: 50px;
       width: 50px;
@@ -132,44 +132,102 @@ textarea, input {
       text-align: center;
       color: #fff;
     }
-    .question {
+    .task {
       margin-top: -50px;
-      margin-left: 60px;
-
-      h5 {
-	font-weight: normal;
+      .instruction {
+        margin-left: 60px;
+        margin-bottom: 10px;
+        font-size: 23px;
+        font-weight: bold;
+        line-height: 50px;
+      }
+      .question {
+        margin-bottom: 30px;
+        .multiple-choice {
+          margin-top: 10px;
+          .option {
+            background-color: #fff;
+            color: #4a4a4a;
+            font-size: 16px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            display: inline-block;
+            @media only screen and (min-width: 320px) {
+              width: 49%;
+            }
+            &#no {
+              border-top: 3px solid #f0f0f0;
+            }
+            &.selected {
+              background-color: #167937;
+              color: #fff;
+            }
+          }
+        }
+        textarea {
+          width: 100%;
+        }
       }
     }
-    textarea {
-      margin-left: 60px;
-      width: calc(100% - 60px);
-      margin-top: 8px;
-    }
-    .name-input {
+    .name-input, .email-input {
       margin-bottom: 8px;
     }
-  }
-  .toggle-button-question {
-    margin-left: 60px;
-    margin-top: 10px;
-    .toggle-select {
-      background-color: #fff;
-      color: #4a4a4a;
-      font-size: 16px;
-      padding: 8px;
-      text-align: center;
-      cursor: pointer;
-      width: 100%;
-      display: inline-block;
-      @media only screen and (min-width: 560px) {
-        width: 49%;
+    .choose-mp {
+      .mp-wrap {
+        @media (max-width: 500px) {
+          width: 100%;
+        }
+        &:nth-child(odd) {
+          @media (min-width: 501px) {
+            padding-right: 5px;
+          }
+        }
+        &:nth-child(even) {
+          @media (min-width: 501px) {
+            padding-left: 5px;
+          }
+        }
+        .single-mp {
+          padding: 10px;
+          background-color: #fff;
+          margin: 0;
+          margin-bottom: 10px;
+          color: #424242;
+          cursor: pointer;
+          min-height: 100px;
+          &.selected {
+            background-color: #167937;
+            color: #fff;
+          }
+          .mp-img-wrapper {
+            border-radius: 100%;
+            width: 75px;
+            height: 75px;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            .party-logo {
+              position: absolute;
+              right: -8px;
+              bottom: -8px;
+              max-width: 35px;
+              max-height: 35px;
+            }
+          }
+          .mp-name {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 5px;
+          }
+          .email-count {
+            text-align: center;
+          }
+        }
       }
-      &#no {
-        border-top: 3px solid #f0f0f0;
-      }
-      &.selected {
-        background-color: #167937;
-        color: #fff;
+      .selected-mp {
+        background-color: #a1a1a1;
       }
     }
   }
@@ -188,7 +246,7 @@ textarea, input {
   }
 }
 
-#secret-ballot-preview-message {
+#preview-message {
   .sender-info {
     .left {
       min-width: 65px;
@@ -219,7 +277,7 @@ textarea, input {
   }
 }
 
-#secret-ballot-sent {  
+#message-sent {  
   padding-bottom: 40px; 
   .follow-up-question {
     font-size: 16px;
