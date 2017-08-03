@@ -185,7 +185,7 @@ $("#previewEmail").click(function(e) {
   pymChild.scrollParentTo('contactmps-embed-parent');
 });
 
-$("#editEmail").click(function(e) {
+$("#editMessage").click(function(e) {
   e.preventDefault();
   $("#build-message").show();
   $("#preview-message").hide();
