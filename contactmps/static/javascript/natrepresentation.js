@@ -101,7 +101,7 @@ function emailSent() {
   $('#follow-up-answer-2').text(q.a[1]);
 
   // prep sharing
-  $('.twitter-share').data('message', 'I wrote an open letter to ' + selectedMP.name + ' about being heard in Parliament, you should too.');
+  $('.twitter-share').data('message', 'I wrote an open letter to ' + selectedMP.name + ' about being heard in Parliament. Join me.');
   $('.fb-share').data('message', 'I wrote an open letter to ' + selectedMP.name + ' about being heard in Parliament, you should too.');
 
   $("#preview-message").hide();
@@ -266,6 +266,8 @@ function submitForm(e) {
 
       senderSecret = data.sender_secret;
       emailId = data.secure_id;
+      $('.twitter-share').data('url', 'http://noconfidencevote.openup.org.za/email/' + emailId + '/');
+      $('.facebook-share').data('url', 'http://noconfidencevote.openup.org.za/email/' + emailId + '/');
       $("#view-letter-link").attr("href", "/email/" + emailId);
     },
     error: function(jqXHR, textStatus, errorThrown) {
