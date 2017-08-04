@@ -146,12 +146,19 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+function error(message, id) {
+  id = id || '#preview-error';
+  $(id).text(message).show();
+}
+
 $("#previewEmail").click(function(e) {
+  $('#preview-error').hide();
+
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
   var emailSubject = "Representation of the public in the national assembly";
-  var sufficientlyRepresentedOptions = $('#sufficiently-represented .option.selected')
+  var sufficientlyRepresentedOptions = $('#sufficiently-represented .option.selected');
   var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
   var concerns = $('#concerns textarea').val();
   var province = $('select[name=province]').val();
@@ -159,31 +166,31 @@ $("#previewEmail").click(function(e) {
   /** VALIDATION **/
 
   if (senderName === '') {
-    alert('Please enter your name');
+    error('Please enter your name');
     $('.name-input').focus();
     return;
   }
 
   if (senderEmail === '' || !validateEmail(senderEmail)) {
-    alert('Please enter a valid email address');
+    error('Please enter a valid email address');
     $('.email-input').focus();
     return;
   }
 
   if (province === null) {
-    alert('Please select your province');
+    error('Please select your province');
     $('select[name=province]').focus();
     return;
   }
 
   if (sufficientlyRepresentedOptions.length !== 1) {
-    alert('Please indicate whether you feel sufficiently-represented');
+    error('Please indicate whether you feel sufficiently-represented');
     pymChild.scrollParentToChildEl('sufficiently-represented');
     return;
   }
 
   if (howShouldVoiceHeard === '') {
-    alert('Please indicate how you\'d like to make your voice heard');
+    error('Please indicate how you\'d like to make your voice heard');
     $('#how-should-voice-heard').focus();
     return;
   }
@@ -245,7 +252,7 @@ function submitForm(e) {
   e.preventDefault();
 
   if (!reCaptchaValid) {
-    alert("Please prove you are human first");
+    error("Please prove you are human first", "#submit-error");
     pymChild.scrollParentToChildEl('recaptcha');
     return;
   }
