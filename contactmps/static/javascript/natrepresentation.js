@@ -257,6 +257,7 @@ function submitForm(e) {
 
       senderSecret = data.sender_secret;
       emailId = data.secure_id;
+      $("#view-letter-link").attr("href", "/email/" + emailId);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
