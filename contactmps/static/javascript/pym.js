@@ -404,7 +404,7 @@
             this.iframe.setAttribute('scrolling', 'no');
             this.iframe.setAttribute('marginheight', '0');
             this.iframe.setAttribute('frameborder', '0');
-            this.iframe.setAttribute('height', '2231px');
+            this.iframe.setAttribute('height', '2431px');
 
             if (this.settings.title) {
                 this.iframe.setAttribute('title', this.settings.title);
