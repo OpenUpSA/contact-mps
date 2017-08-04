@@ -140,7 +140,6 @@ $("#previewEmail").click(function(e) {
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
   var emailSubject = "Representation of the public in the national assembly";
-  var letterContent = $(".letter-content").val();
   var sufficientlyRepresentedOptions = $('#sufficiently-represented .option.selected')
   var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
   var concerns = $('#concerns textarea').val();
