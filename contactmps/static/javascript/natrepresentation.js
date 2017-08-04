@@ -153,6 +153,7 @@ function error(message, id) {
 
 $("#previewEmail").click(function(e) {
   $('#preview-error').hide();
+  ga('send', 'event', 'click', 'preview');
 
   e.preventDefault();
   var senderName = $(".name-input").val();
@@ -203,6 +204,7 @@ $("#previewEmail").click(function(e) {
   $("#email-title").text(emailSubject);
   $("#letter-preview").html(emailHtml);
 
+  ga('send', 'event', 'screen', 'shown', 'preview');
   $("#build-message").hide();
   $("#preview-message").show();
   location.hash = "#preview-message";
@@ -213,6 +215,7 @@ $("#previewEmail").click(function(e) {
 
 $("#editMessage").click(function(e) {
   e.preventDefault();
+  ga('send', 'event', 'click', 'edit-message');
   $("#build-message").show();
   $("#preview-message").hide();
   location.hash = "#email-secret";
@@ -282,9 +285,10 @@ function submitForm(e) {
       $('.twitter-share').data('url', emailDetailUrl);
       $('.facebook-share').data('url', emailDetailUrl);
       $("#view-letter-link").attr("href", "/email/" + emailId);
-      $("#email-detail-link").html("<br>Or <a href=\"" + emailDetailUrl + "\">copy this link to share elsewhere</a><br>");
+      $("#email-detail-link").html("<br>Or <a href=\"" + emailDetailUrl + "\">copy this link to share elsewhere</a><br><br>");
     },
     error: function(jqXHR, textStatus, errorThrown) {
+      ga('send', 'event', 'error', 'submit', textStatus + "\n" + jqXHR.responseText);
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
     }
   });
