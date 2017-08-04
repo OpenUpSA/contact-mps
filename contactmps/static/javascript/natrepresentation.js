@@ -157,7 +157,7 @@ $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
-  var emailSubject = "Representation of the public in the national assembly";
+  var emailSubject = "Representation of the public in Parliament";
   var sufficientlyRepresentedOptions = $('#sufficiently-represented .option.selected');
   var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
   var concerns = $('#concerns textarea').val();
