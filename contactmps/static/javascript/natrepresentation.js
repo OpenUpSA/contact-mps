@@ -278,9 +278,11 @@ function submitForm(e) {
 
       senderSecret = data.sender_secret;
       emailId = data.secure_id;
-      $('.twitter-share').data('url', 'http://noconfidencevote.openup.org.za/email/' + emailId + '/');
-      $('.facebook-share').data('url', 'http://noconfidencevote.openup.org.za/email/' + emailId + '/');
+      emailDetailUrl = 'https://noconfidencevote.openup.org.za/email/' + emailId + '/'
+      $('.twitter-share').data('url', emailDetailUrl);
+      $('.facebook-share').data('url', emailDetailUrl);
       $("#view-letter-link").attr("href", "/email/" + emailId);
+      $("#email-detail-link").html("<br>Or <a href=\"" + emailDetailUrl + "\">copy this link to share elsewhere</a><br>");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
