@@ -103,6 +103,7 @@ function emailSent() {
   $("#preview-message").hide();
   $("#message-sent").show();
   pymChild.scrollParentTo('contactmps-embed-parent');
+  pymChild.sendHeight();
 }
 
 $(".follow-up-question-box .toggle-select-follow-up").click(function() {
@@ -134,6 +135,7 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
 
 $("#preview-message").hide();
 $("#message-sent").hide();
+pymChild.sendHeight();
 
 $("#previewEmail").click(function(e) {
   e.preventDefault();
@@ -190,6 +192,7 @@ $("#previewEmail").click(function(e) {
   location.hash = "#preview-message";
 
   pymChild.scrollParentTo('contactmps-embed-parent');
+  pymChild.sendHeight();
 });
 
 $("#editMessage").click(function(e) {
@@ -197,30 +200,9 @@ $("#editMessage").click(function(e) {
   $("#build-message").show();
   $("#preview-message").hide();
   location.hash = "#email-secret";
-  //pymChild.scrollParentTo('contactmps-embed-parent');
+  pymChild.scrollParentTo('contactmps-embed-parent');
+  pymChild.sendHeight();
 });
-
-var reCaptchaValid = false;
-var gReCaptchaValidated = function() {
-  $("input[type=submit]").removeAttr('disabled');
-  reCaptchaValid = true;
-};
-
-var gReCaptchaExpired = function() {
-  $("input[type=submit]").attr('disabled','disabled');
-  reCaptchaValid = false;
-};
-
-var recaptchaLoaded = function() {
-  grecaptcha.render('recaptcha', {
-    'sitekey': recaptchaKey,
-    'callback': gReCaptchaValidated,
-    'expired-callback': gReCaptchaExpired
-  });
-  if (typeof pymChild !== undefined) {
-    pymChild.sendHeight();
-  }
-};
 
 var reCaptchaValid = false;
 var gReCaptchaValidated = function() {
@@ -252,6 +234,12 @@ function triggerSubmit() {
 
 function submitForm(e) {
   e.preventDefault();
+
+  if (!reCaptchaValid) {
+    alert("Please prove you are human first");
+    pymChild.scrollParentToChildEl('recaptcha');
+    return;
+  }
 
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
