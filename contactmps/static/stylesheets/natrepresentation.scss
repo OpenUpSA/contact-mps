@@ -474,3 +474,13 @@ ul.choose-one {
 #title, #intro {
     display: none;
 }
+
+.error {
+  display: none;
+
+  padding: 10px;
+  margin: 10px 0px;
+  border: 1px solid red;
+  background-color: #ff8484;
+  color: white;
+}
