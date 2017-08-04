@@ -35,4 +35,4 @@ if (isAndroidApp) {
 document.write('<div id="contactmps-embed-parent"></div>');
 document.write('<script type="text/javascript" src="' + baseurl + '/static/javascript/pym.js" crossorigin="anonymous"></script>');
 
-document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/natrepresentation/', {});</script>");
+document.write("<script>var pymParent = new pym.Parent('contactmps-embed-parent', '" + baseurl + "/campaign/natrepresentation/?embedded=true', {});</script>");

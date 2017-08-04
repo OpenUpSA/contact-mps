@@ -1,3 +1,18 @@
+/* useful vars */
+var selectedMP = null;
+var supportsSecret = null;
+var emailTxt = ""; // global for preview and then send
+// literally whatever data we want to store along with the email
+var emailData = {
+  allowPublicListing: true // It's an open letter in this campaign
+};
+var submissionDeferred;
+
+if (!getParameterByName("embedded")) {
+  $('#title').show();
+  $('#intro').show();
+}
+
 $(window).on('load', function() {
   // load the data into the dropdown
   var mps = {};
@@ -35,18 +50,7 @@ $(window).on('load', function() {
   $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
 
-/* useful vars */
-var selectedMP = null;
-var supportsSecret = null;
-var emailTxt = ""; // global for preview and then send
-// literally whatever data we want to store along with the email
-var emailData = {
-  allowPublicListing: true // It's an open letter in this campaign
-};
-var submissionDeferred;
-
 $("#previewEmail").prop("disabled", false);
-
 
 $(".multiple-choice .option").click(function() {
   var $this = $(this);
