@@ -141,6 +141,12 @@ $("#previewEmail").click(function(e) {
   var senderEmail = $(".email-input").val();
   var emailSubject = "Representation of the public in the national assembly";
   var letterContent = $(".letter-content").val();
+  var sufficientlyRepresentedOptions = $('#sufficiently-represented .option.selected')
+  var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
+  var concerns = $('#concerns textarea').val();
+  var province = $('select[name=province]').val();
+
+  /** VALIDATION **/
 
   if (senderName === '') {
     alert('Please enter your name');
@@ -154,9 +160,21 @@ $("#previewEmail").click(function(e) {
     return;
   }
 
-  if (letterContent === '') {
-    alert('Please write your letter');
-    $('.letter-content').focus();
+  if (province === null) {
+    alert('Please select your province');
+    $('select[name=province]').focus();
+    return;
+  }
+
+  if (sufficientlyRepresentedOptions.length !== 1) {
+    alert('Please indicate whether you feel sufficiently-represented');
+    pymChild.scrollParentToChildEl('sufficiently-represented');
+    return;
+  }
+
+  if (howShouldVoiceHeard === '') {
+    alert('Please indicate how you\'d like to make your voice heard');
+    $('#how-should-voice-heard').focus();
     return;
   }
 
@@ -290,7 +308,7 @@ $(function() {
   });
 });
 
-var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{{ sufficiently_represented }}}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\n{{{ how_voice_heard }}}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{{ how_should_voice_heard }}}.\n\nMy biggest concerns about South Africa are {{{ concerns }}}.\n\nI believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{{ sender_name }}}\n{{{ province }}}";
+var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{{ sufficiently_represented }}}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\n{{{ how_voice_heard }}}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{{ how_should_voice_heard }}}.\n\n{{{ concerns }}}I believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{{ sender_name }}}\n{{{ province }}}";
 
 function composeMessage() {
   var sufficientlyRepresentedOption = $('#sufficiently-represented .option.selected').data('value');
@@ -301,11 +319,12 @@ function composeMessage() {
   var howElseVoiceHeard = $('#how-else-voice-heard textarea').val();
   var voiceHeardOutcome = $('#voice-heard-outcome .option.selected').data('value');
   var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
-  var concerns = $('#concerns textarea').val();
+  var concernsAnswer = $('#concerns textarea').val();
   var senderName = $('input[name=input-name]').val();
-  var province = $('input[name=province]').val();
+  var province = $('select[name=province]').val();
   var sufficientlyRepresented,
-      howVoiceHeard;
+      howVoiceHeard,
+      concerns;
 
   if (howElseVoiceHeard !== "")
     howVoiceHeardOptions.push(howElseVoiceHeard);
@@ -327,6 +346,11 @@ function composeMessage() {
   else
     howVoiceHeard = haveTried + howVoiceHeardOptions.slice(0, -1).join(", ") + ", and " + howVoiceHeardOptions.slice(-1)[0];
 
+  if (concernsAnswer !== '')
+    concerns = "My biggest concerns about South Africa are " + concernsAnswer + ".\n\n";
+  else
+    concerns = ''
+
   var context = {
     'recipient_name': selectedMP.name,
     'sufficiently_represented': sufficientlyRepresented,
@@ -345,6 +369,7 @@ function composeMessage() {
   emailData.howElseVoiceHEard = howElseVoiceHeard;
   emailData.voiceHeardOutcome = voiceHeardOutcome;
   emailData.howShouldVoiceHeard = howShouldVoiceHeard;
+  emailData.concernsAnswer = concernsAnswer;
   emailData.concerns = concerns;
   emailData.province = province;
 
