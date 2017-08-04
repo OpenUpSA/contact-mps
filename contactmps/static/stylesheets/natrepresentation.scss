@@ -402,8 +402,9 @@ ul.choose-one {
 }
 
 .select2-dropdown {
-  border-width: 0px;
+  border-width: 1px;
   border-radius: 0;
+  box-shadow: 0px 3px 2px 0px rgba(65,65,65,0.75);
 }
 
 .select2-container--default {
