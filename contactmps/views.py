@@ -33,6 +33,7 @@ def render(request, template, context):
             'SITE_NAME': campaign.site_name,
             'SITE_DESCRIPTION': campaign.site_description,
             'SITE_HASHTAG': campaign.hashtag,
+            'GOOGLE_ANALYTICS_ID': campaign.google_analytics_id,
         })
     return shortcuts.render(request, template, context)
 
