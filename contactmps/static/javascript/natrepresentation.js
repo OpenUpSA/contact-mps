@@ -141,6 +141,11 @@ $("#preview-message").hide();
 $("#message-sent").hide();
 pymChild.sendHeight();
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 $("#previewEmail").click(function(e) {
   e.preventDefault();
   var senderName = $(".name-input").val();
@@ -159,8 +164,8 @@ $("#previewEmail").click(function(e) {
     return;
   }
 
-  if (senderEmail === '') {
-    alert('Please enter your email');
+  if (senderEmail === '' || !validateEmail(senderEmail)) {
+    alert('Please enter a valid email address');
     $('.email-input').focus();
     return;
   }
