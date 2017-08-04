@@ -114,6 +114,7 @@ class Campaign(models.Model):
     single_recipient = models.ForeignKey(Person, null=True, blank=True)
     load_neglected_persons = models.BooleanField(default=False)
     load_all_persons = models.BooleanField(default=False)
+    include_link_in_email = models.BooleanField(default=False)
     divert_emails = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -176,16 +177,23 @@ class Email(models.Model):
         if settings.SEND_EMAILS:
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
 
-            url = settings.BASE_URL + reverse('email-detail', kwargs={'secure_id': self.secure_id})
+            if self.campaign.include_link_in_email:
+                url = settings.BASE_URL + reverse('email-detail', kwargs={'secure_id': self.secure_id})
+                body_txt = "%s\n\nThis message can also be viewed at %s" % (self.body_txt, url)
+                body_html = "%s<br><br>This message can also be viewed at <a href=\"%s\">%s</a>" % (
+                    self.body_html, url, url)
+            else:
+                body_txt = self.body_txt
+                body_html = self.body_html
 
             email = EmailMultiAlternatives(
                 self.subject,
-                self.body_txt,
+                body_txt,
                 sender,
                 recipients,
                 cc=[sender],
             )
-            email.attach_alternative(self.body_html, "text/html")
+            email.attach_alternative(body_html, "text/html")
             email.send()
         self.to_addresses = ", ".join(recipients)
         self.save()
