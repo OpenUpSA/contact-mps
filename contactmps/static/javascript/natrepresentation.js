@@ -13,7 +13,7 @@ if (!getParameterByName("embedded")) {
   $('#intro').show();
 }
 
-$(window).on('load', function() {
+$(function() {
   // load the data into the dropdown
   var mps = {};
 
@@ -46,7 +46,9 @@ $(window).on('load', function() {
     data: data,
     placeholder: 'Choose an MP',
   });
+});
 
+$(window).on('load', function() {
   $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
 
