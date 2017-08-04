@@ -296,7 +296,7 @@ $(function() {
   });
 });
 
-var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{{ sufficiently_represented }}}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\n{{{ how_voice_heard }}}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{{ how_should_voice_heard }}}.\n\n{{{ concerns }}}I believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{{ sender_name }}}\n{{{ province }}}";
+var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{{ sufficiently_represented }}}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\n{{{ how_voice_heard }}}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{{ how_should_voice_heard }}}.\n\n{{{ concerns }}}I believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{{ sender_name }}}\n{{{ province }}}\n";
 
 function composeMessage() {
   var sufficientlyRepresentedOption = $('#sufficiently-represented .option.selected').data('value');
@@ -348,7 +348,7 @@ function composeMessage() {
     'how_should_voice_heard': howShouldVoiceHeard,
     'concerns': concerns,
     'sender_name': senderName,
-    'province': province,
+    'province': province
   };
   emailData.sufficientlyRepresentedOption = sufficientlyRepresentedOption;
   emailData.sufficientlyRepresented = sufficientlyRepresented;
