@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Used to cache expensive API calls, since it's fine to show same results for
 # a few minutes.  This cache is reset on each deployment. Corresponding caching
 # headers are sent to the client, too.
-API_CACHE_SECS = 5 * 60
+API_CACHE_SECS = 10 * 60
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
