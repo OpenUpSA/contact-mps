@@ -164,7 +164,7 @@ def email(request):
 def campaign_email(request, campaign_slug):
     campaign = get_object_or_404(Campaign, slug=campaign_slug)
     emails = campaign.emails.filter(any_data__allowPublicListing=True) \
-                            .order_by('-created_at').all()[:25]
+                            .order_by('-created_at').all()[:300]
 
     template = 'campaign-emails-%s.html' % campaign.slug
     return render(request, template, {

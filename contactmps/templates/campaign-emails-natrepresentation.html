@@ -1,4 +1,4 @@
-{% extends "layout-ajax.html" %}
+{% extends "layout.html" %}
 {% load pipeline %}
 {% load staticfiles %}
 
@@ -20,15 +20,24 @@
 <section id="messages">
 
   {% for email in emails %}
-  <div>
-    <div>
-      {{ email.created_at }}
+  <div class="email">
+    <div class="">
+      <span class="email-meta-heading">From:</span> {{ email.from_name }}
     </div>
-    <div>
+    <div class="">
+      <span class="email-meta-heading">To:</span> {{ email.to_person.name }}
+    </div>
+    <div class="">
+      <span class="email-meta-heading">Date:</span> {{ email.created_at }}
+    </div>
+    <div class="email-body">
       {{ email.body_html | safe }}
     </div>
   </div>
   {% endfor %}
 
 </section>
+
+{% block attribution_heading %}{% endblock %}
+{% block social_sharing %}{% endblock %}
 {% endblock content %}
