@@ -13,41 +13,6 @@ if (!getParameterByName("embedded")) {
   $('#intro').show();
 }
 
-$(function() {
-  // load the data into the dropdown
-  var mps = {};
-
-  var data = persons.map(function(p) {
-    mps[p.id] = p;
-
-    return {
-      id: p.id,
-      text: p.name + (p.party ? (' - ' + p.party.abbr) : ''),
-    };
-  });
-
-  data.sort(function(a, b) {
-    return a.text.localeCompare(b.text);
-  });
-
-  $(".choose-mp .single-mp").click(function() {
-    var selectedId = parseInt($(this).data('id'));
-    chooseMP(mps[selectedId]);
-  });
-
-  $(".neglected-mps .single-mp").first().click();
-
-  $('#select-dropdown').on("change", function(e) {
-    var selectedId = parseInt($(this).val());
-    chooseMP(mps[selectedId]);
-  });
-
-  $('select.use-select2').select2({
-    data: data,
-    placeholder: 'Choose an MP',
-  });
-});
-
 $(window).on('load', function() {
   $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
@@ -74,16 +39,9 @@ $(".choose-one li").on('click', function(e) {
   $this.addClass('active');
 });
 
-
 /* follow-up questions */
 var senderSecret = null,
     emailId = null;
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
 
 function emailSent() {
   ga('send', 'event', 'representation-email', 'sent');
@@ -103,8 +61,8 @@ function emailSent() {
   $('#follow-up-answer-2').text(q.a[1]);
 
   // prep sharing
-  $('.twitter-share').data('message', 'I wrote an open letter to ' + selectedMP.name + ' about being heard in Parliament. Join me.');
-  $('.fb-share').data('message', 'I wrote an open letter to ' + selectedMP.name + ' about being heard in Parliament, you should too.');
+  $('.twitter-share').data('message', 'I wrote an open letter to about being heard in Parliament. Join me.');
+  $('.fb-share').data('message', 'I wrote an open letter to about being heard in Parliament, you should too.');
 
   $("#preview-message").hide();
   $("#message-sent").show();
@@ -321,89 +279,3 @@ $(function() {
     eventLabel: getParentUrl()
   });
 });
-
-var template = "Hon. {{{ recipient_name }}},\n\nAs a democratically elected member of Parliament, you represent me, my concerns and my hopes for the future of South Africa.\n\nI {{{ sufficiently_represented }}}that members of Parliament represent me sufficiently as a citizen, in the National Assembly.\n\n{{{ how_voice_heard }}}.\n\nI would like to be able to raise my concerns about issues of national government with you by {{{ how_should_voice_heard }}}.\n\n{{{ concerns }}}I believe it is important that I and other South Africans can have our concerns heard by national Government. I hope that we can work together to find effective ways of being heard.\n\nSincerely,\n{{{ sender_name }}}\n{{{ province }}}\n";
-
-function composeMessage() {
-  var sufficientlyRepresentedOption = $('#sufficiently-represented .option.selected').data('value');
-  var howVoiceHeardOptions = $('#how-voice-heard .option.selected').map(
-    function() { return $(this).data('value'); }).get(); // This get() is Reeeeeeally important
-  //   ... because without it we have a jQuery collection which doesn't have
-  //   ... join and causes cross-site request issues.
-  var howElseVoiceHeard = $('#how-else-voice-heard textarea').val();
-  var voiceHeardOutcome = $('#voice-heard-outcome .option.selected').data('value');
-  var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
-  var concernsAnswer = $('#concerns textarea').val();
-  var senderName = $('input[name=input-name]').val();
-  var province = $('select[name=province]').val();
-  var sufficientlyRepresented,
-      howVoiceHeard,
-      concerns;
-
-  if (howElseVoiceHeard !== "")
-    howVoiceHeardOptions.push(howElseVoiceHeard);
-
-  if (sufficientlyRepresentedOption === "yes")
-    sufficientlyRepresented = "feel ";
-  else if (sufficientlyRepresentedOption === "no")
-    sufficientlyRepresented = "do not feel ";
-  else if (sufficientlyRepresentedOption === "unsure")
-    sufficientlyRepresented = "am not sure ";
-
-  var haveTried = "I've sought national representation by ";
-  if (howVoiceHeardOptions.length === 0)
-    howVoiceHeard = "I have not tried institutional mechanisms for seeking national representation"
-  else if (howVoiceHeardOptions.length === 1)
-    howVoiceHeard = haveTried + howVoiceHeardOptions[0];
-  else if (howVoiceHeardOptions.length === 2)
-    howVoiceHeard = haveTried + howVoiceHeardOptions[0] + " and " + howVoiceHeardOptions[1];
-  else
-    howVoiceHeard = haveTried + howVoiceHeardOptions.slice(0, -1).join(", ") + ", and " + howVoiceHeardOptions.slice(-1)[0];
-
-  if (concernsAnswer !== '')
-    concerns = "My biggest concerns about South Africa are " + concernsAnswer + ".\n\n";
-  else
-    concerns = ''
-
-  var context = {
-    'recipient_name': selectedMP.name,
-    'sufficiently_represented': sufficientlyRepresented,
-    'how_else_voice_heard': howElseVoiceHeard,
-    'how_voice_heard': howVoiceHeard,
-    'voice_heard_outcome': voiceHeardOutcome,
-    'how_should_voice_heard': howShouldVoiceHeard,
-    'concerns': concerns,
-    'sender_name': senderName,
-    'province': province
-  };
-  emailData.sufficientlyRepresentedOption = sufficientlyRepresentedOption;
-  emailData.sufficientlyRepresented = sufficientlyRepresented;
-  emailData.howVoiceHeardOptions = howVoiceHeardOptions;
-  emailData.howVoiceHeard = howVoiceHeard;
-  emailData.howElseVoiceHEard = howElseVoiceHeard;
-  emailData.voiceHeardOutcome = voiceHeardOutcome;
-  emailData.howShouldVoiceHeard = howShouldVoiceHeard;
-  emailData.concernsAnswer = concernsAnswer;
-  emailData.concerns = concerns;
-  emailData.province = province;
-
-  console.log(emailData);
-  return Mustache.render(template, context);
-}
-
-function chooseMP(mp) {
-  // mark an MP as chosen
-  $(".choose-mp .single-mp").removeClass("selected");
-  $(".selected-mp-wrap").removeClass("hidden");
-  $('.single-mp[data-id=' + mp.id + ']').addClass('selected');
-  // we pick up the MP name from here so fix message composition if you change this
-  $(".recipient").text(mp.name);
-  $(".selected-mp .mp-img-wrapper").css({"background-image": mp.local_portrait_url ? ('url(' + mp.local_portrait_url + ')') : ''});
-  $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
-  $(".pa-link").attr("href", mp.pa_url);
-  $("form input[name=person]").val(mp.id);
-  selectedMP = mp;
-
-  composeMessage();
-  pymChild.sendHeight();
-}

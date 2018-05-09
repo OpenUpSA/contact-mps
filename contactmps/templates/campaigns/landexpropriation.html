@@ -5,69 +5,43 @@
 {% block title %}landexpropriation{% endblock %}
 
 {% block head-css %}
-{% stylesheet "css-natrepresentation" %}
+{% stylesheet "css-landexpropriation" %}
 {% endblock %}
 
 {% block js %}
 <script>
-  var persons = {{ persons_json|safe }};
   var recaptchaKey = '{{ recaptcha_key }}';
 </script>
 
 {{ block.super }}
-{% javascript "js-natrepresentation" %}
+{% javascript "js-landexpropriation" %}
 {% endblock %}
 
 {% block content %}
 
 <!-- Build Message -->
 <section id="build-message">
-  <h2 id="title"><b>How do you make your voice heard in Parliament?</b></h2>
+  <h2 id="title"><b>Give your opinion on section 25 </b></h2>
   <form id="representation" autocomplete="off">
-    <h4><b>Use this tool to compose a formal open letter to <a href="https://www.pa.org.za/search/location/" target="_blank">your</a> MP</b></h4>
-    <p id="intro">On June 22nd, News24 readers sent over 7,000 emails to members of Parliament telling them about their concerns. Very few MPs responded. South Africans deserve to be taken seriously as citizens and to know that their views matter. An open letter can be a powerful tool to make your voice heard.</p>
+    <h4>
+      <b>
+        Use this tool to compose a formal open letter to the commission
+      </b>
+    </h4>
+    <p id="intro">Introduction to topic...</p>
     <div class="choose-mp gray-box">
       <div class="number">1</div>
       <div class="task">
-        <div class="instruction">Which MP would you like to write to?</div>
-        <div class="dropdown-wrap">
-          <select id="select-dropdown" class="use-select2"></select>
-        </div>
-        <div class="or">or</div>
-        <h4>Choose one of these less-emailed MPs</h4>
-        <div class="row">
-        {% for person in neglected_persons %}
-          <div class="col-xs-6 mp-wrap neglected-mps">
-            <div class="single-mp row" data-id="{{ person.id }}">
-              <div class="col-xs-4">
-                <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
-                  {% if person.party %}
-                  <img class="party-logo" src="{{ person.party.icon_url }}">
-                  {% endif %}
-                </div>
-              </div>
-              <div class="col-xs-8">
-                <div class="mp-name">{{ person.name }}</div>
-                <div class="email-count">
-                  <small>{% if person.num_emails == 0 %}No letters yet{% else %}Written to {{ person.num_emails }} times{% endif %}</small>
-                </div>
-              </div>
-            </div>
+        <div class="instruction">Do you support </div>
+        <div class="multiple-choice">
+          <div data-value="yes" class="option">
+            <b>Yes</b>
           </div>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="selected-mp-wrap hidden">
-        <h4>You're writing to <span class="recipient"></span></h4>
-        <div class="row single-mp selected-mp">
-          <div class="col-xs-6">
-            <div class="mp-img-wrapper center-block">
-              <img class="party-logo">
-            </div>
+          <div data-value="no" class="option">
+            <b>No</b>
           </div>
-          <div class="col-xs-6">
-            <a href=""><img class="center-block" src="{% static 'images/pa-logo-dark.png' %}" alt="PA.org.za" height="40"></a>
-            <a href="">Profile on PA.org.za</a>
+          <div data-value="unsure" class="option">
+            <b>Unsure</b>
           </div>
         </div>
       </div>
@@ -77,35 +51,7 @@
     <div class="gray-box">
       <div class="number">2</div>
       <div class="task">
-        <div class="instruction">Compose your letter</div>
-        <div class="question" id="sufficiently-represented">
-          <h4>Do you feel sufficiently represented by MPs in Parliament?</h4>
-          <div class="multiple-choice">
-            <div data-value="yes" class="option">
-              <b>Yes</b>
-            </div>
-            <div data-value="no" class="option">
-              <b>No</b>
-            </div>
-            <div data-value="unsure" class="option">
-              <b>Unsure</b>
-            </div>
-          </div>
-        </div>
-        <div class="question" id="how-voice-heard">
-          <h4>How have you made your voice heard in Parliament? <small>(click all that apply)</small></h4>
-          <div class="checkbox">
-            <div data-value="attending a party branch meeting" class="option">
-              <b>Attended a political party branch meeting</b>
-            </div>
-            <div data-value="contacting a Member of Parliament directly" class="option">
-              <b>Contacted a Member of Parliament directly</b>
-            </div>
-            <div data-value="contacting a constituency office" class="option">
-              <b>Contacted a Constituency office</b>
-            </div>
-          </div>
-        </div>
+        <div class="instruction">Hello</div>
         <div class="question" id="how-else-voice-heard">
           <h4>How else have you made your voice heard in Parliament? <small>(optional)</small></h4>
           <textarea name="ways-voice-heard" placeholder="Leave blank if you've never contacted an MP"></textarea>
@@ -160,7 +106,6 @@
     <div class="error" id="preview-error"></div>
 
     <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
-
   </form>
 </section>
 
