@@ -1,0 +1,234 @@
+{% extends "layout-ajax.html" %}
+{% load pipeline %}
+{% load staticfiles %}
+
+{% block title %}landexpropriation{% endblock %}
+
+{% block head-css %}
+{% stylesheet "css-natrepresentation" %}
+{% endblock %}
+
+{% block js %}
+<script>
+  var persons = {{ persons_json|safe }};
+  var recaptchaKey = '{{ recaptcha_key }}';
+</script>
+
+{{ block.super }}
+{% javascript "js-natrepresentation" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Build Message -->
+<section id="build-message">
+  <h2 id="title"><b>How do you make your voice heard in Parliament?</b></h2>
+  <form id="representation" autocomplete="off">
+    <h4><b>Use this tool to compose a formal open letter to <a href="https://www.pa.org.za/search/location/" target="_blank">your</a> MP</b></h4>
+    <p id="intro">On June 22nd, News24 readers sent over 7,000 emails to members of Parliament telling them about their concerns. Very few MPs responded. South Africans deserve to be taken seriously as citizens and to know that their views matter. An open letter can be a powerful tool to make your voice heard.</p>
+    <div class="choose-mp gray-box">
+      <div class="number">1</div>
+      <div class="task">
+        <div class="instruction">Which MP would you like to write to?</div>
+        <div class="dropdown-wrap">
+          <select id="select-dropdown" class="use-select2"></select>
+        </div>
+        <div class="or">or</div>
+        <h4>Choose one of these less-emailed MPs</h4>
+        <div class="row">
+        {% for person in neglected_persons %}
+          <div class="col-xs-6 mp-wrap neglected-mps">
+            <div class="single-mp row" data-id="{{ person.id }}">
+              <div class="col-xs-4">
+                <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
+                  {% if person.party %}
+                  <img class="party-logo" src="{{ person.party.icon_url }}">
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-xs-8">
+                <div class="mp-name">{{ person.name }}</div>
+                <div class="email-count">
+                  <small>{% if person.num_emails == 0 %}No letters yet{% else %}Written to {{ person.num_emails }} times{% endif %}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="selected-mp-wrap hidden">
+        <h4>You're writing to <span class="recipient"></span></h4>
+        <div class="row single-mp selected-mp">
+          <div class="col-xs-6">
+            <div class="mp-img-wrapper center-block">
+              <img class="party-logo">
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <a href=""><img class="center-block" src="{% static 'images/pa-logo-dark.png' %}" alt="PA.org.za" height="40"></a>
+            <a href="">Profile on PA.org.za</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="gray-box">
+      <div class="number">2</div>
+      <div class="task">
+        <div class="instruction">Compose your letter</div>
+        <div class="question" id="sufficiently-represented">
+          <h4>Do you feel sufficiently represented by MPs in Parliament?</h4>
+          <div class="multiple-choice">
+            <div data-value="yes" class="option">
+              <b>Yes</b>
+            </div>
+            <div data-value="no" class="option">
+              <b>No</b>
+            </div>
+            <div data-value="unsure" class="option">
+              <b>Unsure</b>
+            </div>
+          </div>
+        </div>
+        <div class="question" id="how-voice-heard">
+          <h4>How have you made your voice heard in Parliament? <small>(click all that apply)</small></h4>
+          <div class="checkbox">
+            <div data-value="attending a party branch meeting" class="option">
+              <b>Attended a political party branch meeting</b>
+            </div>
+            <div data-value="contacting a Member of Parliament directly" class="option">
+              <b>Contacted a Member of Parliament directly</b>
+            </div>
+            <div data-value="contacting a constituency office" class="option">
+              <b>Contacted a Constituency office</b>
+            </div>
+          </div>
+        </div>
+        <div class="question" id="how-else-voice-heard">
+          <h4>How else have you made your voice heard in Parliament? <small>(optional)</small></h4>
+          <textarea name="ways-voice-heard" placeholder="Leave blank if you've never contacted an MP"></textarea>
+        </div>
+        <div class="question" id="voice-heard-outcome">
+          <h4>Was your voice heard, even if the outcome wasn’t what you hoped for? <small>(optional)</small></h4>
+          <div class="multiple-choice">
+            <div data-value="yes" class="option">
+              <b>Yes</b>
+            </div>
+            <div data-value="no" class="option">
+              <b>No</b>
+            </div>
+            <div data-value="unsure" class="option">
+              <b>Unsure</b>
+            </div>
+          </div>
+        </div>
+        <div class="question" id="how-should-voice-heard">
+          <h4>How do you think you, and all other South Africans, should be able to make their voice heard in Parliament?</h4>
+          <textarea name="how-should-voice-heard" placeholder="I would like to be able to raise my concerns by..."></textarea>
+        </div>
+        <div class="question" id="concerns">
+          <h4>What are your biggest concerns about South Africa?</h4>
+          <textarea name="concerns" placeholder="My biggest concerns for South Africa are..."></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="gray-box">
+      <div class="number">3</div>
+      <div class="task">
+        <div class="instruction">Sign your letter</div>
+        <input class="name-input" type="text" name="input-name" placeholder="Name">
+        <input class="email-input" type="email" name="input-email" placeholder="E-mail address (we will not publish this)">
+        <select class="choose-province" name="province" required>
+          <option value="" disabled selected>Where do you live?</option>
+          <option value="Eastern Cape">Eastern Cape</option>
+          <option value="Free State">Free State</option>
+          <option value="Gauteng">Gauteng</option>
+          <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+          <option value="Limpopo">Limpopo</option>
+          <option value="Mpumalanga">Mpumalanga</option>
+          <option value="North West">North West</option>
+          <option value="Northern Cape">Northern Cape</option>
+          <option value="Western Cape">Western Cape</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="error" id="preview-error"></div>
+
+    <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
+
+  </form>
+</section>
+
+
+<!-- Preview Message -->
+<section id="preview-message">
+  <h2>Preview your open letter</h2>
+  <div class="gray-box">
+    <table class="sender-info">
+      <tr>
+        <td class="left">From</td>
+        <td>
+          <span id="name"></span><br>
+        </td>
+      </tr>
+      <tr>
+        <td class="left">Subject</td>
+        <td id="email-title"></td>
+      </tr>
+    </table>
+    <div id="letter-preview"></div>
+  </div>
+  <div id="recaptcha"></div>
+  Your name will be published along with your letter. Your email address will not be published but will be emailed to the MP to allow them to reply.
+  <div class="error" id="submit-error"></div>
+  <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Publish your letter">
+  <div id="editMessage">Change your letter</div>
+</section>
+
+<!-- Email Sent -->
+<section id="message-sent">
+  <h2><b>Thank you. Your open letter has been sent and published.</b></h2>
+
+  <h3>Help others get their voices heard</h3>
+
+  <div class="row">
+    <div class="col-xs-6 text-center">
+      <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/how-do-you-make-your-voice-heard-in-parliament-write-an-open-letter-to-an-mp-20170804">
+    </div>
+
+    <div class="col-xs-6 text-center">
+      <input class="twitter-share" type="button" value="Tweet" data-hashtag="LettersToParliament" data-url="http://www.news24.com/SouthAfrica/Politics/how-do-you-make-your-voice-heard-in-parliament-write-an-open-letter-to-an-mp-20170804">
+    </div>
+  </div>
+
+  <div id="email-detail-link"></div>
+
+  <div class="follow-up-question-box gray-box">
+    <div class="follow-up-question">
+      <p></p>
+    </div>
+    <div class="follow-up-answer-box">
+      <span id="follow-up-answer-1" class="toggle-select-follow-up"></span>
+      <span id="follow-up-answer-2" class="toggle-select-follow-up"></span>
+    </div>
+  </div>
+
+  <br><a id="view-letter-link" href="">View your open letter</a>
+
+  {% if is_mobile %}
+  <!--
+  <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
+  -->
+  {% endif %}
+
+
+</section>
+
+<!-- space below for pym awkwardness -->
+<div style="height: 40px"></div>
+{% endblock content %}

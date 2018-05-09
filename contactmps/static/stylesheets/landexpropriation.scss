@@ -1,0 +1,522 @@
+// select things from bootstrap
+// Core variables and mixins
+@import "bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+// Reset and dependencies
+@import "bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+// Core CSS
+@import "bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/type";
+// @import "bootstrap/code";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/tables";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/forms";
+// Utility classes
+@import "bootstrap-sass/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+
+
+
+$font-serif: 'Helvetica', 'Open-Sans', sans-serif;
+
+h1, h2, h3, h4 {
+  color: #4a4a4a;
+}
+
+.header-text {
+  font-size: 24px;
+  color: #4a4a4a;
+  font-family: $font-serif !important;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-weight: bold;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.gray-box {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+.btn-continue {
+  border-radius: 0;
+  border: none;
+  background-color: #167937;
+  color: #fff;
+  font-family: $font-serif !important;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+textarea,
+input[type=text],
+input[type=email] {
+  font-size: 16px;  // avoid iOS zooming in
+  &.invalid {
+    border: 1px solid #E23D28;
+  }
+}
+
+#build-message {
+  padding-bottom: 40px;
+  .secret-ballot-page {
+    background-color: #fff;
+    text-align: center;
+  }
+}
+
+textarea, input, .choose-province {
+  border-radius: 4px;
+  border: solid 1px #d2d2d2;
+  resize: none;
+  padding: 8px;
+  width: 100%;
+}
+
+#build-message {
+  .days-remaining-box {
+    border-radius: 4px 4px 0 0;
+    background-color: #c20000;
+    margin-top: 15px;
+    font-family: $font-serif;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    padding: 8px;
+    .days-remaining-number {
+      font-size: 36px;
+    }
+  }
+  .why-box {
+    h4 {
+      margin-bottom: 5px;
+    }
+    p:first-of-type {
+      margin-bottom: 20px;
+    }
+  }
+  .img-baleka {
+    margin-left: 10px;
+    float: right;
+  }
+  .pa-box {
+    background-color: #fff;
+    margin-top: 10px;
+    padding: 8px;
+    text-align: center;
+    a {
+      color: #4a4a4a;
+    }
+  }
+  .send-email-header {
+    font-family; $font-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    color: #4a4a4a;
+    margin-top: 15px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  form {
+    .number {
+      height: 50px;
+      width: 50px;
+      background-color: #167937;
+      border-radius: 100%;
+      font-family: $font-serif;
+      line-height: 50px;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      color: #fff;
+    }
+    .task {
+      margin-top: -50px;
+      .instruction {
+        margin-left: 60px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        font-size: 23px;
+        font-weight: bold;
+      }
+      .question {
+        margin-bottom: 30px;
+        .multiple-choice {
+          margin-top: 10px;
+          .option {
+            background-color: #fff;
+            color: #4a4a4a;
+            font-size: 16px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            display: inline-block;
+            margin-top: 3px;
+            @media only screen and (min-width: 320px) {
+              width: 32%;
+            }
+            &.selected {
+              background-color: #167937;
+              color: #fff;
+            }
+          }
+        }
+        .checkbox {
+          margin-top: 10px;
+          .option {
+            background-color: #fff;
+            color: #4a4a4a;
+            font-size: 16px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            display: inline-block;
+            margin-top: 3px;
+            &.selected {
+              background-color: #167937;
+              color: #fff;
+            }
+          }
+        }
+        textarea {
+          width: 100%;
+        }
+      }
+    }
+    .name-input, .email-input {
+      margin-bottom: 8px;
+    }
+    .choose-mp {
+      .mp-wrap {
+        @media (max-width: 500px) {
+          width: 100%;
+        }
+        &:nth-child(odd) {
+          @media (min-width: 501px) {
+            padding-right: 5px;
+          }
+        }
+        &:nth-child(even) {
+          @media (min-width: 501px) {
+            padding-left: 5px;
+          }
+        }
+        .single-mp {
+          padding: 10px;
+          background-color: #fff;
+          margin: 0;
+          margin-bottom: 10px;
+          color: #424242;
+          cursor: pointer;
+          height: 105px;
+          &.selected {
+            background-color: #167937;
+            color: #fff;
+          }
+          .mp-img-wrapper {
+            border-radius: 100%;
+            width: 75px;
+            height: 75px;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            .party-logo {
+              position: absolute;
+              right: -8px;
+              bottom: -8px;
+              max-width: 35px;
+              max-height: 35px;
+            }
+          }
+          .mp-name {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 5px;
+            line-height: 1.2;
+          }
+          .email-count {
+            text-align: center;
+          }
+        }
+      }
+      .or {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+        margin: 8px 0;
+      }
+    }
+  }
+  .selected-mp {
+    text-align: center;
+    .mp-img-wrapper {
+      border-radius: 100%;
+      width: 75px;
+      height: 75px;
+      background-position: center;
+      background-size: cover;
+      position: relative;
+      margin-bottom: 10px;
+      .party-logo {
+        position: absolute;
+        right: -8px;
+        bottom: -8px;
+        max-width: 35px;
+        max-height: 35px;
+      }
+    }
+  }
+  .preview-email {
+    border-radius: 0;
+    border: none;
+    background-color: #167937;
+    color: #fff;
+    font-family: $font-serif !important;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .preview-submit-position {
+    margin-top: 15px;
+    text-align: center;
+  }
+}
+
+#preview-message {
+  .sender-info {
+    .left {
+      min-width: 65px;
+      padding-right: 15px;
+      vertical-align: top;
+      font-weight: bold;
+    }
+    td {
+      padding-bottom: 10px;
+    }
+  }
+  #comment-preview {
+    padding-top: 15px;
+    border-top: 1px solid #d2d2d2;
+    margin-top: 5px;
+  }
+  #sendEmail {
+    margin-top: 20px;
+  }
+  #editMessage {
+    font-family: $font-serif !important;
+    font-size: 18px;
+    color: #4a4a4a;
+    text-decoration: underline;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+  }
+}
+
+#message-sent {
+  padding-bottom: 40px;
+  .mp-tweet {
+    position: relative;
+    .twitter-logo {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+    }
+    .handle {
+      margin-left: 38px;
+      font-weight: bold;
+      line-height: 26px;
+    }
+    .tweet-content {
+      margin: 8px 0;
+    }
+  }
+  .follow-up-question {
+    font-size: 16px;
+  }
+  .follow-up-question-box {
+    .toggle-select-follow-up {
+      margin-top: 3px;
+      background-color: #fff;
+      color: #4a4a4a;
+      font-size: 16px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      display: inline-block;
+      @media only screen and (min-width: 430px) {
+        width: 49%;
+      }
+      &.selected {
+        background-color: #167937;
+        color: #fff;
+      }
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .fb-share,
+  .twitter-share {
+    border: none;
+    color: #fff;
+  }
+  .fb-share {
+    background-color: #3b5998;
+  }
+
+  .twitter-share {
+    background-color: #4990e2;
+  }
+}
+
+ul.choose-one {
+  padding-left: 0px;
+
+  li {
+    list-style: none;
+    display: inline-block;
+    background-color: white;
+    padding: 5px 12px;
+    margin: 0px 5px 5px 0px;
+    font-size: 16px;
+    cursor: pointer;
+    &.active {
+      background-color: #167937;
+      color: white;
+    }
+  }
+}
+
+.dropdown-wrap {
+  padding: 0 5px;
+  #select-dropdown {
+    width: 100%;
+  }
+}
+
+.select2-dropdown {
+  border-width: 1px;
+  border-radius: 0;
+  box-shadow: 0px 3px 2px 0px rgba(65,65,65,0.75);
+}
+
+.select2-container--default {
+  .select2-selection--single {
+    border-radius: 0;
+    height: 35px;
+    .select2-selection__arrow {
+      height: 28px;
+      position: absolute;
+      top: 1px;
+      right: 15px;
+      width: 25px;
+      b {
+        border-width: 10px 8px 0 8px;
+      }
+    }
+    .select2-selection__rendered {
+      font-size: 18px;
+      line-height: 35px;
+    }
+  }
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
+  height: 28px;
+  position: absolute;
+  top: 1px;
+  right: 15px;
+  width: 25px;
+  b {
+    border-color: transparent transparent #fff transparent;
+    border-width: 0 8px 10px 8px;
+  }
+}
+
+#sent-page {
+  .left {
+    min-width: 65px;
+    padding-right: 15px;
+    vertical-align: top;
+    font-weight: bold;
+  }
+  td {
+    padding-bottom: 10px;
+  }
+  .social-sharing {
+    text-align: center;
+    .btn-share {
+      border-radius: 4px;
+      padding: 8px 16px;
+      width: 100%;
+      border: none;
+      color: #fff;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    .fb-share {
+      background-color: #3b5998;
+    }
+    .twitter-share {
+      background-color: #4990e2;
+    }
+  }
+  .link-article-wrap {
+    text-align: center;
+    margin: 25px 0;
+    .link-article {
+      background-color: #167937;
+      color: #fff;
+      font-size: 16px;
+      padding: 8px 16px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      float: none;
+      margin-left: auto;
+      margin-right: auto;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#title, #intro {
+    display: none;
+}
+
+.error {
+  display: none;
+
+  padding: 10px;
+  margin: 10px 0px;
+  border: 1px solid red;
+  background-color: #ff8484;
+  color: white;
+}
+
+.email {
+  background-color: lightgrey;
+  padding: 13px;
+  margin: 10px;
+}
+
+.email-meta-heading {
+    font-weight: bold;
+}
+
+.email-body {
+    margin-top: 10px;
+    background-color: white;
+    padding: 10px;
+}
