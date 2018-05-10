@@ -2,7 +2,7 @@
 {% load pipeline %}
 {% load staticfiles %}
 
-{% block title %}landexpropriation{% endblock %}
+{% block title %}Motion on land expropriation without compensation{% endblock %}
 
 {% block head-css %}
 {% stylesheet "css-landexpropriation" %}
@@ -19,106 +19,91 @@
 
 {% block content %}
 
-<!-- Build Message -->
-<section id="build-message">
-  <h2 id="title"><b>Give your opinion on section 25 </b></h2>
-  <form id="representation" autocomplete="off">
-    <h4>
-      <b>
-        Use this tool to compose a formal open letter to the commission
-      </b>
-    </h4>
-    <p id="intro">Introduction to topic...</p>
-    <div class="choose-mp gray-box">
+<!-- Baleka Build Message -->
+<section id="landexpropriation-build-message">
+  <h2><b>Do you support the motion on land expropriation without compensation?</b></h2>
+  <div class="days-remaining-box">
+    <div>There are only</div>
+    <div class="days-remaining-number"></div>
+    <div>left before the vote</div>
+  </div>
+  <div class="why-box gray-box row">
+    <div class="col-sm-6">
+      <h4><b>What is this about?</b></h4>
+      <p class="why-important">The National Assembly met in February to vote on a motion proposed by the EFF, with amendments by the ANC, that Parliament's Constitutional Review Committee investigate mechanisms through which land can be expropriated without compensation.</p>
+    </div>
+    <div class="col-sm-6">
+      <h4><b>Why email the committee?</b></h4>
+      <p>The Joint Constitutional Review Committee has called for written public submissions on the review of section 25 of the Constitution to make it possible for the state to expropriate land in the public interest without compensation.</p>
+    </div>
+  </div>
+  <div class="learning-resources">
+    <a target="_blank" class="btn-resource" href="http://pmg-assets.s3-website-eu-west-1.amazonaws.com/180320motion.pdf">Read the motion draft</a>
+    <a target="_blank" class="btn-resource" href="https://www.youtube.com/watch?v=mM8K0SIY_1I">Watch the debate</a>
+    <a target="_blank" class="btn-resource" href="https://pmg.org.za/committee/52/">Learn about the committee</a>
+  </div>
+
+  <form id="email-landexpropriation" autocomplete="off">
+  <h2>Send an email to the committee</h2>
+
+    <div class="question-1 gray-box">
       <div class="number">1</div>
-      <div class="task">
-        <div class="instruction">Do you support </div>
-        <div class="multiple-choice">
-          <div data-value="yes" class="option">
-            <b>Yes</b>
-          </div>
-          <div data-value="no" class="option">
-            <b>No</b>
-          </div>
-          <div data-value="unsure" class="option">
-            <b>Unsure</b>
-          </div>
+      <div class="question">Do you support the motion on land expropriation without compensation?</div>
+      <div class="toggle-button-question">
+        <div id="yes" class="toggle-select">
+          Yes
+        </div>
+        <div id="no" class="toggle-select">
+          No
         </div>
       </div>
     </div>
 
-
-    <div class="gray-box">
+    <div class="question-2 gray-box">
       <div class="number">2</div>
-      <div class="task">
-        <div class="instruction">Hello</div>
-        <div class="question" id="how-else-voice-heard">
-          <h4>How else have you made your voice heard in Parliament? <small>(optional)</small></h4>
-          <textarea name="ways-voice-heard" placeholder="Leave blank if you've never contacted an MP"></textarea>
-        </div>
-        <div class="question" id="voice-heard-outcome">
-          <h4>Was your voice heard, even if the outcome wasn’t what you hoped for? <small>(optional)</small></h4>
-          <div class="multiple-choice">
-            <div data-value="yes" class="option">
-              <b>Yes</b>
-            </div>
-            <div data-value="no" class="option">
-              <b>No</b>
-            </div>
-            <div data-value="unsure" class="option">
-              <b>Unsure</b>
-            </div>
-          </div>
-        </div>
-        <div class="question" id="how-should-voice-heard">
-          <h4>How do you think you, and all other South Africans, should be able to make their voice heard in Parliament?</h4>
-          <textarea name="how-should-voice-heard" placeholder="I would like to be able to raise my concerns by..."></textarea>
-        </div>
-        <div class="question" id="concerns">
-          <h4>What are your biggest concerns about South Africa?</h4>
-          <textarea name="concerns" placeholder="My biggest concerns for South Africa are..."></textarea>
-        </div>
-
-      </div>
+      <div class="question">How will this motion affect you?</div>
+      <textarea id="comment-personal" name="question2"></textarea>
     </div>
 
-    <div class="gray-box">
+    <div class="question-3 gray-box">
       <div class="number">3</div>
-      <div class="task">
-        <div class="instruction">Sign your letter</div>
-        <input class="name-input" type="text" name="input-name" placeholder="Name">
-        <input class="email-input" type="email" name="input-email" placeholder="E-mail address (we will not publish this)">
-        <select class="choose-province" name="province" required>
-          <option value="" disabled selected>Where do you live?</option>
-          <option value="Eastern Cape">Eastern Cape</option>
-          <option value="Free State">Free State</option>
-          <option value="Gauteng">Gauteng</option>
-          <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-          <option value="Limpopo">Limpopo</option>
-          <option value="Mpumalanga">Mpumalanga</option>
-          <option value="North West">North West</option>
-          <option value="Northern Cape">Northern Cape</option>
-          <option value="Western Cape">Western Cape</option>
-        </select>
-      </div>
+      <div class="question">How will this motion affect South Africa?</div>
+      <textarea id="comment-sa" name="question3"></textarea>
     </div>
 
-    <div class="error" id="preview-error"></div>
+    <div class="question-4 gray-box">
+      <div class="number">4</div>
+      <div class="question">
+        <input class="name-input" type="text" name="name" placeholder="Your name" value="">
+        <input class="email-input" type="email" name="email" placeholder="Your email address" value="">
+
+  <div class="question-age">
+    <h5>How old are you?</h5>
+    <ul class="choose-one">
+      <li>Under 20</li>
+      <li>20 - 29</li>
+      <li>30 - 39</li>
+      <li>40 or older</li>
+    </ul>
+  </div>
+      </div>
+    </div>
 
     <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
+
   </form>
 </section>
 
-
-<!-- Preview Message -->
-<section id="preview-message">
-  <h2>Preview your open letter</h2>
+<!-- Baleka Preview Message -->
+<section id="landexpropriation-preview-message">
+  <h2>Preview your email to the Constitutional Review Committee</h2>
   <div class="gray-box">
     <table class="sender-info">
       <tr>
         <td class="left">From</td>
         <td>
           <span id="name"></span><br>
+          <span id="email"></span>
         </td>
       </tr>
       <tr>
@@ -126,44 +111,41 @@
         <td id="email-title"></td>
       </tr>
     </table>
-    <div id="letter-preview"></div>
+    <div id="comment-preview"></div>
+    </div>
   </div>
   <div id="recaptcha"></div>
-  Your name will be published along with your letter. Your email address will not be published but will be emailed to the MP to allow them to reply.
-  <div class="error" id="submit-error"></div>
-  <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Publish your letter">
-  <div id="editMessage">Change your letter</div>
+  <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Send your email">
+  <div id="editEmail" class="change-email-position">Change your email</div>
 </section>
 
-<!-- Email Sent -->
-<section id="message-sent">
-  <h2><b>Thank you. Your open letter has been sent and published.</b></h2>
-
-  <h3>Help others get their voices heard</h3>
-
-  <div class="row">
-    <div class="col-xs-6 text-center">
-      <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/how-do-you-make-your-voice-heard-in-parliament-write-an-open-letter-to-an-mp-20170804">
-    </div>
-
-    <div class="col-xs-6 text-center">
-      <input class="twitter-share" type="button" value="Tweet" data-hashtag="LettersToParliament" data-url="http://www.news24.com/SouthAfrica/Politics/how-do-you-make-your-voice-heard-in-parliament-write-an-open-letter-to-an-mp-20170804">
-    </div>
-  </div>
-
-  <div id="email-detail-link"></div>
-
+<!-- Baleka Email Sent -->
+<section id="landexpropriation-sent">
+  <h2><b>Thank you, your email has been sent</b></h2>
+  <h4>While we have you, do you mind if we ask you a quick question?</h4>
   <div class="follow-up-question-box gray-box">
     <div class="follow-up-question">
-      <p></p>
+      <p>Have you ever participated in a protest march?</p>
     </div>
     <div class="follow-up-answer-box">
-      <span id="follow-up-answer-1" class="toggle-select-follow-up"></span>
-      <span id="follow-up-answer-2" class="toggle-select-follow-up"></span>
+      <span id="follow-up-answer-1" class="toggle-select-follow-up">
+        YES, I have
+      </span>
+      <span id="follow-up-answer-2" class="toggle-select-follow-up">
+        NO, I have not
+      </span>
     </div>
   </div>
+  <h3>Help others get their voices heard, share this on social media</h3>
+  <div class="row">
+    <div class="col-xs-6 text-center">
+      <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
 
-  <br><a id="view-letter-link" href="">View your open letter</a>
+    <div class="col-xs-6 text-center">
+      <input class="twitter-share" type="button" value="Tweet" data-hashtag="SecretBallot" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
+  </div>
 
   {% if is_mobile %}
   <!--
@@ -171,9 +153,5 @@
   -->
   {% endif %}
 
-
 </section>
-
-<!-- space below for pym awkwardness -->
-<div style="height: 40px"></div>
 {% endblock content %}

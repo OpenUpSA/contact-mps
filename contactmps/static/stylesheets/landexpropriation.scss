@@ -15,8 +15,6 @@
 @import "bootstrap-sass/assets/stylesheets/bootstrap/utilities";
 @import "bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
 
-
-
 $font-serif: 'Helvetica', 'Open-Sans', sans-serif;
 
 h1, h2, h3, h4 {
@@ -51,24 +49,24 @@ h1, h2, h3, h4 {
   font-weight: bold;
 }
 
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
 textarea,
 input[type=text],
 input[type=email] {
   font-size: 16px;  // avoid iOS zooming in
-  &.invalid {
-    border: 1px solid #E23D28;
-  }
 }
 
-#build-message {
-  padding-bottom: 40px;
-  .secret-ballot-page {
-    background-color: #fff;
-    text-align: center;
-  }
-}
-
-textarea, input, .choose-province {
+textarea, input {
   border-radius: 4px;
   border: solid 1px #d2d2d2;
   resize: none;
@@ -76,7 +74,33 @@ textarea, input, .choose-province {
   width: 100%;
 }
 
-#build-message {
+#landexpropriation-build-message {
+  padding-bottom: 40px;
+  .landexpropriation-page {
+    background-color: #fff;
+    text-align: center;
+  }
+  .learning-resources {
+    margin-top: -15px;
+    .btn-resource {
+      background-color: #777;
+      color: #fff;
+      font-size: 16px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 2px;
+      &:hover {
+        text-decoration: none;
+      }
+      &:last-of-type {
+        border-radius: 0 0 4px 4px;
+      }
+    }
+  }
   .days-remaining-box {
     border-radius: 4px 4px 0 0;
     background-color: #c20000;
@@ -99,19 +123,6 @@ textarea, input, .choose-province {
       margin-bottom: 20px;
     }
   }
-  .img-baleka {
-    margin-left: 10px;
-    float: right;
-  }
-  .pa-box {
-    background-color: #fff;
-    margin-top: 10px;
-    padding: 8px;
-    text-align: center;
-    a {
-      color: #4a4a4a;
-    }
-  }
   .send-email-header {
     font-family; $font-serif;
     font-size: 24px;
@@ -122,7 +133,7 @@ textarea, input, .choose-province {
     padding-left: 8px;
     padding-right: 8px;
   }
-  form {
+  #email-landexpropriation {
     .number {
       height: 50px;
       width: 50px;
@@ -135,141 +146,44 @@ textarea, input, .choose-province {
       text-align: center;
       color: #fff;
     }
-    .task {
+    .question {
       margin-top: -50px;
-      .instruction {
-        margin-left: 60px;
-        margin-bottom: 20px;
-        margin-top: 10px;
-        font-size: 23px;
-        font-weight: bold;
-      }
-      .question {
-        margin-bottom: 30px;
-        .multiple-choice {
-          margin-top: 10px;
-          .option {
-            background-color: #fff;
-            color: #4a4a4a;
-            font-size: 16px;
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            width: 100%;
-            display: inline-block;
-            margin-top: 3px;
-            @media only screen and (min-width: 320px) {
-              width: 32%;
-            }
-            &.selected {
-              background-color: #167937;
-              color: #fff;
-            }
-          }
-        }
-        .checkbox {
-          margin-top: 10px;
-          .option {
-            background-color: #fff;
-            color: #4a4a4a;
-            font-size: 16px;
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            width: 100%;
-            display: inline-block;
-            margin-top: 3px;
-            &.selected {
-              background-color: #167937;
-              color: #fff;
-            }
-          }
-        }
-        textarea {
-          width: 100%;
-        }
+      margin-left: 60px;
+      h5 {
+        font-weight: normal;
       }
     }
-    .name-input, .email-input {
+    textarea {
+      margin-left: 60px;
+      width: calc(100% - 60px);
+      margin-top: 8px;
+    }
+    .name-input {
       margin-bottom: 8px;
     }
-    .choose-mp {
-      .mp-wrap {
-        @media (max-width: 500px) {
-          width: 100%;
-        }
-        &:nth-child(odd) {
-          @media (min-width: 501px) {
-            padding-right: 5px;
-          }
-        }
-        &:nth-child(even) {
-          @media (min-width: 501px) {
-            padding-left: 5px;
-          }
-        }
-        .single-mp {
-          padding: 10px;
-          background-color: #fff;
-          margin: 0;
-          margin-bottom: 10px;
-          color: #424242;
-          cursor: pointer;
-          height: 105px;
-          &.selected {
-            background-color: #167937;
-            color: #fff;
-          }
-          .mp-img-wrapper {
-            border-radius: 100%;
-            width: 75px;
-            height: 75px;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            .party-logo {
-              position: absolute;
-              right: -8px;
-              bottom: -8px;
-              max-width: 35px;
-              max-height: 35px;
-            }
-          }
-          .mp-name {
-            font-size: 16px;
-            text-align: center;
-            margin-top: 5px;
-            line-height: 1.2;
-          }
-          .email-count {
-            text-align: center;
-          }
-        }
-      }
-      .or {
-        text-align: center;
-        font-weight: bold;
-        font-size: 16px;
-        margin: 8px 0;
-      }
-    }
   }
-  .selected-mp {
-    text-align: center;
-    .mp-img-wrapper {
-      border-radius: 100%;
-      width: 75px;
-      height: 75px;
-      background-position: center;
-      background-size: cover;
-      position: relative;
-      margin-bottom: 10px;
-      .party-logo {
-        position: absolute;
-        right: -8px;
-        bottom: -8px;
-        max-width: 35px;
-        max-height: 35px;
+  .toggle-button-question {
+    margin-left: 60px;
+    margin-top: 10px;
+    .toggle-select {
+      background-color: #fff;
+      color: #4a4a4a;
+      font-size: 16px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      width: 49%;
+      display: inline-block;
+      font-weight: bold;
+      @media only screen and (min-width: 560px) {
+        width: 49%;
+      }
+      &#no {
+        border-top: 3px solid #f0f0f0;
+      }
+      &.selected {
+        background-color: #167937;
+        color: #fff;
       }
     }
   }
@@ -288,7 +202,7 @@ textarea, input, .choose-province {
   }
 }
 
-#preview-message {
+#landexpropriation-preview-message {
   .sender-info {
     .left {
       min-width: 65px;
@@ -308,7 +222,7 @@ textarea, input, .choose-province {
   #sendEmail {
     margin-top: 20px;
   }
-  #editMessage {
+  #editEmail {
     font-family: $font-serif !important;
     font-size: 18px;
     color: #4a4a4a;
@@ -319,24 +233,8 @@ textarea, input, .choose-province {
   }
 }
 
-#message-sent {
+#landexpropriation-sent {
   padding-bottom: 40px;
-  .mp-tweet {
-    position: relative;
-    .twitter-logo {
-      position: absolute;
-      left: 8px;
-      top: 8px;
-    }
-    .handle {
-      margin-left: 38px;
-      font-weight: bold;
-      line-height: 26px;
-    }
-    .tweet-content {
-      margin: 8px 0;
-    }
-  }
   .follow-up-question {
     font-size: 16px;
   }
@@ -393,126 +291,4 @@ ul.choose-one {
       color: white;
     }
   }
-}
-
-.dropdown-wrap {
-  padding: 0 5px;
-  #select-dropdown {
-    width: 100%;
-  }
-}
-
-.select2-dropdown {
-  border-width: 1px;
-  border-radius: 0;
-  box-shadow: 0px 3px 2px 0px rgba(65,65,65,0.75);
-}
-
-.select2-container--default {
-  .select2-selection--single {
-    border-radius: 0;
-    height: 35px;
-    .select2-selection__arrow {
-      height: 28px;
-      position: absolute;
-      top: 1px;
-      right: 15px;
-      width: 25px;
-      b {
-        border-width: 10px 8px 0 8px;
-      }
-    }
-    .select2-selection__rendered {
-      font-size: 18px;
-      line-height: 35px;
-    }
-  }
-}
-
-.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
-  height: 28px;
-  position: absolute;
-  top: 1px;
-  right: 15px;
-  width: 25px;
-  b {
-    border-color: transparent transparent #fff transparent;
-    border-width: 0 8px 10px 8px;
-  }
-}
-
-#sent-page {
-  .left {
-    min-width: 65px;
-    padding-right: 15px;
-    vertical-align: top;
-    font-weight: bold;
-  }
-  td {
-    padding-bottom: 10px;
-  }
-  .social-sharing {
-    text-align: center;
-    .btn-share {
-      border-radius: 4px;
-      padding: 8px 16px;
-      width: 100%;
-      border: none;
-      color: #fff;
-      &:hover {
-        text-decoration: none;
-      }
-    }
-    .fb-share {
-      background-color: #3b5998;
-    }
-    .twitter-share {
-      background-color: #4990e2;
-    }
-  }
-  .link-article-wrap {
-    text-align: center;
-    margin: 25px 0;
-    .link-article {
-      background-color: #167937;
-      color: #fff;
-      font-size: 16px;
-      padding: 8px 16px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: bold;
-      float: none;
-      margin-left: auto;
-      margin-right: auto;
-      &:hover {
-        text-decoration: none;
-      }
-    }
-  }
-}
-
-.error {
-  display: none;
-
-  padding: 10px;
-  margin: 10px 0px;
-  border: 1px solid red;
-  background-color: #ff8484;
-  color: white;
-}
-
-.email {
-  background-color: lightgrey;
-  padding: 13px;
-  margin: 10px;
-}
-
-.email-meta-heading {
-    font-weight: bold;
-}
-
-.email-body {
-    margin-top: 10px;
-    background-color: white;
-    padding: 10px;
 }

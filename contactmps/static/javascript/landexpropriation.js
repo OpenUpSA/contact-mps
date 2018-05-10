@@ -1,36 +1,30 @@
+$(window).on('load', function() {
+    $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
+});
+
+var daysRemaining=(function(){
+    var oneDay = 24*60*60*1000;
+    var decision = new Date(2018, 4, 31, 23, 59);
+    return Math.floor(Math.abs((Date.now() - decision.getTime())/(oneDay)));
+})();
+
+$(".days-remaining-number").text(daysRemaining + " days");
+
 /* useful vars */
-var selectedMP = null;
 var supportsSecret = null;
 var emailTxt = ""; // global for preview and then send
-// literally whatever data we want to store along with the email
-var emailData = {
-  allowPublicListing: true // It's an open letter in this campaign
-};
+var emailData = {}; // literally whatever data we want to store along with the email
 var submissionDeferred;
 
-if (!getParameterByName("embedded")) {
-  $('#title').show();
-  $('#intro').show();
-}
-
-$(window).on('load', function() {
-  $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
-});
-
-$("#previewEmail").prop("disabled", false);
-
-$(".multiple-choice .option").click(function() {
+$(".toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
 
-  $this.siblings(".multiple-choice .option").removeClass("selected");
+  $(".toggle-button-question .toggle-select").removeClass("selected");
   $this.addClass("selected");
   $("#previewEmail").prop("disabled", false);
-});
 
-$(".checkbox .option").click(function() {
-  var $this = $(this);
-
-  $this.toggleClass("selected");
+  supportsSecret = $this.attr('id') == "yes";
+  emailData.supportsSecret = supportsSecret;
 });
 
 $(".choose-one li").on('click', function(e) {
@@ -43,14 +37,26 @@ $(".choose-one li").on('click', function(e) {
 var senderSecret = null,
     emailId = null;
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
 function emailSent() {
-  ga('send', 'event', 'representation-email', 'sent');
+  ga('send', 'event', 'landexpropriation-email', 'sent');
 
   // prep follow up questions
   var questions = [
     {
-      q: "Would you like to get updates about tools such as this?",
-      a: ["Yes, please", "No, thanks"],
+      q: "Have you ever participated in a protest march?",
+      a: ["Yes, I have", "No, I have not"],
+    }, {
+      q: "Is this your first time emailing a Member of Parliament?",
+      a: ["Yes, it is", "No, it is not"],
+    }, {
+      q: "Do you know that all MPs are assigned a constituency, and represent those who live in it?",
+      a: ["Yes, I know about that", "No, I did not know"],
     },
   ];
   var q = questions[getRandomInt(0, questions.length)];
@@ -61,13 +67,13 @@ function emailSent() {
   $('#follow-up-answer-2').text(q.a[1]);
 
   // prep sharing
-  $('.twitter-share').data('message', 'I wrote an open letter to about being heard in Parliament. Join me.');
-  $('.fb-share').data('message', 'I wrote an open letter to about being heard in Parliament, you should too.');
+  var msg = supportsSecret ? 'I support' : 'I do not support';
+  $('.twitter-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Make your voice heard too @MbeteBaleka');
+  $('.fb-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send her an email and make your voice heard too.');
 
-  $("#preview-message").hide();
-  $("#message-sent").show();
+  $("#landexpropriation-preview-message").hide();
+  $("#landexpropriation-sent").show();
   pymChild.scrollParentTo('contactmps-embed-parent');
-  pymChild.sendHeight();
 }
 
 $(".follow-up-question-box .toggle-select-follow-up").click(function() {
@@ -97,90 +103,84 @@ $(".follow-up-question-box .toggle-select-follow-up").click(function() {
   ga('send', 'event', 'follow-up', 'answered', q);
 });
 
-$("#preview-message").hide();
-$("#message-sent").hide();
-pymChild.sendHeight();
-
-function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-
-function error(message, id) {
-  id = id || '#preview-error';
-  $(id).text(message).show();
-}
+$("#landexpropriation-preview-message").hide();
+$("#landexpropriation-sent").hide();
 
 $("#previewEmail").click(function(e) {
-  $('#preview-error').hide();
-  ga('send', 'event', 'click', 'preview');
-
   e.preventDefault();
+  var commentPersonal = $("#comment-personal").val()
+  var commentSA = $("#comment-sa").val()
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
-  var emailSubject = "Representation of the public in Parliament";
-  var sufficientlyRepresentedOptions = $('#sufficiently-represented .option.selected');
-  var howShouldVoiceHeard = $('#how-should-voice-heard textarea').val();
-  var concerns = $('#concerns textarea').val();
-  var province = $('select[name=province]').val();
+  emailData.senderName = senderName;
+  emailData.senderEmail = senderEmail;
+  emailData.age = $('.question-age li.active').text();
 
-  /** VALIDATION **/
+  if (commentPersonal === '') {
+    alert('Please explain how this motion affects you');
+    $('#comment-personal').focus();
+    return;
+  };
+
+  if (commentSA === '') {
+    alert('Please explain how this motion affects South Africa');
+    $('#comment-sa').focus();
+    return;
+  };
 
   if (senderName === '') {
-    error('Please enter your name');
+    alert('Please enter your name');
     $('.name-input').focus();
     return;
-  }
+  };
 
-  if (senderEmail === '' || !validateEmail(senderEmail)) {
-    error('Please enter a valid email address');
+  if (senderEmail === '') {
+    alert('Please enter your email');
     $('.email-input').focus();
     return;
+  };
+
+  if ($("#comment-personal").val() != "") {
+    var commentPersonal = $("#comment-personal").val();
+    emailData['otherIssues'] = commentPersonal.trim();
+    commentPersonal = "\n\n" + (commentPersonal);
+  } else {
+    var commentPersonal = "";
+  };
+  if ($("#comment-sa").val() != "") {
+    var commentSA = $("#comment-sa").val();
+    emailData['otherIssues'] = commentSA.trim();
+    commentSA = "\n\n" + (commentSA);
+  } else {
+    var commentSA = "";
+  };
+  if ($(".toggle-select.selected").attr("id") == "no") {
+    var emailSubject = "I do not support the motion on land expropriation without compensation";
   }
-
-  if (province === null) {
-    error('Please select your province');
-    $('select[name=province]').focus();
-    return;
-  }
-
-  if (sufficientlyRepresentedOptions.length !== 1) {
-    error('Please indicate whether you feel sufficiently-represented');
-    pymChild.scrollParentToChildEl('sufficiently-represented');
-    return;
-  }
-
-  if (howShouldVoiceHeard === '') {
-    error('Please indicate how you\'d like to make your voice heard');
-    $('#how-should-voice-heard').focus();
-    return;
-  }
-
-  emailTxt = composeMessage();
-  emailHtml = emailTxt.replace(/\n/g, '<br/>');
-
+  else if ($(".toggle-select.selected").attr("id") == "yes") {
+    var emailSubject = "I support the motion on land expropriation without compensation";
+  };
   $("#name").text(senderName);
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
-  $("#letter-preview").html(emailHtml);
 
-  ga('send', 'event', 'screen', 'shown', 'preview');
-  $("#build-message").hide();
-  $("#preview-message").show();
-  location.hash = "#preview-message";
+  emailTxt = "Dear Pat Jayiya,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\n" + senderName;
+  emailHtml = emailTxt.replace(/\n/g, '<br/>');
+
+  $("#comment-preview").html(emailHtml);
+  $("#landexpropriation-build-message").hide();
+  $("#landexpropriation-preview-message").show();
+  location.hash = "#landexpropriation-preview-message";
 
   pymChild.scrollParentTo('contactmps-embed-parent');
-  pymChild.sendHeight();
 });
 
-$("#editMessage").click(function(e) {
+$("#editEmail").click(function(e) {
   e.preventDefault();
-  ga('send', 'event', 'click', 'edit-message');
-  $("#build-message").show();
-  $("#preview-message").hide();
+  $("#landexpropriation-build-message").show();
+  $("#landexpropriation-preview-message").hide();
   location.hash = "#email-secret";
   pymChild.scrollParentTo('contactmps-embed-parent');
-  pymChild.sendHeight();
 });
 
 var reCaptchaValid = false;
@@ -205,20 +205,36 @@ var recaptchaLoaded = function() {
   }
 };
 
-$('#representation').on('submit', submitForm);
+var reCaptchaValid = false;
+var gReCaptchaValidated = function() {
+  $("input[type=submit]").removeAttr('disabled');
+  reCaptchaValid = true;
+};
+
+var gReCaptchaExpired = function() {
+  $("input[type=submit]").attr('disabled','disabled');
+  reCaptchaValid = false;
+};
+
+var recaptchaLoaded = function() {
+  grecaptcha.render('recaptcha', {
+    'sitekey': recaptchaKey,
+    'callback': gReCaptchaValidated,
+    'expired-callback': gReCaptchaExpired
+  });
+  if (typeof pymChild !== undefined) {
+    pymChild.sendHeight();
+  }
+};
+
+$('#email-secret').on('submit', submitForm);
 
 function triggerSubmit() {
-  $('#representation').submit();
+  $('#email-secret').submit();
 }
 
 function submitForm(e) {
   e.preventDefault();
-
-  if (!reCaptchaValid) {
-    error("Please prove you are human first", "#submit-error");
-    pymChild.scrollParentToChildEl('recaptcha');
-    return;
-  }
 
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
@@ -227,28 +243,22 @@ function submitForm(e) {
   submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
-      person: selectedMP.id,
+      person: recipient.id,
       name: senderName,
       email: senderEmail,
       body: emailTxt,
       subject: emailSubject,
       anyData: JSON.stringify(emailData),
       gRecaptchaResponse: grecaptcha.getResponse(),
-      campaign_slug: 'natrepresentation',
+      campaign_slug: 'secretballot',
     },
     success: function(data) {
       console.info("success", data);
 
       senderSecret = data.sender_secret;
       emailId = data.secure_id;
-      emailDetailUrl = 'https://noconfidencevote.openup.org.za/email/' + emailId + '/'
-      $('.twitter-share').data('url', emailDetailUrl);
-      $('.facebook-share').data('url', emailDetailUrl);
-      $("#view-letter-link").attr("href", "/email/" + emailId);
-      $("#email-detail-link").html("<br>Or <a href=\"" + emailDetailUrl + "\">copy this link to share elsewhere</a><br><br>");
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      ga('send', 'event', 'error', 'submit', textStatus + "\n" + jqXHR.responseText);
       console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
     }
   });
