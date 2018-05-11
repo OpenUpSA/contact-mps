@@ -16,14 +16,18 @@
 @import "bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
 
 $font-serif: 'Helvetica', 'Open-Sans', sans-serif;
+$dark-gray: #4a4a4a;
+$attention: #d4776c;
+$green: #167937;
+$red: #9f0000;
 
 h1, h2, h3, h4 {
-  color: #4a4a4a;
+  color: $dark-gray;
 }
 
 .header-text {
   font-size: 24px;
-  color: #4a4a4a;
+  color: $dark-gray;
   font-family: $font-serif !important;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -48,7 +52,7 @@ h1, h2, h3, h4 {
 .btn-continue {
   border-radius: 0;
   border: none;
-  background-color: #167937;
+  background-color: $attention;
   color: #fff;
   font-family: $font-serif !important;
   font-size: 18px;
@@ -89,18 +93,18 @@ textarea, input {
   .learning-resources {
     margin-top: -15px;
     .btn-resource {
-      background-color: #777;
-      color: #fff;
+      background-color: lighten($attention, 30%);
+      color: $dark-gray;
       font-size: 16px;
       padding: 8px;
       text-align: center;
       cursor: pointer;
       width: 100%;
       display: inline-block;
-      font-weight: bold;
       margin-bottom: 2px;
       &:hover {
         text-decoration: none;
+        background-color: lighten($attention, 25%);
       }
       &:last-of-type {
         border-radius: 0 0 4px 4px;
@@ -109,8 +113,8 @@ textarea, input {
   }
   .days-remaining-box {
     border-radius: 4px 4px 0 0;
-    background-color: #c20000;
-    margin-top: 15px;
+    background-color: $attention;
+    margin-top: 10px;
     font-family: $font-serif;
     text-align: center;
     font-size: 18px;
@@ -136,7 +140,7 @@ textarea, input {
     font-size: 24px;
     font-weight: bold;
     text-align: left;
-    color: #4a4a4a;
+    color: $dark-gray;
     margin-top: 15px;
     padding-left: 8px;
     padding-right: 8px;
@@ -145,7 +149,7 @@ textarea, input {
     .number {
       height: 50px;
       width: 50px;
-      background-color: #167937;
+      background-color: $attention;
       border-radius: 100%;
       font-family: $font-serif;
       line-height: 50px;
@@ -178,7 +182,7 @@ textarea, input {
   }
   .toggle-select {
     background-color: #fff;
-    color: #4a4a4a;
+    color: $dark-gray;
     font-size: 16px;
     padding: 8px;
     text-align: center;
@@ -193,8 +197,11 @@ textarea, input {
       border-top: 3px solid #f0f0f0;
     }
     &.selected {
-      background-color: #167937;
+      background-color: $green;
       color: #fff;
+      &#no {
+        background-color: #9f0000;
+      }
     }
     &:nth-of-type(odd) {
       margin-right: 3px;
@@ -203,22 +210,25 @@ textarea, input {
   .lazy-question {
     .toggle-select {
       width: calc(50% - 4px);
-      background-color: #eee;
-      color: #333;
-      border-bottom: 2px solid #167937;
+      background-color: #f0f0f0;
+      color: $dark-gray;
+      border-bottom: 2px solid $green;
       &:hover {
-        background-color: #ccc;
+        background-color: #dbdbdb;
       }
       &#no {
         border-bottom-color: #c20000;
-        border-top-color: #fff;
+        border-top: 0;
+        &:hover {
+          background-color: #dbdbdb;
+        }
       }
     }
   }
   .preview-email {
     border-radius: 0;
     border: none;
-    background-color: #167937;
+    background-color: $attention;
     color: #fff;
     font-family: $font-serif !important;
     font-size: 18px;
@@ -253,7 +263,7 @@ textarea, input {
   #editEmail {
     font-family: $font-serif !important;
     font-size: 18px;
-    color: #4a4a4a;
+    color: $dark-gray;
     text-decoration: underline;
     text-align: center;
     padding-top: 10px;
@@ -270,7 +280,7 @@ textarea, input {
     .toggle-select-follow-up {
       margin-top: 3px;
       background-color: #fff;
-      color: #4a4a4a;
+      color: $dark-gray;
       font-size: 16px;
       padding: 8px;
       text-align: center;
@@ -284,7 +294,7 @@ textarea, input {
         }
       }
       &.selected {
-        background-color: #167937;
+        background-color: $green;
         color: #fff;
       }
     }
@@ -318,7 +328,7 @@ ul.choose-one {
     font-size: 16px;
     cursor: pointer;
     &.active {
-      background-color: #167937;
+      background-color: $green;
       color: white;
     }
   }
