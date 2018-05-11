@@ -4,7 +4,7 @@ $(window).on('load', function() {
 
 var daysRemaining=(function(){
     var oneDay = 24*60*60*1000;
-    var decision = new Date(2018, 4, 31, 23, 59);
+    var decision = new Date(2018, 5, 15, 23, 59);
     return Math.floor(Math.abs((Date.now() - decision.getTime())/(oneDay)));
 })();
 
@@ -46,34 +46,65 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-function followUpQuestion(n) {
-  // prep follow up questions
-  var questions = [
-    {
-      q: "Which party do you plan to vote for in the 2019 general elections?",
-      a: ["ANC", "DA", "EFF", "Other"],
-    }, {
-      q: "Which province do you live in?",
-      a: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "Limpopo", "Mpumalanga", "North West", "Northern Cape", "Western Cape"],
-    }, {
-      q: "Do you live in a rural or urban area?",
-      a: ["Rural", "Urban"],
-    }, {
-      q: "What is your race?",
-      a: ["Black African", "Coloured", "White", "Asian or Indian", "Other"],
-    }, {
-      q: "How old are you?",
-      a: ["Under 20", "20 - 29", "30 - 39", "40 or older"],
-    },
-  ];
+// follow up questions
+var questions = [
+  {
+    q: "Which party do you plan to vote for in the 2019 general elections?",
+    a: ["ANC", "DA", "EFF", "Other"],
+  }, {
+    q: "Which province do you live in?",
+    a: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "Limpopo", "Mpumalanga", "North West", "Northern Cape", "Western Cape"],
+  }, {
+    q: "Do you live in a rural or urban area?",
+    a: ["Rural", "Urban"],
+  }, {
+    q: "What is your race?",
+    a: ["Black African", "Coloured", "White", "Asian or Indian", "Other"],
+  }, {
+    q: "How old are you?",
+    a: ["Under 20", "20 - 29", "30 - 39", "40 or older"],
+  },
+];
 
-  var q = questions[getRandomInt(0, questions.length)];
+function followUpQuestion() {
+  var questionsLeft = questions.length;
+  var randomNumber = getRandomInt(0, questionsLeft);
+  var q = questions[randomNumber];
 
   ga('send', 'event', 'follow-up', 'asked', q.q);
   $('.follow-up-question p').text(q.q);
   $(".toggle-select-follow-up").remove();
   $.each(q.a, function(index, value) {
-    $(".follow-up-answer-box").append("<span id='follow-up-answer-" + index + "' class='toggle-select-follow-up'>" + value + "</span>");
+    $(".follow-up-answer-box").append("<span id='follow-up-answer-" + index + "' class='toggle-select-follow-up'>" + value + "</span>")
+  });
+
+  $(".toggle-select-follow-up").on('click', function () {
+    var $this = $(this);
+    // var q = $('.follow-up-question').text().trim();
+    // var a = $this.text().trim();
+
+    // submit to server
+    // submissionDeferred.done(function() {
+    //   jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
+    //     type: 'POST',
+    //     data: {
+    //       question: q,
+    //       answer: a,
+    //       sender_secret: senderSecret,
+    //     },
+    //   });
+    // });
+
+    ga('send', 'event', 'follow-up', 'answered', q);
+
+
+    if (questionsLeft > 1) {
+      questions.splice(randomNumber, 1);
+      followUpQuestion();
+    } else {
+      $(".toggle-select-follow-up").remove();
+      $(".follow-up-question p").text("Thank you!");
+    }
   });
 };
 
@@ -91,33 +122,6 @@ function emailSent() {
   $("#landexpropriation-sent").show();
   pymChild.scrollParentTo('contactmps-embed-parent');
 }
-
-$(".follow-up-question-box .toggle-select-follow-up").click(function() {
-  var $this = $(this);
-
-  $(".follow-up-question-box .toggle-select-follow-up").removeClass("selected");
-  $this.addClass("selected");
-
-  var q = $('.follow-up-question').text().trim();
-  var a = $this.text().trim();
-
-  $('.follow-up-question p').text('Thanks!');
-  $('.follow-up-answer-box').hide();
-
-  // submit to server
-  submissionDeferred.done(function() {
-    jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
-      type: 'POST',
-      data: {
-        question: q,
-        answer: a,
-        sender_secret: senderSecret,
-      },
-    });
-  });
-
-  ga('send', 'event', 'follow-up', 'answered', q);
-});
 
 $("#landexpropriation-preview-message").hide();
 $("#landexpropriation-sent").hide();
