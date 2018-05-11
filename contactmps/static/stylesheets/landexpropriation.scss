@@ -34,9 +34,15 @@ h1, h2, h3, h4 {
 
 .gray-box {
   background-color: #f0f0f0;
-  border-radius: 4px;
-  padding: 8px;
-  margin-bottom: 15px;
+  padding: 16px 8px;
+  margin-bottom: 2px;
+  &:first-of-type {
+    border-radius: 4px 4px 0 0;
+  }
+  &:last-of-type {
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 15px;
+  }
 }
 
 .btn-continue {
@@ -145,10 +151,12 @@ textarea, input {
       font-weight: bold;
       text-align: center;
       color: #fff;
+      margin-top: 5px;
     }
     .question {
-      margin-top: -50px;
+      margin-top: -55px;
       margin-left: 60px;
+      font-size: 18px;
       h5 {
         font-weight: normal;
       }
@@ -156,7 +164,7 @@ textarea, input {
     textarea {
       margin-left: 60px;
       width: calc(100% - 60px);
-      margin-top: 8px;
+      margin-top: 5px;
     }
     .name-input {
       margin-bottom: 8px;
@@ -164,7 +172,7 @@ textarea, input {
   }
   .toggle-button-question {
     margin-left: 60px;
-    margin-top: 10px;
+    margin-top: 5px;
     .toggle-select {
       background-color: #fff;
       color: #4a4a4a;
