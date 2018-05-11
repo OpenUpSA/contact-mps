@@ -11,26 +11,31 @@ var daysRemaining=(function(){
 $(".days-remaining-number").text(daysRemaining + " days");
 
 /* useful vars */
-var supportsSecret = null;
+var supportsMotion = null;
 var emailTxt = ""; // global for preview and then send
 var emailData = {}; // literally whatever data we want to store along with the email
 var submissionDeferred;
 
-$(".toggle-button-question .toggle-select").click(function() {
+$(".toggle-button-question.support .toggle-select").click(function() {
   var $this = $(this);
 
-  $(".toggle-button-question .toggle-select").removeClass("selected");
+  $(".toggle-button-question.support .toggle-select").removeClass("selected");
   $this.addClass("selected");
   $("#previewEmail").prop("disabled", false);
 
-  supportsSecret = $this.attr('id') == "yes";
-  emailData.supportsSecret = supportsSecret;
+  supportsMotion = $this.attr('id') == "yes";
+  emailData.supportsMotion = supportsMotion;
 });
 
-$(".choose-one li").on('click', function(e) {
+$(".toggle-button-question.appear .toggle-select").click(function() {
   var $this = $(this);
-  $this.siblings().removeClass('active');
-  $this.addClass('active');
+
+  $(".toggle-button-question.appear .toggle-select").removeClass("selected");
+  $this.addClass("selected");
+  $("#previewEmail").prop("disabled", false);
+
+  appearCommittee = $this.attr('id') == "yes";
+  emailData.appearCommittee = appearCommittee;
 });
 
 /* follow-up questions */
@@ -49,7 +54,7 @@ function emailSent() {
   // prep follow up questions
   var questions = [
     {
-      q: "Have you ever participated in a protest march?",
+      q: "",
       a: ["Yes, I have", "No, I have not"],
     }, {
       q: "Is this your first time emailing a Member of Parliament?",
@@ -67,7 +72,7 @@ function emailSent() {
   $('#follow-up-answer-2').text(q.a[1]);
 
   // prep sharing
-  var msg = supportsSecret ? 'I support' : 'I do not support';
+  var msg = supportsMotion ? 'I support' : 'I do not support';
   $('.twitter-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Make your voice heard too @MbeteBaleka');
   $('.fb-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send her an email and make your voice heard too.');
 
@@ -147,6 +152,7 @@ $("#previewEmail").click(function(e) {
   } else {
     var commentPersonal = "";
   };
+
   if ($("#comment-sa").val() != "") {
     var commentSA = $("#comment-sa").val();
     emailData['otherIssues'] = commentSA.trim();
@@ -154,17 +160,26 @@ $("#previewEmail").click(function(e) {
   } else {
     var commentSA = "";
   };
-  if ($(".toggle-select.selected").attr("id") == "no") {
+
+  if ($(".support .toggle-select.selected").attr("id") == "no") {
     var emailSubject = "I do not support the motion on land expropriation without compensation";
   }
-  else if ($(".toggle-select.selected").attr("id") == "yes") {
+  else if ($(".support .toggle-select.selected").attr("id") == "yes") {
     var emailSubject = "I support the motion on land expropriation without compensation";
   };
+
+  if ($(".appear .toggle-select.selected").attr("id") == "no") {
+    var senderAppear = "\n\nI do not want to appear before the committee for an oral presentation.";
+  }
+  else if ($(".appear .toggle-select.selected").attr("id") == "yes") {
+    var senderAppear = "\n\nI would like to appear before the committee to give an oral presentation.";
+  };
+
   $("#name").text(senderName);
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  emailTxt = "Dear Pat Jayiya,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\n" + senderName;
+  emailTxt = "Dear Pat Jayiya,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\n" + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   $("#comment-preview").html(emailHtml);

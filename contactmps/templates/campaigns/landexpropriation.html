@@ -49,7 +49,7 @@
     <div class="question-1 gray-box">
       <div class="number">1</div>
       <div class="question">Do you support the motion on land expropriation without compensation?</div>
-      <div class="toggle-button-question">
+      <div class="toggle-button-question support">
         <div id="yes" class="toggle-select">
           Yes
         </div>
@@ -73,19 +73,22 @@
 
     <div class="question-4 gray-box">
       <div class="number">4</div>
+      <div class="question">Are you willing to appear before the committee to give an oral presentation?</div>
+      <div class="toggle-button-question appear">
+        <div id="yes" class="toggle-select">
+          Yes
+        </div>
+        <div id="no" class="toggle-select">
+          No
+        </div>
+      </div>
+    </div>
+
+    <div class="question-5 gray-box">
+      <div class="number">5</div>
       <div class="question">
         <input class="name-input" type="text" name="name" placeholder="Your name" value="">
         <input class="email-input" type="email" name="email" placeholder="Your email address" value="">
-
-  <div class="question-age">
-    <h5>How old are you?</h5>
-    <ul class="choose-one">
-      <li>Under 20</li>
-      <li>20 - 29</li>
-      <li>30 - 39</li>
-      <li>40 or older</li>
-    </ul>
-  </div>
       </div>
     </div>
 
@@ -112,7 +115,6 @@
       </tr>
     </table>
     <div id="comment-preview"></div>
-    </div>
   </div>
   <div id="recaptcha"></div>
   <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Send your email">
