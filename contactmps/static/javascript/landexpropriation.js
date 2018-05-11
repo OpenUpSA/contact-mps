@@ -16,23 +16,21 @@ var emailTxt = ""; // global for preview and then send
 var emailData = {}; // literally whatever data we want to store along with the email
 var submissionDeferred;
 
-$(".toggle-button-question.support .toggle-select").click(function() {
+$(".support.toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
 
-  $(".toggle-button-question.support .toggle-select").removeClass("selected");
+  $(".support.toggle-button-question .toggle-select").removeClass("selected");
   $this.addClass("selected");
-  $("#previewEmail").prop("disabled", false);
 
   supportsMotion = $this.attr('id') == "yes";
   emailData.supportsMotion = supportsMotion;
 });
 
-$(".toggle-button-question.appear .toggle-select").click(function() {
+$(".appear.toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
 
-  $(".toggle-button-question.appear .toggle-select").removeClass("selected");
+  $(".appear.toggle-button-question .toggle-select").removeClass("selected");
   $this.addClass("selected");
-  $("#previewEmail").prop("disabled", false);
 
   appearCommittee = $this.attr('id') == "yes";
   emailData.appearCommittee = appearCommittee;
@@ -48,28 +46,41 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-function emailSent() {
-  ga('send', 'event', 'landexpropriation-email', 'sent');
-
+function followUpQuestion(n) {
   // prep follow up questions
   var questions = [
     {
-      q: "",
-      a: ["Yes, I have", "No, I have not"],
+      q: "Which party do you plan to vote for in the 2019 general elections?",
+      a: ["ANC", "DA", "EFF", "Other"],
     }, {
-      q: "Is this your first time emailing a Member of Parliament?",
-      a: ["Yes, it is", "No, it is not"],
+      q: "Which province do you live in?",
+      a: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "Limpopo", "Mpumalanga", "North West", "Northern Cape", "Western Cape"],
     }, {
-      q: "Do you know that all MPs are assigned a constituency, and represent those who live in it?",
-      a: ["Yes, I know about that", "No, I did not know"],
+      q: "Do you live in a rural or urban area?",
+      a: ["Rural", "Urban"],
+    }, {
+      q: "What is your race?",
+      a: ["Black African", "Coloured", "White", "Asian or Indian", "Other"],
+    }, {
+      q: "How old are you?",
+      a: ["Under 20", "20 - 29", "30 - 39", "40 or older"],
     },
   ];
+
   var q = questions[getRandomInt(0, questions.length)];
 
   ga('send', 'event', 'follow-up', 'asked', q.q);
   $('.follow-up-question p').text(q.q);
-  $('#follow-up-answer-1').text(q.a[0]);
-  $('#follow-up-answer-2').text(q.a[1]);
+  $(".toggle-select-follow-up").remove();
+  $.each(q.a, function(index, value) {
+    $(".follow-up-answer-box").append("<span id='follow-up-answer-" + index + "' class='toggle-select-follow-up'>" + value + "</span>");
+  });
+};
+
+function emailSent() {
+  ga('send', 'event', 'landexpropriation-email', 'sent');
+
+  followUpQuestion();
 
   // prep sharing
   var msg = supportsMotion ? 'I support' : 'I do not support';
@@ -164,7 +175,7 @@ $("#previewEmail").click(function(e) {
   if ($(".support .toggle-select.selected").attr("id") == "no") {
     var emailSubject = "I do not support the motion on land expropriation without compensation";
   }
-  else if ($(".support .toggle-select.selected").attr("id") == "yes") {
+  else if ($(".support .toggle-select.selected").attr("id") == "  ") {
     var emailSubject = "I support the motion on land expropriation without compensation";
   };
 
@@ -179,7 +190,7 @@ $("#previewEmail").click(function(e) {
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  emailTxt = "Dear Pat Jayiya,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\n" + senderName;
+  emailTxt = "Dear Pat Jayiya,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   $("#comment-preview").html(emailHtml);
