@@ -122,6 +122,8 @@ textarea, input {
     }
   }
   .why-box {
+    margin-left: 0;
+    margin-right: 0;
     h4 {
       margin-bottom: 5px;
     }
@@ -173,25 +175,43 @@ textarea, input {
   .toggle-button-question {
     margin-left: 60px;
     margin-top: 5px;
+  }
+  .toggle-select {
+    background-color: #fff;
+    color: #4a4a4a;
+    font-size: 16px;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    display: inline-block;
+    font-weight: bold;
+    @media only screen and (min-width: 560px) {
+      width: calc(50% - 4px);
+    }
+    &#no {
+      border-top: 3px solid #f0f0f0;
+    }
+    &.selected {
+      background-color: #167937;
+      color: #fff;
+    }
+    &:nth-of-type(odd) {
+      margin-right: 3px;
+    }
+  }
+  .lazy-question {
     .toggle-select {
-      background-color: #fff;
-      color: #4a4a4a;
-      font-size: 16px;
-      padding: 8px;
-      text-align: center;
-      cursor: pointer;
-      width: 49%;
-      display: inline-block;
-      font-weight: bold;
-      @media only screen and (min-width: 560px) {
-        width: 49%;
+      width: calc(50% - 4px);
+      background-color: #eee;
+      color: #333;
+      border-bottom: 2px solid #167937;
+      &:hover {
+        background-color: #ccc;
       }
       &#no {
-        border-top: 3px solid #f0f0f0;
-      }
-      &.selected {
-        background-color: #167937;
-        color: #fff;
+        border-bottom-color: #c20000;
+        border-top-color: #fff;
       }
     }
   }

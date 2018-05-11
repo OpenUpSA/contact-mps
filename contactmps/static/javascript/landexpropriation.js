@@ -2,11 +2,18 @@ $(window).on('load', function() {
     $('body').append($("<script src='https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit' async defer></script>"));
 });
 
+$(".lazy-question .toggle-select").click(function () {
+  pymChild.scrollParentToChildEl("email-landexpropriation");
+  var lazyChoice = $(this).attr("id");
+  $(".toggle-button-question.support .toggle-select[id='" + lazyChoice + "']").click();
+});
+
 var daysRemaining=(function(){
     var oneDay = 24*60*60*1000;
     var decision = new Date(2018, 5, 15, 23, 59);
     return Math.floor(Math.abs((Date.now() - decision.getTime())/(oneDay)));
 })();
+
 
 $(".days-remaining-number").text(daysRemaining + " days");
 
