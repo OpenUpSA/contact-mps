@@ -185,7 +185,7 @@ $("#previewEmail").click(function(e) {
   if ($(".support .toggle-select.selected").attr("id") == "no") {
     var emailSubject = "I do not support the motion on land expropriation without compensation";
   }
-  else if ($(".support .toggle-select.selected").attr("id") == "  ") {
+  else if ($(".support .toggle-select.selected").attr("id") == "yes") {
     var emailSubject = "I support the motion on land expropriation without compensation";
   };
 
