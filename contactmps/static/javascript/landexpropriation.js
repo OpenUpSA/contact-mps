@@ -115,8 +115,7 @@ function emailSent() {
 
   // prep sharing
   var msg = supportsMotion ? 'I support' : 'I do not support';
-  $('.twitter-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Make your voice heard too @MbeteBaleka');
-  $('.fb-share').data('message', 'I emailed Baleka Mbete saying ' + msg + ' a secret ballot. Send her an email and make your voice heard too.');
+  $(".twitter-share, .fb-share").data("message", "I emailed Parliament's Constitutional Review Committee saying " + msg + " the motion on land expropriation without compensation. Send them an email and make your voice heard too.");
 
   $("#landexpropriation-preview-message").hide();
   $("#landexpropriation-sent").show();
