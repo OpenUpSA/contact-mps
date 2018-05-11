@@ -17,7 +17,7 @@
 
 $font-serif: 'Helvetica', 'Open-Sans', sans-serif;
 $dark-gray: #4a4a4a;
-$attention: #d4776c;
+$attention: #48606d;
 $green: #167937;
 $red: #9f0000;
 
@@ -94,7 +94,7 @@ textarea, input {
     margin-top: -15px;
     .btn-resource {
       background-color: lighten($attention, 30%);
-      color: $dark-gray;
+      color: darken($attention, 20%);
       font-size: 16px;
       padding: 8px;
       text-align: center;
