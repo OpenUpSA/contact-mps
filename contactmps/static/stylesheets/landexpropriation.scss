@@ -17,7 +17,7 @@
 
 $font-serif: 'Helvetica', 'Open-Sans', sans-serif;
 $dark-gray: #4a4a4a;
-$attention: #48606d;
+$attention: #086788;
 $green: #167937;
 $red: #9f0000;
 
@@ -91,9 +91,8 @@ textarea, input {
     text-align: center;
   }
   .learning-resources {
-    margin-top: -15px;
     .btn-resource {
-      background-color: lighten($attention, 30%);
+      background-color: transparentize($attention, 0.75);
       color: darken($attention, 20%);
       font-size: 16px;
       padding: 8px;
@@ -104,7 +103,7 @@ textarea, input {
       margin-bottom: 2px;
       &:hover {
         text-decoration: none;
-        background-color: lighten($attention, 25%);
+        background-color: transparentize($attention, 0.5);
       }
       &:last-of-type {
         border-radius: 0 0 4px 4px;
