@@ -3,7 +3,26 @@ Contact MPs
 
 This is a project intended to make it easier to contact Members of Parliament.
 
-Multiple campaigns can run on the same instance. The campaign shown on the home page is determined by the HOME_CAMPAIGN environment variable.
+Multiple campaigns can run on the same instance.
+
+The campaign shown on the home page is determined by the HOME_CAMPAIGN environment variable.
+
+Other campaigns can be viewed at https://hostname/campaign/...campaign-slug...
+
+Keep it simple
+--------------
+
+Why use this instead of Google Forms?
+
+Use Google Forms and submit the emails as CSV using something like mailchimp if that's sufficient! That provides WYSIWYG form editing and an online spreadsheet for moderation.
+
+What does this provide that Google Forms doesn't?
+
+- Preview the composed letter before sending
+  - useful when we use multiple questions to help construct a formal letter
+- A captcha to ensure submitters aren't robots
+- Customisable (relevant) Open Graph metadata on completed submissions if people want to share on social media
+  - This isn't that big a deal - most of the traffic comes via news media partners and not social media.
 
 Principles
 ----------
