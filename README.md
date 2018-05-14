@@ -7,7 +7,7 @@ Multiple campaigns can run on the same instance.
 
 The campaign shown on the home page is determined by the HOME_CAMPAIGN environment variable.
 
-Other campaigns can be viewed at https://hostname/campaign/_campaign-slug_
+Other campaigns can be viewed at https://hostname/campaign/<campaign-slug>
 
 Keep it simple
 --------------
