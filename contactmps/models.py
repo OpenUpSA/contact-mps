@@ -105,6 +105,24 @@ class ContactDetail(models.Model):
         return "%s (%s) %s" % (self.person.name, self.type, self.value,)
 
 
+class Committee(models.Model):
+    name = models.CharField(max_length=300, null=False, blank=False, unique=True)
+    slug = models.CharField(max_length=300, null=False, blank=False, unique=True)
+    email_address = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'sug': self.slug,
+        }
+
+    def __unicode__(self):
+        return self.name
+
+
 class Campaign(models.Model):
     slug = models.CharField(max_length=100)
     google_analytics_id = models.CharField(max_length=20)

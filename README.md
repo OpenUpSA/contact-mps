@@ -70,6 +70,9 @@ python manage.py runserver
 * Add an embed javascript script into ``contactmps/static/javascript/embed-{{ campaign_slug }}.js``
 * Add a Campaign model instance via `/admin` with the appropriate settings for your campaign
 
+## Emails
+
+As long as you don't set the environment variables `DJANGO_EMAIL_HOST_PASSOWRD` and `DJANGO_SEND_EMAILS`, you won't accidentally send in development.
 
 Production deployment
 ---------------------
@@ -118,6 +121,11 @@ git push dokku master
 
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
 ```
+
+Sending and testing emails
+------
+
+In the Campaign in Admin (https://contactmps.openup.org.za/admin/contactmps/campaign/) you can select _Divert Emails_ which would mean all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient. This is intended to avoid us modifying recipient email for testing and forgetting to revert it to the real address when the campaign goes live.
 
 Undelivered mail
 ----------------
