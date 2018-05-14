@@ -87,20 +87,20 @@ function followUpQuestion() {
 
   $(".toggle-select-follow-up").on('click', function () {
     var $this = $(this);
-    // var q = $('.follow-up-question').text().trim();
-    // var a = $this.text().trim();
+    var q = $('.follow-up-question').text().trim();
+    var a = $this.text().trim();
 
-    // submit to server
-    // submissionDeferred.done(function() {
-    //   jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
-    //     type: 'POST',
-    //     data: {
-    //       question: q,
-    //       answer: a,
-    //       sender_secret: senderSecret,
-    //     },
-    //   });
-    // });
+    submit to server
+    submissionDeferred.done(function() {
+      jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
+        type: 'POST',
+        data: {
+          question: q,
+          answer: a,
+          sender_secret: senderSecret,
+        },
+      });
+    });
 
     ga('send', 'event', 'follow-up', 'answered', q);
 
@@ -286,7 +286,7 @@ function submitForm(e) {
       subject: emailSubject,
       anyData: JSON.stringify(emailData),
       gRecaptchaResponse: grecaptcha.getResponse(),
-      campaign_slug: 'secretballot',
+      campaign_slug: 'landexpropriation',
     },
     success: function(data) {
       console.info("success", data);
