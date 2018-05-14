@@ -133,7 +133,7 @@ class Campaign(models.Model):
     load_neglected_persons = models.BooleanField(default=False)
     load_all_persons = models.BooleanField(default=False)
     include_link_in_email = models.BooleanField(default=False)
-    divert_emails = models.BooleanField(default=False)
+    divert_emails = models.BooleanField(default=False, help_text="all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

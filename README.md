@@ -22,6 +22,15 @@ Principles
   - Search engines shouldn't index them
   - We use secure random email IDs to be difficult to guess, but anyone who knows the secure ID can view it.
 
+Campaigns
+------
+
+Campaigns can have a dedicated google analytics ID
+
+Campaigns can optionally include a link to a public view of a message in the email sent to the recipient and the sender (as send confirmation).
+
+In the Campaign in Admin (https://contactmps.openup.org.za/admin/contactmps/campaign/) you can select _Divert Emails_ which would mean all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient. This is intended to avoid us modifying recipient email for testing and forgetting to revert it to the real address when the campaign goes live.
+
 Setting up dev env
 ------------------
 
@@ -121,11 +130,6 @@ git push dokku master
 
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
 ```
-
-Sending and testing emails
-------
-
-In the Campaign in Admin (https://contactmps.openup.org.za/admin/contactmps/campaign/) you can select _Divert Emails_ which would mean all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient. This is intended to avoid us modifying recipient email for testing and forgetting to revert it to the real address when the campaign goes live.
 
 Undelivered mail
 ----------------
