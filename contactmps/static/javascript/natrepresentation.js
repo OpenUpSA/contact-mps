@@ -269,7 +269,7 @@ function submitForm(e) {
   submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
-      entity: selectedMP.id,
+      recipient_entity: selectedMP.id,
       name: senderName,
       email: senderEmail,
       body: emailTxt,
@@ -401,7 +401,7 @@ function chooseMP(mp) {
   $(".selected-mp .mp-img-wrapper").css({"background-image": mp.local_portrait_url ? ('url(' + mp.local_portrait_url + ')') : ''});
   $(".selected-mp .mp-img-wrapper .party-logo").attr("src", mp.party ? mp.party.icon_url : '');
   $(".pa-link").attr("href", mp.pa_url);
-  $("form input[name=entity]").val(mp.id);
+  $("form input[name=recipient_entity]").val(mp.id);
   selectedMP = mp;
 
   composeMessage();

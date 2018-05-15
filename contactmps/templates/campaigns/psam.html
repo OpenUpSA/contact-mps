@@ -33,7 +33,7 @@
   <form id="email-form" action="/email/" method="post">
     {% csrf_token %}
 
-    {{ form.entity.as_hidden }}
+    {{ form.recipient_entity.as_hidden }}
     {{ form.body.as_hidden }}
     {{ form.subject.as_hidden }}
     {{ form.campaign_slug.as_hidden }}

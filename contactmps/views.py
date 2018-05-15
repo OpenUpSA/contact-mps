@@ -76,7 +76,7 @@ def campaign(request, campaign_slug):
         # Only retuns entities with at least one email address
         # Count the number of emails we've sent them
         entities = Entity.objects \
-            .filter(contactdetails__type='email') \
+            .filter(contactdetails__type='email', in_national_assembly=True) \
             .annotate(num_emails=Count('email')) \
             .prefetch_related('party', 'contactdetails')
 
