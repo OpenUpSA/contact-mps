@@ -14,7 +14,7 @@ import random
 from .models import (
     Campaign,
     Email,
-    Person,
+    Entity,
     SenderQA,
 )
 import json
@@ -40,7 +40,7 @@ def render(request, template, context):
 
 class EmailForm(forms.Form):
     campaign_slug = forms.CharField(label='campaign_slug', required=True)
-    person = forms.CharField(label='person', required=True)
+    entity = forms.CharField(label='entity', required=True)
     name = forms.CharField(label='Your name', required=True)
     email = forms.EmailField(label='Your email address', required=True)
     body = forms.CharField(label='Body', required=True)
@@ -72,36 +72,36 @@ def campaign(request, campaign_slug):
     context = {}
     campaign = get_object_or_404(Campaign, slug=campaign_slug)
 
-    if campaign.load_all_persons or campaign.load_neglected_persons:
-        # Only retuns persons with at least one email address
+    if campaign.load_all_entities or campaign.load_neglected_entitiess:
+        # Only retuns entitiess with at least one email address
         # Count the number of emails we've sent them
-        persons = Person.objects \
+        entities = Entity.objects \
             .filter(contactdetails__type='email') \
             .annotate(num_emails=Count('email')) \
             .prefetch_related('party', 'contactdetails')
 
-    if campaign.load_all_persons:
-        persons_json = json.dumps([p.as_dict() for p in persons])
+    if campaign.load_all_entities:
+        entities_json = json.dumps([p.as_dict() for p in entities])
         context.update({
-            'persons': persons,
-            'persons_json': persons_json,
+            'entities': entities,
+            'entities_json': entities_json,
         })
 
-    if campaign.load_neglected_persons:
+    if campaign.load_neglected_entities:
         # of those MPs that are less emailed, randomly choose 4
-        neglected_persons = sorted(persons, key=lambda p: (p.num_emails, random.random()))[:4]
+        neglected_entities = sorted(entities, key=lambda p: (p.num_emails, random.random()))[:4]
         context.update({
-            'neglected_persons': neglected_persons,
+            'neglected_entities': neglected_entities,
         })
 
     if campaign.single_recipient is not None:
-        persons = Person.objects \
+        entities = Entity.objects \
             .filter(id=campaign.single_recipient.id) \
             .filter(contactdetails__type='email') \
             .annotate(num_emails=Count('email')) \
             .prefetch_related('party', 'contactdetails')
 
-        recipient = persons.first()
+        recipient = entities.first()
         context.update({
             'recipient': recipient,
             'recipient_json': json.dumps(recipient.as_dict()),
@@ -136,7 +136,7 @@ def email(request):
         qs = urlencode({'errors': form.errors.as_json()})
         return redirect(reverse('campaign', args=[form.cleaned_data['campaign_slug']]) + '?' + qs)
 
-    person = get_object_or_404(Person, pk=form.cleaned_data['person'])
+    entity = get_object_or_404(Entity, pk=form.cleaned_data['entity'])
     campaign = get_object_or_404(Campaign, slug=form.cleaned_data['campaign_slug'])
 
     if 'HTTP_X_FORWARDED_FOR' in request.META:
@@ -145,7 +145,7 @@ def email(request):
         remote_ip = request.META.get('REMOTE_ADDR', '')
 
     email = Email(
-        to_person=person,
+        to_entity=entity,
         from_name=form.cleaned_data['name'],
         from_email=form.cleaned_data['email'],
         body_txt=form.cleaned_data['body'],
@@ -189,7 +189,7 @@ def api_email(request):
         log.error("Email form validation error: %r; captcha=%s", form.errors, r.json())
         return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
-    person = get_object_or_404(Person, pk=form.cleaned_data['person'])
+    entity = get_object_or_404(Entity, pk=form.cleaned_data['entity'])
     campaign = get_object_or_404(Campaign, slug=form.cleaned_data['campaign_slug'])
 
     if 'HTTP_X_FORWARDED_FOR' in request.META:
@@ -198,7 +198,7 @@ def api_email(request):
         remote_ip = request.META.get('REMOTE_ADDR', '')
 
     email = Email(
-        to_person=person,
+        to_entity=entity,
         from_name=form.cleaned_data['name'],
         from_email=form.cleaned_data['email'],
         body_txt=form.cleaned_data['body'],
