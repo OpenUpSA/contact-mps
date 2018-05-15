@@ -299,10 +299,10 @@ LOGGING = {
 # Redirect www.foo.com to foo.com? This is the reverse of Django's PREPEND_WWW
 STRIP_WWW = True
 
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'code4sa-general'
+EMAIL_HOST = os.environ.get('DJANGO_EMAIL_HOST', 'smtp.sendgrid.net')
+EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_HOST_USER', 'code4sa-general')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587
+EMAIL_PORT = os.environ.get('DJANGO_EMAIL_PORT', 587)
 
 # use this to stop sending emails
 SEND_EMAILS = os.environ.get('DJANGO_SEND_EMAILS') == 'True'

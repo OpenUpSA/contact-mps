@@ -82,8 +82,9 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## Development
+Create a Django Site for `localhost` in Admin
 
+## Development
 
 * Install new asset packs with Bower: ``bower install -Sp package-to-install``
 * Get better debugging with ``python manage.py runserver_plus``
@@ -106,6 +107,16 @@ python manage.py runserver
 ## Emails
 
 As long as you don't set the environment variables `DJANGO_EMAIL_HOST_PASSOWRD` and `DJANGO_SEND_EMAILS`, you won't accidentally send in development.
+
+### Developing email features
+
+Run [a local mock SMTP server](http://nilhcem.com/FakeSMTP/index.html) on port 2525
+
+And run the dev server with something like
+
+```bash
+DJANGO_SEND_EMAILS=True DJANGO_EMAIL_HOST=localhost DJANGO_EMAIL_PORT=2525 DJANGO_EMAIL_HOST_PASSWORD= python manage.py runserver
+```
 
 Production deployment
 ---------------------
@@ -161,6 +172,7 @@ Typical steps are needed for adding domains to the site:
 - Point the domain to the host - currently we use noconfidencevote-lb.openup.org.za to quickly add servers if needed
 - Add the hostname to dokku: `dokku domains:add contactmps mycampaigndomain.org.za`
 - Enable HTTPS: `dokku letsencrypt contactmps`
+- Add a Django Site for the hostname in Admin. ***There must be a Site specified for every hostname the site will be accessed over***
 - Add the domain to reCAPTCHA allowed domains
 
 Undelivered mail
