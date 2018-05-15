@@ -138,7 +138,7 @@ class Campaign(models.Model):
     load_all_entities = models.BooleanField(default=False)
     include_link_in_email = models.BooleanField(default=False)
     divert_emails = models.BooleanField(default=False, help_text="all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient")
-    sites = models.ManyToManyField(Site, null=True, blank=True, help_text="Right now you must have exactly one campaign per site otherwise the campaign will break.")
+    sites = models.ManyToManyField(Site, blank=True, help_text="Right now you must have exactly one campaign per site otherwise the campaign will break.")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -201,7 +201,10 @@ class Email(models.Model):
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
 
             if self.campaign.include_link_in_email:
-                url = settings.BASE_URL + reverse('email-detail', kwargs={'secure_id': self.secure_id})
+                url = "https://%s%s" % (
+                    Site.objects.get_current().domain,
+                    reverse('email-detail', kwargs={'secure_id': self.secure_id}),
+                )
                 body_txt = "%s\n\nThis message can also be viewed at %s" % (self.body_txt, url)
                 body_html = "%s<br><br>This message can also be viewed at <a href=\"%s\">%s</a>" % (
                     self.body_html, url, url)
