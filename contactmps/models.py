@@ -60,7 +60,7 @@ class Entity(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     pa_id = models.CharField(max_length=100, null=True, blank=True, help_text="Peoples Assembly ID", unique=True)
     pa_url = models.CharField(max_length=100000, null=True, blank=True)
-    in_national_assembly = models.BooleanField(default=False)
+    in_national_assembly = models.BooleanField(default=False, help_text="We use this right now to distinguish between MPs and committees. True for MPs, False for committees.")
     portrait_url = models.CharField(max_length=300, null=True, blank=True)
     party = models.ForeignKey(Party, null=True, blank=True)
     constituency_branches = models.ManyToManyField(ConstituencyBranch, blank=True)
