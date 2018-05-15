@@ -187,7 +187,7 @@ class Email(models.Model):
             'any_data': self.any_data,
         }
 
-    def send(self):
+    def send(self, site):
         if not EMAIL_RE.match(self.from_email):
             self.from_email = "noreply@openup.org.za"
         sender = "%s <%s>" % (self.from_name, self.from_email)
@@ -202,7 +202,7 @@ class Email(models.Model):
 
             if self.campaign.include_link_in_email:
                 url = "https://%s%s" % (
-                    Site.objects.get_current().domain,
+                    site.domain,
                     reverse('email-detail', kwargs={'secure_id': self.secure_id}),
                 )
                 body_txt = "%s\n\nThis message can also be viewed at %s" % (self.body_txt, url)
