@@ -1,0 +1,341 @@
+// select things from bootstrap
+// Core variables and mixins
+@import "bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+// Reset and dependencies
+@import "bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+// Core CSS
+@import "bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/type";
+// @import "bootstrap/code";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/tables";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/forms";
+// Utility classes
+@import "bootstrap-sass/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+
+$font-serif: 'Helvetica', 'Open-Sans', sans-serif;
+$dark-gray: #4a4a4a;
+$attention: #086788;
+$green: #167937;
+$red: #9f0000;
+
+h1, h2, h3, h4 {
+  color: $dark-gray;
+}
+
+.embedded {
+  .container {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.header-text {
+  font-size: 24px;
+  color: $dark-gray;
+  font-family: $font-serif !important;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-weight: bold;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.gray-box {
+  background-color: #f0f0f0;
+  padding: 16px 8px;
+  margin-bottom: 2px;
+  &:first-of-type {
+    border-radius: 4px 4px 0 0;
+  }
+  &:last-of-type {
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 15px;
+  }
+}
+
+.btn-continue {
+  border-radius: 0;
+  border: none;
+  background-color: $attention;
+  color: #fff;
+  font-family: $font-serif !important;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+textarea,
+input[type=text],
+input[type=email] {
+  font-size: 16px;  // avoid iOS zooming in
+}
+
+textarea, input {
+  border-radius: 4px;
+  border: solid 1px #d2d2d2;
+  resize: none;
+  padding: 8px;
+  width: 100%;
+}
+
+#landexpropriation-build-message {
+  padding-bottom: 40px;
+  .landexpropriation-page {
+    background-color: #fff;
+    text-align: center;
+  }
+  .learning-resources {
+    .btn-resource {
+      background-color: transparentize($attention, 0.75);
+      color: darken($attention, 20%);
+      font-size: 16px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      display: inline-block;
+      margin-bottom: 2px;
+      &:hover {
+        text-decoration: none;
+        background-color: transparentize($attention, 0.5);
+      }
+      &:last-of-type {
+        border-radius: 0 0 4px 4px;
+      }
+    }
+  }
+  .days-remaining-box {
+    border-radius: 4px 4px 0 0;
+    background-color: $attention;
+    margin-top: 10px;
+    font-family: $font-serif;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    padding: 8px;
+    .days-remaining-number {
+      font-size: 36px;
+    }
+  }
+  .why-box {
+    margin-left: 0;
+    margin-right: 0;
+    h4 {
+      margin-bottom: 5px;
+    }
+    p:first-of-type {
+      margin-bottom: 20px;
+    }
+  }
+  .send-email-header {
+    font-family; $font-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    color: $dark-gray;
+    margin-top: 15px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  #email-landexpropriation {
+    .number {
+      height: 50px;
+      width: 50px;
+      background-color: $attention;
+      border-radius: 100%;
+      font-family: $font-serif;
+      line-height: 50px;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      color: #fff;
+      margin-top: 5px;
+    }
+    .question {
+      margin-top: -55px;
+      margin-left: 60px;
+      font-size: 18px;
+      h5 {
+        font-weight: normal;
+      }
+    }
+    textarea {
+      margin-left: 60px;
+      width: calc(100% - 60px);
+      margin-top: 5px;
+    }
+    .name-input {
+      margin-bottom: 8px;
+    }
+  }
+  .toggle-button-question {
+    margin-left: 60px;
+    margin-top: 5px;
+  }
+  .toggle-select {
+    background-color: #fff;
+    color: $dark-gray;
+    font-size: 16px;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    display: inline-block;
+    font-weight: bold;
+    @media only screen and (min-width: 560px) {
+      width: calc(50% - 4px);
+    }
+    &#no {
+      border-top: 3px solid #f0f0f0;
+    }
+    &.selected {
+      background-color: $green;
+      color: #fff;
+      &#no {
+        background-color: #9f0000;
+      }
+    }
+    &:nth-of-type(odd) {
+      margin-right: 3px;
+    }
+  }
+  .lazy-question {
+    .toggle-select {
+      width: calc(50% - 4px);
+      background-color: #f0f0f0;
+      color: $dark-gray;
+      border-bottom: 2px solid $green;
+      &:hover {
+        background-color: #dbdbdb;
+      }
+      &#no {
+        border-bottom-color: #c20000;
+        border-top: 0;
+        &:hover {
+          background-color: #dbdbdb;
+        }
+      }
+    }
+  }
+  .preview-email {
+    border-radius: 0;
+    border: none;
+    background-color: $attention;
+    color: #fff;
+    font-family: $font-serif !important;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .preview-submit-position {
+    margin-top: 15px;
+    text-align: center;
+  }
+}
+
+#landexpropriation-preview-message {
+  .sender-info {
+    .left {
+      min-width: 65px;
+      padding-right: 15px;
+      vertical-align: top;
+      font-weight: bold;
+    }
+    td {
+      padding-bottom: 10px;
+    }
+  }
+  #comment-preview {
+    padding-top: 15px;
+    border-top: 1px solid #d2d2d2;
+    margin-top: 5px;
+  }
+  #sendEmail {
+    margin-top: 20px;
+  }
+  #editEmail {
+    font-family: $font-serif !important;
+    font-size: 18px;
+    color: $dark-gray;
+    text-decoration: underline;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+  }
+}
+
+#landexpropriation-sent {
+  padding-bottom: 40px;
+  .follow-up-question {
+    font-size: 16px;
+  }
+  .follow-up-question-box {
+    .toggle-select-follow-up {
+      margin-top: 3px;
+      background-color: #fff;
+      color: $dark-gray;
+      font-size: 16px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      display: inline-block;
+      @media only screen and (min-width: 430px) {
+        width: calc(50% - 2px);
+        &:nth-of-type(odd) {
+          margin-right: 3px;
+        }
+      }
+      &.selected {
+        background-color: $green;
+        color: #fff;
+      }
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .fb-share,
+  .twitter-share {
+    border: none;
+    color: #fff;
+  }
+  .fb-share {
+    background-color: #3b5998;
+  }
+
+  .twitter-share {
+    background-color: #4990e2;
+  }
+}
+
+ul.choose-one {
+  padding-left: 0px;
+
+  li {
+    list-style: none;
+    display: inline-block;
+    background-color: white;
+    padding: 5px 12px;
+    margin: 0px 5px 5px 0px;
+    font-size: 16px;
+    cursor: pointer;
+    &.active {
+      background-color: $green;
+      color: white;
+    }
+  }
+}

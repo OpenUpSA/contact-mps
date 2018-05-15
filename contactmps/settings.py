@@ -199,6 +199,17 @@ PIPELINE = {
             ),
             'output_filename': 'natrepresentation.js',
         },
+        'js-landexpropriation': {
+            'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'javascript/pym.v1.min.js',
+                'javascript/base.js',
+                'bower_components/mustache.js/mustache.js',
+                'javascript/select2.min.js',
+                'javascript/landexpropriation.js',
+            ),
+            'output_filename': 'landexpropriation.js',
+        },
     },
     'STYLESHEETS': {
         'css-newsmedia': {
@@ -229,6 +240,13 @@ PIPELINE = {
                 'stylesheets/natrepresentation.scss',
             ),
             'output_filename': 'natrepresentation.css',
+        },
+        'css-landexpropriation': {
+            'source_filenames': (
+                'stylesheets/select2.min.css',
+                'stylesheets/landexpropriation.scss',
+            ),
+            'output_filename': 'landexpropriation.css',
         },
         'container': {
             'source_filenames': (

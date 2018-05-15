@@ -1,0 +1,155 @@
+{% extends "layout-ajax.html" %}
+{% load pipeline %}
+{% load staticfiles %}
+
+{% block title %}Motion on land expropriation without compensation{% endblock %}
+{% block body-class %}container{% endblock %}
+
+{% block head-css %}
+{% stylesheet "css-landexpropriation" %}
+{% endblock %}
+
+{% block js %}
+<script>
+  var recipient = {{ recipient_json|safe }};
+  var recaptchaKey = '{{ recaptcha_key }}';
+</script>
+
+{{ block.super }}
+{% javascript "js-landexpropriation" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Baleka Build Message -->
+<section id="landexpropriation-build-message">
+  <h2><b>Do you support the motion on land expropriation without compensation?</b></h2>
+  <div class="days-remaining-box">
+    <div>There are only</div>
+    <div class="days-remaining-number"></div>
+    <div>left to give feedback</div>
+  </div>
+  <div class="why-box gray-box row">
+    <div class="col-sm-6">
+      <h4><b>What is this about?</b></h4>
+      <p class="why-important">The National Assembly met in February to vote on a motion proposed by the EFF, with amendments by the ANC, that Parliament's Constitutional Review Committee investigate mechanisms through which land can be expropriated without compensation.</p>
+    </div>
+    <div class="col-sm-6">
+      <h4><b>Why email the committee?</b></h4>
+      <p>The Joint Constitutional Review Committee has called for written public submissions on the review of section 25 of the Constitution to make it possible for the state to expropriate land in the public interest without compensation.</p>
+    </div>
+  </div>
+  <div class="learning-resources">
+    <a target="_blank" class="btn-resource" href="http://pmg-assets.s3-website-eu-west-1.amazonaws.com/180320motion.pdf">Read the motion draft</a>
+    <a target="_blank" class="btn-resource" href="https://www.youtube.com/watch?v=mM8K0SIY_1I">Watch the debate</a>
+    <a target="_blank" class="btn-resource" href="https://pmg.org.za/committee/52/">Learn about the committee</a>
+  </div>
+
+  <form id="email-landexpropriation" autocomplete="off">
+  <h2>Send an email to the committee</h2>
+
+    <div class="question-1 gray-box">
+      <div class="number">1</div>
+      <div class="question">Do you support the motion on land expropriation without compensation?</div>
+      <div class="toggle-button-question support">
+        <div id="yes" class="toggle-select">
+          Yes
+        </div>
+        <div id="no" class="toggle-select">
+          No
+        </div>
+      </div>
+    </div>
+
+    <div class="question-2 gray-box">
+      <div class="number">2</div>
+      <div class="question">How will this motion affect you?</div>
+      <textarea maxlength="1000" id="comment-personal" name="question2"></textarea>
+    </div>
+
+    <div class="question-3 gray-box">
+      <div class="number">3</div>
+      <div class="question">How will this motion affect South Africa?</div>
+      <textarea maxlength="1000" id="comment-sa" name="question3"></textarea>
+    </div>
+
+    <div class="question-4 gray-box">
+      <div class="number">4</div>
+      <div class="question">Are you willing to appear before the committee to give an oral presentation?</div>
+      <div class="toggle-button-question appear">
+        <div id="yes" class="toggle-select">
+          Yes
+        </div>
+        <div id="no" class="toggle-select">
+          No
+        </div>
+      </div>
+    </div>
+
+    <div class="question-5 gray-box">
+      <div class="number">5</div>
+      <div class="question">
+        <input class="name-input" type="text" name="name" placeholder="Your name" value="">
+        <input class="email-input" type="email" name="email" placeholder="Your email address" value="">
+      </div>
+    </div>
+
+    <input class="btn-continue" type="submit" id="previewEmail" value="Preview your email">
+
+  </form>
+</section>
+
+<!-- Baleka Preview Message -->
+<section id="landexpropriation-preview-message">
+  <h2>Preview your email to the Constitutional Review Committee</h2>
+  <div class="gray-box">
+    <table class="sender-info">
+      <tr>
+        <td class="left">From</td>
+        <td>
+          <span id="name"></span><br>
+          <span id="email"></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="left">Subject</td>
+        <td id="email-title"></td>
+      </tr>
+    </table>
+    <div id="comment-preview"></div>
+  </div>
+  <div id="recaptcha"></div>
+  <input onclick="triggerSubmit();" class="btn-continue" type="submit" id="sendEmail" value="Send your email">
+  <div id="editEmail" class="change-email-position">Change your email</div>
+</section>
+
+<!-- Baleka Email Sent -->
+<section id="landexpropriation-sent">
+  <h2><b>Thank you, your email has been sent</b></h2>
+  <h4>While we have you, do you mind if we ask you a quick question?</h4>
+  <div class="follow-up-question-box gray-box">
+    <div class="follow-up-question">
+      <p></p>
+    </div>
+    <div class="follow-up-answer-box">
+    </div>
+  </div>
+  <h3>Help others get their voices heard, share this on social media</h3>
+  <div class="row">
+    <div class="col-xs-6 text-center">
+      <input class="fb-share" type="button" value="Facebook" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
+
+    <div class="col-xs-6 text-center">
+      <input class="twitter-share" type="button" value="Tweet" data-hashtag="SecretBallot" data-url="http://www.news24.com/SouthAfrica/Politics/no-confidence-vote-email-baleka-mbete-20170720">
+    </div>
+  </div>
+
+  {% if is_mobile %}
+  <!--
+  <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
+  -->
+  {% endif %}
+
+</section>
+{% endblock content %}

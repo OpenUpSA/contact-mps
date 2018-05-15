@@ -41,6 +41,15 @@ Principles
   - Search engines shouldn't index them
   - We use secure random email IDs to be difficult to guess, but anyone who knows the secure ID can view it.
 
+Campaigns
+------
+
+Campaigns can have a dedicated google analytics ID
+
+Campaigns can optionally include a link to a public view of a message in the email sent to the recipient and the sender (as send confirmation).
+
+In the Campaign in Admin (https://contactmps.openup.org.za/admin/contactmps/campaign/) you can select _Divert Emails_ which would mean all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient. This is intended to avoid us modifying recipient email for testing and forgetting to revert it to the real address when the campaign goes live.
+
 Setting up dev env
 ------------------
 
@@ -89,6 +98,9 @@ python manage.py runserver
 * Add an embed javascript script into ``contactmps/static/javascript/embed-{{ campaign_slug }}.js``
 * Add a Campaign model instance via `/admin` with the appropriate settings for your campaign
 
+## Emails
+
+As long as you don't set the environment variables `DJANGO_EMAIL_HOST_PASSOWRD` and `DJANGO_SEND_EMAILS`, you won't accidentally send in development.
 
 Production deployment
 ---------------------
