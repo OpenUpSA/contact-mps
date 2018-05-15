@@ -90,7 +90,7 @@ function followUpQuestion() {
     var q = $('.follow-up-question').text().trim();
     var a = $this.text().trim();
 
-    submit to server
+    // submit to server
     submissionDeferred.done(function() {
       jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
         type: 'POST',
@@ -263,10 +263,10 @@ var recaptchaLoaded = function() {
   }
 };
 
-$('#email-secret').on('submit', submitForm);
+$('#email-landexpropriation').on('submit', submitForm);
 
 function triggerSubmit() {
-  $('#email-secret').submit();
+  $('#email-landexpropriation').submit();
 }
 
 function submitForm(e) {
