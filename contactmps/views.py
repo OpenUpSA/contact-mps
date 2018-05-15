@@ -72,8 +72,8 @@ def campaign(request, campaign_slug):
     context = {}
     campaign = get_object_or_404(Campaign, slug=campaign_slug)
 
-    if campaign.load_all_entities or campaign.load_neglected_entitiess:
-        # Only retuns entitiess with at least one email address
+    if campaign.load_all_entities or campaign.load_neglected_entities:
+        # Only retuns entities with at least one email address
         # Count the number of emails we've sent them
         entities = Entity.objects \
             .filter(contactdetails__type='email') \

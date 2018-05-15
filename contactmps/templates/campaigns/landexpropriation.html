@@ -10,6 +10,7 @@
 
 {% block js %}
 <script>
+  var recipient = {{ recipient_json|safe }};
   var recaptchaKey = '{{ recaptcha_key }}';
 </script>
 
