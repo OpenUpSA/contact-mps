@@ -56,16 +56,19 @@ class ConstituencyBranch(models.Model):
         }
 
 
-class Person(models.Model):
-    pa_id = models.CharField(max_length=100, null=False, blank=False, help_text="Peoples Assembly ID", unique=True)
-    name = models.CharField(max_length=70, null=False, blank=False)
-    pa_url = models.TextField(null=False, blank=False)
-    in_national_assembly = models.BooleanField(default=True)
+class Entity(models.Model):
+    name = models.CharField(max_length=200, null=False, blank=False)
+    pa_id = models.CharField(max_length=100, null=True, blank=True, help_text="Peoples Assembly ID", unique=True)
+    pa_url = models.CharField(max_length=100000, null=True, blank=True)
+    in_national_assembly = models.BooleanField(default=False)
     portrait_url = models.CharField(max_length=300, null=True, blank=True)
-    party = models.ForeignKey(Party, null=True, blank=False)
-    constituency_branches = models.ManyToManyField(ConstituencyBranch)
+    party = models.ForeignKey(Party, null=True, blank=True)
+    constituency_branches = models.ManyToManyField(ConstituencyBranch, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Entities'
 
     @property
     def local_portrait_url(self):
@@ -88,8 +91,8 @@ class Person(models.Model):
 
 
 class ContactDetail(models.Model):
-    person = models.ForeignKey(Person, related_name="contactdetails")
-    type = models.CharField(max_length=40, help_text="Type of contact detail")
+    entity = models.ForeignKey(Entity, related_name="contactdetails")
+    type = models.CharField(max_length=40, help_text="Type of contact detail, e.g. 'email'. This is used to find addresses by type for sending to the appropriate contacts.")
     value = models.CharField(max_length=255, help_text="The actual detail")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -102,7 +105,7 @@ class ContactDetail(models.Model):
         }
 
     def __unicode__(self):
-        return "%s (%s) %s" % (self.person.name, self.type, self.value,)
+        return "%s (%s) %s" % (self.entity.name, self.type, self.value,)
 
 
 class Committee(models.Model):
@@ -129,9 +132,9 @@ class Campaign(models.Model):
     hashtag = models.CharField(max_length=100)
     site_name = models.CharField(max_length=100)
     site_description = models.CharField(max_length=200)
-    single_recipient = models.ForeignKey(Person, null=True, blank=True)
-    load_neglected_persons = models.BooleanField(default=False)
-    load_all_persons = models.BooleanField(default=False)
+    single_recipient = models.ForeignKey(Entity, null=True, blank=True)
+    load_neglected_entities = models.BooleanField(default=False)
+    load_all_entities = models.BooleanField(default=False)
     include_link_in_email = models.BooleanField(default=False)
     divert_emails = models.BooleanField(default=False, help_text="all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -142,7 +145,7 @@ class Campaign(models.Model):
 
 
 class Email(models.Model):
-    to_person = models.ForeignKey(Person)
+    to_entity = models.ForeignKey(Entity)
     to_addresses = models.TextField(null=True, blank=True, help_text="The actuall address(es) we sent to belonging to the recipient at the time, regardless of the addresses that we currently have for them.")
     remote_ip = models.CharField(max_length=20, help_text="User's remote IP")
     user_agent = models.CharField(max_length=200, help_text="User's user agent string")
@@ -172,7 +175,7 @@ class Email(models.Model):
     def as_dict(self):
         return {
             'id': self.id,
-            'to_person': self.to_person.as_dict(),
+            'to_entity': self.to_entity.as_dict(),
             'to_addresses': self.to_addresses,
             'subject': self.subject,
             'body_html': self.body_html,
@@ -187,11 +190,11 @@ class Email(models.Model):
             self.from_email = "noreply@openup.org.za"
         sender = "%s <%s>" % (self.from_name, self.from_email)
         if self.campaign.divert_emails:
-            recipients = ["%s <webapps+contactmps@openup.org.za>" % self.to_person.name.strip()
-                          for c in self.to_person.contactdetails.filter(type='email').all()]
+            recipients = ["%s <webapps+contactmps@openup.org.za>" % self.to_entity.name.strip()
+                          for c in self.to_entity.contactdetails.filter(type='email').all()]
         else:
-            recipients = ["%s <%s>" % (self.to_person.name.strip(), c.value.strip())
-                          for c in self.to_person.contactdetails.filter(type='email').all()]
+            recipients = ["%s <%s>" % (self.to_entity.name.strip(), c.value.strip())
+                          for c in self.to_entity.contactdetails.filter(type='email').all()]
         if settings.SEND_EMAILS:
             log.info("Sending email to %s from %s" % (recipients, self.from_email))
 

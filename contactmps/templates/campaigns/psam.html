@@ -13,7 +13,7 @@
 
 {% block js %}
   <script>
-    var persons = {{ persons_json|safe }};
+    var entities = {{ entities_json|safe }};
     var recaptchaKey = '{{ recaptcha_key }}';
   </script>
 
@@ -33,27 +33,27 @@
   <form id="email-form" action="/email/" method="post">
     {% csrf_token %}
 
-    {{ form.person.as_hidden }}
+    {{ form.entity.as_hidden }}
     {{ form.body.as_hidden }}
     {{ form.subject.as_hidden }}
     {{ form.campaign_slug.as_hidden }}
 
     <section class="choose">
       <div class="row">
-      {% for person in neglected_persons %}
+      {% for entity in neglected_entities %}
         <div class="col-xs-6 mp-wrap">
-          <div class="single-mp row" data-id="{{ person.id }}">
+          <div class="single-mp row" data-id="{{ entity.id }}">
             <div class="col-xs-4">
-              <div class="mp-img-wrapper center-block" {% if person.local_portrait_url %}style="background-image:url({{ person.local_portrait_url }})"{% endif %}>
-                {% if person.party %}
-                <img class="party-logo" src="{{ person.party.icon_url }}">
+              <div class="mp-img-wrapper center-block" {% if entity.local_portrait_url %}style="background-image:url({{ entity.local_portrait_url }})"{% endif %}>
+                {% if entity.party %}
+                <img class="party-logo" src="{{ entity.party.icon_url }}">
                 {% endif %}
               </div>
             </div>
             <div class="col-xs-8">
-              <div class="mp-name">{{ person.name }}</div>
+              <div class="mp-name">{{ entity.name }}</div>
               <div class="email-count">
-                <small>{% if person.num_emails == 0 %}No emails sent yet{% else %}emailed {{ person.num_emails }} times{% endif %}</small>
+                <small>{% if entity.num_emails == 0 %}No emails sent yet{% else %}emailed {{ entity.num_emails }} times{% endif %}</small>
               </div>
             </div>
           </div>
