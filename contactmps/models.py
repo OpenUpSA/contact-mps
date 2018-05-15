@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
+from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -137,6 +138,7 @@ class Campaign(models.Model):
     load_all_entities = models.BooleanField(default=False)
     include_link_in_email = models.BooleanField(default=False)
     divert_emails = models.BooleanField(default=False, help_text="all emails towards parliament for that campaign will instead go to our webapps address and not to the actual recipient")
+    sites = models.ManyToManyField(Site, null=True, blank=True, help_text="Right now you must have exactly one campaign per site otherwise the campaign will break.")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

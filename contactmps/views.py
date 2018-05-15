@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Count
@@ -50,12 +51,17 @@ class EmailForm(forms.Form):
 
 @xframe_options_exempt
 def home(request):
-    if settings.HOME_CAMPAIGN == 'psam':
+    site = get_current_site(request)
+    campaigns = list(Campaign.objects.filter(sites=site))
+    if len(campaigns) != 1:
+        raise Exception("%r has %d campaigns. Expected 1." % (site, len(campaigns)))
+    site_campaign = campaigns[0]
+
+    if site_campaign.slug == 'psam':
         return campaign(request, 'psam')
     else:
-        campaign_obj = get_object_or_404(Campaign, slug=settings.HOME_CAMPAIGN)
         return render(request, 'index.html', {
-            'campaign': campaign_obj,
+            'campaign': site_campaign,
         })
 
 
