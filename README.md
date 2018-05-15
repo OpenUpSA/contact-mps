@@ -5,9 +5,9 @@ This is a project intended to make it easier to contact Members of Parliament.
 
 Multiple campaigns can run on the same instance.
 
-The campaign shown on the home page is determined by the HOME_CAMPAIGN environment variable.
+The campaign shown on the home page is the campaign related to the [Django Site](https://docs.djangoproject.com/en/2.0/ref/contrib/sites/)
 
-Other campaigns can be viewed at https://hostname/campaign/...campaign-slug...
+Other campaigns can be viewed at `https://hostname/campaign/...campaign-slug...`
 
 Keep it simple
 --------------
@@ -32,7 +32,7 @@ Principles
 - Embedding is important for distribution, especially via online news outlets
   - When embedded, in-site navigation happens inside the iframe. So when you send a message, the content of the iframe changes to the next page. The parent doesn't change.
   - Watch out! Links that should not load inside the iframe should set the target to _blank or _parent
-  - The home page (/) embeds the configured `HOME_CAMPAIGN` page. This helps ensure we thoroughly test embedding
+  - The home page (/) embeds the campaign related to the Site identified by the hostname used to access the site. This helps ensure we thoroughly test embedding
   - The whole site must also work non-embedded! Social sharing links link directly to the current page which means visitors will see that, not the parent (e.g. the news article or whatever that embedded it)
 - Sharing on social media and mobile chat apps like WhatsApp is another important marketing mechanism
   - Allowing users to share pages with relevant, personal OG metadata improves the quality of this
@@ -97,6 +97,11 @@ python manage.py runserver
 * Add CSS and javascript to `settings.PIPELINE`: the convention is `js-{{ campaign_slug }}` and `css-{{ campaign_slug }}` which is then included by your template.
 * Add an embed javascript script into ``contactmps/static/javascript/embed-{{ campaign_slug }}.js``
 * Add a Campaign model instance via `/admin` with the appropriate settings for your campaign
+* If your campaign needs its own domain,
+  * Create a Site for your domain in Django Admin, setting the domain to something like `campaigndomainorgza`
+  * Add that domain to your hosts file, pointing to the local IP were the server is running (probably 127.0.0.1)
+  * Select your site as one of the campaign sites on the Campaign page in Admin
+  * visit http://campaignorgza:8000 or whatever your dev domain and port is.
 
 ## Emails
 
@@ -144,7 +149,6 @@ dokku config:set  DJANGO_DEBUG=false \
                   RECAPTCHA_KEY=... \
                   RECAPTCHA_SECRET=... \
                   BASE_URL=https://production.url.com \
-                  HOME_CAMPAIGN=...
 git push dokku master
 
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```

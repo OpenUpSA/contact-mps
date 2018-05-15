@@ -26,10 +26,6 @@ if DEBUG:
 else:
     SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-if DEBUG:
-    HOME_CAMPAIGN = os.environ.get('HOME_CAMPAIGN', 'natrepresentation')
-else:
-    HOME_CAMPAIGN = os.environ.get('HOME_CAMPAIGN')
 
 ALLOWED_HOSTS = ['*']
 
@@ -43,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'pipeline',
     'django_extensions',
 
