@@ -58,9 +58,6 @@ var questions = [
     q: "Do you live in a rural or urban area?",
     a: ["Rural", "Urban"],
   }, {
-    q: "What is your race?",
-    a: ["Black African", "Coloured", "White", "Asian or Indian", "Other"],
-  }, {
     q: "How old are you?",
     a: ["Under 20", "20 - 29", "30 - 39", "40 or older"],
   },
