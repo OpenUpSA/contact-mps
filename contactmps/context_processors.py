@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 
 
 def general(request):
@@ -6,7 +7,7 @@ def general(request):
     """
 
     info = {
-        'BASE_URL': settings.BASE_URL,
+        'BASE_URL': "https://%s" % get_current_site(request).domain,
     }
 
     ga_tracking_id = getattr(settings, 'GOOGLE_ANALYTICS_ID', False)

@@ -148,11 +148,20 @@ dokku config:set  DJANGO_DEBUG=false \
                   DJANGO_SEND_EMAILS=True \
                   RECAPTCHA_KEY=... \
                   RECAPTCHA_SECRET=... \
-                  BASE_URL=https://production.url.com \
 git push dokku master
 
 To disable caching, set the environment variable ```DJANGO_DISABLE_CACHE=True```
 ```
+
+Campaign domains/hostnames
+----------------
+
+Typical steps are needed for adding domains to the site:
+
+- Point the domain to the host - currently we use noconfidencevote-lb.openup.org.za to quickly add servers if needed
+- Add the hostname to dokku: `dokku domains:add contactmps mycampaigndomain.org.za`
+- Enable HTTPS: `dokku letsencrypt contactmps`
+- Add the domain to reCAPTCHA allowed domains
 
 Undelivered mail
 ----------------
