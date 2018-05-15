@@ -75,25 +75,31 @@ function followUpQuestion() {
     $(".follow-up-answer-box").append("<span id='follow-up-answer-" + index + "' class='toggle-select-follow-up'>" + value + "</span>")
   });
 
-  $(".toggle-select-follow-up").on('click', function () {
+  $(".toggle-select-follow-up").on('click', function(e) {
+    e.preventDefault();
+
     var $this = $(this);
     var q = $('.follow-up-question').text().trim();
     var a = $this.text().trim();
 
     // submit to server
-    submissionDeferred.done(function() {
-      jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
-        type: 'POST',
-        data: {
-          question: q,
-          answer: a,
-          sender_secret: senderSecret,
-        },
-      });
+    jQuery.ajax('/api/v1/email/', {
+      type: 'POST',
+      data: {
+        support: supportsMotion,
+        question: q,
+        answer: a,
+        gRecaptchaResponse: grecaptcha.getResponse(),
+      },
+      success: function(data) {
+        console.info("success", data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
+      }
     });
 
     ga('send', 'event', 'follow-up', 'answered', q);
-
 
     if (questionsLeft > 1) {
       questions.splice(randomNumber, 1);
@@ -130,7 +136,6 @@ $("#previewEmail").click(function(e) {
   var senderEmail = $(".email-input").val();
   emailData.senderName = senderName;
   emailData.senderEmail = senderEmail;
-  emailData.age = $('.question-age li.active').text();
 
   if (commentPersonal === '') {
     alert('Please explain how this motion affects you');
