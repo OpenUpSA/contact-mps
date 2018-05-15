@@ -279,7 +279,7 @@ function submitForm(e) {
   submissionDeferred = jQuery.ajax('/api/v1/email/', {
     type: 'POST',
     data: {
-      person: recipient.id,
+      recipient_entity: recipient.id,
       name: senderName,
       email: senderEmail,
       body: emailTxt,

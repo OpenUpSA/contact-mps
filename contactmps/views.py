@@ -40,7 +40,7 @@ def render(request, template, context):
 
 class EmailForm(forms.Form):
     campaign_slug = forms.CharField(label='campaign_slug', required=True)
-    entity = forms.CharField(label='entity', required=True)
+    recipient_entity = forms.CharField(label='entity', required=True)
     name = forms.CharField(label='Your name', required=True)
     email = forms.EmailField(label='Your email address', required=True)
     body = forms.CharField(label='Body', required=True)
@@ -136,7 +136,7 @@ def email(request):
         qs = urlencode({'errors': form.errors.as_json()})
         return redirect(reverse('campaign', args=[form.cleaned_data['campaign_slug']]) + '?' + qs)
 
-    entity = get_object_or_404(Entity, pk=form.cleaned_data['entity'])
+    recipient_entity = get_object_or_404(Entity, pk=form.cleaned_data['recipient_entity'])
     campaign = get_object_or_404(Campaign, slug=form.cleaned_data['campaign_slug'])
 
     if 'HTTP_X_FORWARDED_FOR' in request.META:
@@ -145,7 +145,7 @@ def email(request):
         remote_ip = request.META.get('REMOTE_ADDR', '')
 
     email = Email(
-        to_entity=entity,
+        to_entity=recipient_entity,
         from_name=form.cleaned_data['name'],
         from_email=form.cleaned_data['email'],
         body_txt=form.cleaned_data['body'],
@@ -189,7 +189,7 @@ def api_email(request):
         log.error("Email form validation error: %r; captcha=%s", form.errors, r.json())
         return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
-    entity = get_object_or_404(Entity, pk=form.cleaned_data['entity'])
+    recipient_entity = get_object_or_404(Entity, pk=form.cleaned_data['recipient_entity'])
     campaign = get_object_or_404(Campaign, slug=form.cleaned_data['campaign_slug'])
 
     if 'HTTP_X_FORWARDED_FOR' in request.META:
@@ -198,7 +198,7 @@ def api_email(request):
         remote_ip = request.META.get('REMOTE_ADDR', '')
 
     email = Email(
-        to_entity=entity,
+        to_entity=recipient_entity,
         from_name=form.cleaned_data['name'],
         from_email=form.cleaned_data['email'],
         body_txt=form.cleaned_data['body'],

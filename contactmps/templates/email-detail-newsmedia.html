@@ -3,10 +3,10 @@
 
 {% block title %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_persnop.name }} in Parliament.{% endblock %}
 {% block og-image %}/static/images/building-new.jpg{% endblock %}
-{% block og_title %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_person.name }} in Parliament.{% endblock %}
-{% block tweet %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_person.name }} in Parliament{% endblock %}
+{% block og_title %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_entity.name }} in Parliament.{% endblock %}
+{% block tweet %}{{ email.from_name }} sent a message to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
 {# whatsapp_msg must be urlencoded #}
-{% block whatsapp_msg %}I,%20{{ email.from_name|urlencode }},%20sent%20a%20message%20to%20{{ email.to_person.name|urlencode }}%20MP!%20Will%20you?%20{{ BASE_URL }}{{ request.path }}wa/{% endblock %}
+{% block whatsapp_msg %}I,%20{{ email.from_name|urlencode }},%20sent%20a%20message%20to%20{{ email.to_entity.name|urlencode }}%20MP!%20Will%20you?%20{{ BASE_URL }}{{ request.path }}wa/{% endblock %}
 
 {% block head-css %}
   {{ block.super }}
@@ -66,10 +66,10 @@
 
 	<div class="sent-email">
 		<div class="email-details">
-			<h3>I, {{ email.from_name }}, sent a message to {{ email.to_person.name }} MP</h3>
+			<h3>I, {{ email.from_name }}, sent a message to {{ email.to_entity.name }} MP</h3>
 
 			<div>From: <b>{{ email.from_name }} &lt;{{ email.from_email }}&gt;</b></div>
-			<div>To: <b>{{ email.to_person.name }}</b></div>
+			<div>To: <b>{{ email.to_entity.name }}</b></div>
 			<div>Subject: <b>{{ email.subject }}</b></div>
 		</div>
 
