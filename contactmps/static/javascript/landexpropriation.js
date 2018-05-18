@@ -49,9 +49,6 @@ function getRandomInt(min, max) {
 // follow up questions
 var questions = [
   {
-    q: "Which party do you plan to vote for in the 2019 general elections?",
-    a: ["ANC", "DA", "EFF", "Other"],
-  }, {
     q: "Which province do you live in?",
     a: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "Limpopo", "Mpumalanga", "North West", "Northern Cape", "Western Cape"],
   }, {
@@ -75,25 +72,28 @@ function followUpQuestion() {
     $(".follow-up-answer-box").append("<span id='follow-up-answer-" + index + "' class='toggle-select-follow-up'>" + value + "</span>")
   });
 
-  $(".toggle-select-follow-up").on('click', function () {
+  $(".toggle-select-follow-up").on('click', function(e) {
+    e.preventDefault();
+
     var $this = $(this);
     var q = $('.follow-up-question').text().trim();
     var a = $this.text().trim();
 
-    // submit to server
-    submissionDeferred.done(function() {
-      jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
-        type: 'POST',
-        data: {
-          question: q,
-          answer: a,
-          sender_secret: senderSecret,
-        },
-      });
+    jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
+      type: 'POST',
+      data: {
+        question: q,
+        answer: a,
+      },
+      success: function(data) {
+        console.info("success", data);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
+      }
     });
 
     ga('send', 'event', 'follow-up', 'answered', q);
-
 
     if (questionsLeft > 1) {
       questions.splice(randomNumber, 1);
@@ -130,16 +130,15 @@ $("#previewEmail").click(function(e) {
   var senderEmail = $(".email-input").val();
   emailData.senderName = senderName;
   emailData.senderEmail = senderEmail;
-  emailData.age = $('.question-age li.active').text();
 
   if (commentPersonal === '') {
-    alert('Please explain how this motion affects you');
+    alert('Please explain how the law would affect you');
     $('#comment-personal').focus();
     return;
   };
 
   if (commentSA === '') {
-    alert('Please explain how this motion affects South Africa');
+    alert('Please explain how the law would affect South Africa');
     $('#comment-sa').focus();
     return;
   };
@@ -158,7 +157,7 @@ $("#previewEmail").click(function(e) {
 
   if ($("#comment-personal").val() != "") {
     var commentPersonal = $("#comment-personal").val();
-    emailData['otherIssues'] = commentPersonal.trim();
+    emailData['affectPersonal'] = commentPersonal.trim();
     commentPersonal = "\n\n" + (commentPersonal);
   } else {
     var commentPersonal = "";
@@ -166,7 +165,7 @@ $("#previewEmail").click(function(e) {
 
   if ($("#comment-sa").val() != "") {
     var commentSA = $("#comment-sa").val();
-    emailData['otherIssues'] = commentSA.trim();
+    emailData['affectSA'] = commentSA.trim();
     commentSA = "\n\n" + (commentSA);
   } else {
     var commentSA = "";
@@ -190,7 +189,7 @@ $("#previewEmail").click(function(e) {
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  emailTxt = "Dear Pat Jayiya,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
+  emailTxt = "Dear Chairperson,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   $("#comment-preview").html(emailHtml);
