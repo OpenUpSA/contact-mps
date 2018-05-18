@@ -79,14 +79,11 @@ function followUpQuestion() {
     var q = $('.follow-up-question').text().trim();
     var a = $this.text().trim();
 
-    // submit to server
-    jQuery.ajax('/api/v1/email/', {
+    jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
       type: 'POST',
       data: {
-        support: supportsMotion,
         question: q,
         answer: a,
-        gRecaptchaResponse: grecaptcha.getResponse(),
       },
       success: function(data) {
         console.info("success", data);
@@ -135,13 +132,13 @@ $("#previewEmail").click(function(e) {
   emailData.senderEmail = senderEmail;
 
   if (commentPersonal === '') {
-    alert('Please explain how this motion affects you');
+    alert('Please explain how the law would affect you');
     $('#comment-personal').focus();
     return;
   };
 
   if (commentSA === '') {
-    alert('Please explain how this motion affects South Africa');
+    alert('Please explain how the law would affect South Africa');
     $('#comment-sa').focus();
     return;
   };
@@ -160,7 +157,7 @@ $("#previewEmail").click(function(e) {
 
   if ($("#comment-personal").val() != "") {
     var commentPersonal = $("#comment-personal").val();
-    emailData['otherIssues'] = commentPersonal.trim();
+    emailData['affectPersonal'] = commentPersonal.trim();
     commentPersonal = "\n\n" + (commentPersonal);
   } else {
     var commentPersonal = "";
@@ -168,7 +165,7 @@ $("#previewEmail").click(function(e) {
 
   if ($("#comment-sa").val() != "") {
     var commentSA = $("#comment-sa").val();
-    emailData['otherIssues'] = commentSA.trim();
+    emailData['affectSA'] = commentSA.trim();
     commentSA = "\n\n" + (commentSA);
   } else {
     var commentSA = "";
