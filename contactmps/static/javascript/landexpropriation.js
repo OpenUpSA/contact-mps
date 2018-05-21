@@ -49,6 +49,10 @@ function getRandomInt(min, max) {
 // follow up questions
 var questions = [
   {
+    q: "Are you willing to be contacted by a journalist to elaborate on your answers?",
+    a: ["Yes", "No"],
+  },
+  {
     q: "Which province do you live in?",
     a: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "Limpopo", "Mpumalanga", "North West", "Northern Cape", "Western Cape"],
   }, {
@@ -62,8 +66,7 @@ var questions = [
 
 function followUpQuestion() {
   var questionsLeft = questions.length;
-  var randomNumber = getRandomInt(0, questionsLeft);
-  var q = questions[randomNumber];
+  var q = questions[0];
 
   ga('send', 'event', 'follow-up', 'asked', q.q);
   $('.follow-up-question p').text(q.q);
@@ -96,7 +99,7 @@ function followUpQuestion() {
     ga('send', 'event', 'follow-up', 'answered', q);
 
     if (questionsLeft > 1) {
-      questions.splice(randomNumber, 1);
+      questions.splice(0, 1);
       followUpQuestion();
     } else {
       $(".toggle-select-follow-up").remove();
