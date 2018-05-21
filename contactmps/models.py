@@ -141,6 +141,7 @@ class Campaign(models.Model):
     sites = models.ManyToManyField(Site, blank=True, help_text="Right now you must have exactly one campaign per site otherwise the campaign will break.")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    email_moderation = models.BooleanField(default=False, help_text="moderate email submissions")
 
     def __unicode__(self):
         return self.slug
@@ -167,7 +168,6 @@ class Email(models.Model):
     # This makes no promises about keys being present from one email to another.
     any_data = JSONField()
     campaign = models.ForeignKey(Campaign, related_name='emails')
-    moderate = models.BooleanField(default=1, help_text="Moderate the submission")
 
     @property
     def body_html(self):
@@ -189,8 +189,6 @@ class Email(models.Model):
         }
 
     def send(self, site):
-        if self.moderate == 1:
-            return
         if not EMAIL_RE.match(self.from_email):
             self.from_email = "noreply@openup.org.za"
         sender = "%s <%s>" % (self.from_name, self.from_email)
