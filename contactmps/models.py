@@ -167,6 +167,7 @@ class Email(models.Model):
     # This makes no promises about keys being present from one email to another.
     any_data = JSONField()
     campaign = models.ForeignKey(Campaign, related_name='emails')
+    moderate = models.BooleanField(default=1, help_text="Moderate the submission")
 
     @property
     def body_html(self):
