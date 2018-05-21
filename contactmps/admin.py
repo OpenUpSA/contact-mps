@@ -6,6 +6,7 @@ from .models import (
     ContactDetail,
     Email,
     Entity,
+    SenderQA
 )
 
 
@@ -33,3 +34,4 @@ admin.site.register(Committee, admin.ModelAdmin)
 admin.site.register(ContactDetail, ContactDetailAdmin)
 admin.site.register(Email, EmailAdmin)
 admin.site.register(Entity, EntityAdmin)
+admin.site.register(SenderQA)
