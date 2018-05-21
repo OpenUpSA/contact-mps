@@ -189,6 +189,8 @@ class Email(models.Model):
         }
 
     def send(self, site):
+        if self.moderate == 1:
+            return
         if not EMAIL_RE.match(self.from_email):
             self.from_email = "noreply@openup.org.za"
         sender = "%s <%s>" % (self.from_name, self.from_email)
