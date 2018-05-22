@@ -109,6 +109,9 @@ textarea, input {
       width: 100%;
       display: inline-block;
       margin-bottom: 2px;
+      &.motion {
+        background-color: transparentize($attention, 0.6);
+      }
       &:hover {
         text-decoration: none;
         background-color: transparentize($attention, 0.5);
