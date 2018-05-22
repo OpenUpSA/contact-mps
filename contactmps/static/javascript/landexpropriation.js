@@ -84,7 +84,8 @@ function followUpQuestion() {
 
     jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
       type: 'POST',
-      data: {
+	data: {
+	sender_secret: senderSecret,
         question: q,
         answer: a,
       },

@@ -162,7 +162,9 @@ def email(request):
         campaign=campaign,
     )
     email.save()
-    email.send(get_current_site(request))
+    # Only send emails if the campaign submissions to not require moderation
+    if not email.campaign.email_moderation:
+        email.send(get_current_site(request))
 
     return redirect(reverse('email-detail', kwargs={'secure_id': email.secure_id}))
 
@@ -215,7 +217,9 @@ def api_email(request):
         campaign=campaign,
     )
     email.save()
-    email.send(get_current_site(request))
+    # Only send emails if the campaign submissions to not require moderation
+    if not email.campaign.email_moderation:
+        email.send(get_current_site(request))
 
     email_dict = email.as_dict()
     # Add secret because this is only shown to the sender
