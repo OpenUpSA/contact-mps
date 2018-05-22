@@ -215,33 +215,13 @@ $("#editEmail").click(function(e) {
 var reCaptchaValid = false;
 var gReCaptchaValidated = function() {
   $("input[type=submit]").removeAttr('disabled');
+  $("input[type=submit]").removeClass('disabled');
   reCaptchaValid = true;
 };
 
 var gReCaptchaExpired = function() {
   $("input[type=submit]").attr('disabled','disabled');
-  reCaptchaValid = false;
-};
-
-var recaptchaLoaded = function() {
-  grecaptcha.render('recaptcha', {
-    'sitekey': recaptchaKey,
-    'callback': gReCaptchaValidated,
-    'expired-callback': gReCaptchaExpired
-  });
-  if (typeof pymChild !== undefined) {
-    pymChild.sendHeight();
-  }
-};
-
-var reCaptchaValid = false;
-var gReCaptchaValidated = function() {
-  $("input[type=submit]").removeAttr('disabled');
-  reCaptchaValid = true;
-};
-
-var gReCaptchaExpired = function() {
-  $("input[type=submit]").attr('disabled','disabled');
+  $("input[type=submit]").addClass('disabled');
   reCaptchaValid = false;
 };
 
