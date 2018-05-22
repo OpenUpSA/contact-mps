@@ -197,11 +197,19 @@ $("#previewEmail").click(function(e) {
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   $("#comment-preview").html(emailHtml);
-  $("#landexpropriation-build-message").hide();
-  $("#landexpropriation-preview-message").show();
-  location.hash = "#landexpropriation-preview-message";
 
-  pymChild.scrollParentTo('contactmps-embed-parent');
+  function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+  }
+
+  if ( isEmail(senderEmail) == true ) {
+    $("#landexpropriation-build-message").hide();
+    $("#landexpropriation-preview-message").show();
+    location.hash = "#landexpropriation-preview-message";
+    pymChild.scrollParentTo('contactmps-embed-parent');
+  }
+
 });
 
 $("#editEmail").click(function(e) {
@@ -239,7 +247,9 @@ var recaptchaLoaded = function() {
 $('#email-landexpropriation').on('submit', submitForm);
 
 function triggerSubmit() {
-  $('#email-landexpropriation').submit();
+  if (reCaptchaValid == true) {
+    $('#email-landexpropriation').submit();
+  }
 }
 
 function submitForm(e) {
