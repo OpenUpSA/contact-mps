@@ -208,8 +208,9 @@ $("#previewEmail").click(function(e) {
     $("#landexpropriation-preview-message").show();
     location.hash = "#landexpropriation-preview-message";
     pymChild.scrollParentTo('contactmps-embed-parent');
+  } else {
+    alert("Please enter a valid email address");
   }
-
 });
 
 $("#editEmail").click(function(e) {
