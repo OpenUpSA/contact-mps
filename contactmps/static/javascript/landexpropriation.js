@@ -108,8 +108,8 @@ function followUpQuestion() {
 
     jQuery.ajax('/api/v1/email/' + emailId + '/qa/', {
       type: 'POST',
-	data: {
-	sender_secret: senderSecret,
+    	data: {
+      	sender_secret: senderSecret,
         question: q,
         answer: a,
       },
@@ -241,7 +241,7 @@ $("#previewEmail").click(function(e) {
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  emailTxt = "Dear Chairperson,\n\nI want to let you know that " + emailSubject + "." + "\n\n<strong>How the law would affect me</strong>" + commentPersonal + suggestions + section25Barrier + changesSolutions + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
+  emailTxt = "Dear Chairperson,\n\nI want to let you know that " + emailSubject + "." + "\n\n<b>How the law would affect me</b>" + commentPersonal + suggestions + section25Barrier + changesSolutions + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   $("#comment-preview").html(emailHtml);
