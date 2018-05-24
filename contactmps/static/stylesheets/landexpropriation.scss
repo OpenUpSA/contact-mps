@@ -69,6 +69,11 @@ h1, h2, h3, h4 {
   &:last-of-type {
     border-radius: 0 0 4px 4px;
   }
+  &.info-box {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
+  }
 }
 
 .questions-wrap {
@@ -239,6 +244,28 @@ textarea, input {
     }
     .name-input {
       margin-bottom: 8px;
+    }
+    .info-box {
+      .number {
+        background-color: $red;
+      }
+      .btn-important {
+        background-color: $attention;
+        display: inline-block;
+        margin-top: 10px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 4px;
+        box-shadow: $shadow;
+        border: none;
+        padding: 8px 16px;
+        width: 100%;
+        max-width: 300px;
+        &:hover {
+          text-decoration: none;
+        }
+      }
     }
   }
   .toggle-button-question {
