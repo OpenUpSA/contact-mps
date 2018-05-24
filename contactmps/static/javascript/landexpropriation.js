@@ -19,6 +19,8 @@ var submissionDeferred;
 $(".support.toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
 
+  $(".toggle-button-question.support").removeClass("unanswered");
+
   $(".support.toggle-button-question .toggle-select").removeClass("selected");
   $this.addClass("selected");
 
@@ -26,8 +28,30 @@ $(".support.toggle-button-question .toggle-select").click(function() {
   emailData.supportsMotion = supportsMotion;
 });
 
+$(".barrier.toggle-button-question .toggle-select").click(function() {
+  var $this = $(this);
+
+  $(".toggle-button-question.barrier").removeClass("unanswered");
+
+  $(".barrier.toggle-button-question .toggle-select").removeClass("selected");
+  $this.addClass("selected");
+
+  sectionBarrier = $this.attr('id') == "yes";
+  emailData.sectionBarrier = sectionBarrier;
+
+  $(".barrier-text textarea").removeAttr("disabled");
+
+  if ( $(this).hasClass("true") ) {
+    $(".barrier-text .question").text("How can section 25 be changed to overcome its limitations?")
+  } else {
+    $(".barrier-text .question").text("What solutions are there to fast track land reform?")
+  }
+});
+
 $(".appear.toggle-button-question .toggle-select").click(function() {
   var $this = $(this);
+
+  $(".toggle-button-question.appear").removeClass("unanswered");
 
   $(".appear.toggle-button-question .toggle-select").removeClass("selected");
   $this.addClass("selected");
@@ -129,11 +153,17 @@ $("#landexpropriation-sent").hide();
 $("#previewEmail").click(function(e) {
   e.preventDefault();
   var commentPersonal = $("#comment-personal").val()
-  var commentSA = $("#comment-sa").val()
+  var changesSolutions = $("#changes-solutions").val()
   var senderName = $(".name-input").val();
   var senderEmail = $(".email-input").val();
   emailData.senderName = senderName;
   emailData.senderEmail = senderEmail;
+
+  if ( $(".toggle-button-question.support").hasClass("unanswered") ) {
+    alert('Please indicate if you support the motion or not');
+    $('.toggle-button-question support').focus();
+    return;
+  }
 
   if (commentPersonal === '') {
     alert('Please explain how the law would affect you');
@@ -141,11 +171,23 @@ $("#previewEmail").click(function(e) {
     return;
   };
 
-  if (commentSA === '') {
-    alert('Please explain how the law would affect South Africa');
-    $('#comment-sa').focus();
+  if ( $(".toggle-button-question.barrier").hasClass("unanswered") ) {
+    alert('Please indicate if you see section 25 as a barrier to transforming apartheid land inequality');
+    $('.toggle-button-question barrier').focus();
+    return;
+  }
+
+  if (changesSolutions === '') {
+    alert('Please answer question 4');
+    $('#changes-solutions').focus();
     return;
   };
+
+  if ( $(".toggle-button-question.appear").hasClass("unanswered") ) {
+    alert('Please indicate if you are willing to appear before the committee to give an oral presentation');
+    $('.toggle-button-question appear').focus();
+    return;
+  }
 
   if (senderName === '') {
     alert('Please enter your name');
@@ -159,27 +201,33 @@ $("#previewEmail").click(function(e) {
     return;
   };
 
-  if ($("#comment-personal").val() != "") {
-    var commentPersonal = $("#comment-personal").val();
-    emailData['affectPersonal'] = commentPersonal.trim();
-    commentPersonal = "\n\n" + (commentPersonal);
-  } else {
-    var commentPersonal = "";
-  };
+  var commentPersonal = $("#comment-personal").val();
+  emailData['affectPersonal'] = commentPersonal.trim();
+  commentPersonal = "\n" + (commentPersonal);
 
-  if ($("#comment-sa").val() != "") {
-    var commentSA = $("#comment-sa").val();
-    emailData['affectSA'] = commentSA.trim();
-    commentSA = "\n\n" + (commentSA);
-  } else {
-    var commentSA = "";
-  };
+  var changesSolutions = $("#changes-solutions").val();
+  emailData['changesSolutions'] = changesSolutions.trim();
+  changesSolutions = "\n\n" + (changesSolutions);
 
   if ($(".support .toggle-select.selected").attr("id") == "no") {
     var emailSubject = "I do not support the motion on land expropriation without compensation";
   }
   else if ($(".support .toggle-select.selected").attr("id") == "yes") {
     var emailSubject = "I support the motion on land expropriation without compensation";
+  };
+
+  if ($(".barrier .toggle-select.selected").attr("id") == "no") {
+    var section25Barrier = "\nI do not think section 25 is a barrier to transforming apartheid land inequality.";
+  }
+  else if ($(".barrier .toggle-select.selected").attr("id") == "yes") {
+    var section25Barrier = "\nI think section 25 is a barrier to transforming apartheid land inequality.";
+  };
+
+  if ($(".barrier .toggle-select.selected").attr("id") == "no") {
+    var suggestions = "\n\n<b>Solutions to fast track land reform</b>";
+  }
+  else if ($(".barrier .toggle-select.selected").attr("id") == "yes") {
+    var suggestions = "\n\n<b>How section 25 should be changed</b>";
   };
 
   if ($(".appear .toggle-select.selected").attr("id") == "no") {
@@ -193,7 +241,7 @@ $("#previewEmail").click(function(e) {
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  emailTxt = "Dear Chairperson,\n\nI want to let you know that " + emailSubject + "." + commentPersonal + commentSA + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
+  emailTxt = "Dear Chairperson,\n\nI want to let you know that " + emailSubject + "." + "\n\n<strong>How the law would affect me</strong>" + commentPersonal + suggestions + section25Barrier + changesSolutions + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   $("#comment-preview").html(emailHtml);
