@@ -114,7 +114,7 @@ function followUpQuestion() {
         answer: a,
       },
       success: function(data) {
-        console.info("success", data);
+        console.info(data);
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error(jqXHR, textStatus, errorThrown, jqXHR.responseText);
