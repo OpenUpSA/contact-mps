@@ -207,7 +207,7 @@ $("#previewEmail").click(function(e) {
 
   var changesSolutions = $("#changes-solutions").val();
   emailData['changesSolutions'] = changesSolutions.trim();
-  changesSolutions = "\n\n" + (changesSolutions);
+  changesSolutions = "\n" + (changesSolutions);
 
   if ($(".support .toggle-select.selected").attr("id") == "no") {
     var emailSubject = "I do not support the motion on land expropriation without compensation";
@@ -217,17 +217,17 @@ $("#previewEmail").click(function(e) {
   };
 
   if ($(".barrier .toggle-select.selected").attr("id") == "no") {
-    var section25Barrier = "\nI do not think section 25 is a barrier to transforming apartheid land inequality.";
+    var section25Barrier = "\n\n<h4>I do not think section 25 is a barrier to transforming apartheid land inequality</h4>";
   }
   else if ($(".barrier .toggle-select.selected").attr("id") == "yes") {
-    var section25Barrier = "\nI think section 25 is a barrier to transforming apartheid land inequality.";
+    var section25Barrier = "\n\n<h4>I think section 25 is a barrier to transforming apartheid land inequality</h4>";
   };
 
   if ($(".barrier .toggle-select.selected").attr("id") == "no") {
-    var suggestions = "\n\n<b>Solutions to fast track land reform</b>";
+    var suggestions = "\n<b>Solutions to fast track land reform</b>";
   }
   else if ($(".barrier .toggle-select.selected").attr("id") == "yes") {
-    var suggestions = "\n\n<b>How section 25 should be changed</b>";
+    var suggestions = "\n<b>How section 25 should be changed</b>";
   };
 
   if ($(".appear .toggle-select.selected").attr("id") == "no") {
@@ -241,7 +241,7 @@ $("#previewEmail").click(function(e) {
   $("#email").text(senderEmail);
   $("#email-title").text(emailSubject);
 
-  emailTxt = "Dear Chairperson,\n\nI want to let you know that " + emailSubject + "." + "\n\n<b>How the law would affect me</b>" + commentPersonal + suggestions + section25Barrier + changesSolutions + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
+  emailTxt = "Dear Chairperson,\n\nI want to let you know that " + emailSubject + "." + "\n\n<b>How the law would affect me</b>" + commentPersonal + section25Barrier + suggestions + changesSolutions + senderAppear + "\n\nYou requested submissions on the review of section 25 of the Constitution. Please take my opinion into consideration.\n\nKind regards,\n" + senderName;
   emailHtml = emailTxt.replace(/\n/g, '<br/>');
 
   $("#comment-preview").html(emailHtml);
