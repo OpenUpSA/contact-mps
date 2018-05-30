@@ -168,6 +168,9 @@ class Email(models.Model):
     # This makes no promises about keys being present from one email to another.
     any_data = JSONField()
     campaign = models.ForeignKey(Campaign, related_name='emails')
+    is_moderated = models.BooleanField(default=False, help_text='Has the submission been moderated')
+    is_sent = models.BooleanField(default=False, help_text="Has the submission been sent")
+
 
     @property
     def body_html(self):
@@ -223,6 +226,7 @@ class Email(models.Model):
             email.attach_alternative(body_html, "text/html")
             email.send()
         self.to_addresses = ", ".join(recipients)
+        self.is_sent = True
         self.save()
 
     def __unicode__(self):
