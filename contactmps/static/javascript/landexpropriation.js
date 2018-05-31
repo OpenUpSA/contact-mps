@@ -77,6 +77,10 @@ var questions = [
     a: ["Yes", "No"],
   },
   {
+    q: "Can your submission be made public? (The content only, not your name or other personal details)",
+    a: ["Yes", "No"],
+  },
+  {
     q: "Which province do you live in?",
     a: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "Limpopo", "Mpumalanga", "North West", "Northern Cape", "Western Cape"],
   }, {
