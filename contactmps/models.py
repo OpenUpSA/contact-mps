@@ -170,6 +170,7 @@ class Email(models.Model):
     campaign = models.ForeignKey(Campaign, related_name='emails')
     is_moderated = models.BooleanField(default=False, help_text='Has the submission been moderated')
     is_sent = models.BooleanField(default=False, help_text="Has the submission been sent")
+    moderation_passed = models.BooleanField(default=False, help_text="moderation outcome")
 
 
     @property
