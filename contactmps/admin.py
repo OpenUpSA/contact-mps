@@ -43,7 +43,7 @@ class EmailAdmin(admin.ModelAdmin):
 
         writer.writerow(field_names)
         for obj in queryset:
-            row = writer.writerow([getattr(obj, field.encode("utf8")) for field in field_names])
+            row = writer.writerow([getattr(obj, field.encode("utf-8")) for field in field_names])
 
         return response
     export_as_csv.short_description = 'Export as csv'
