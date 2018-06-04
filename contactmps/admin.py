@@ -25,6 +25,9 @@ class ContactDetailAdmin(admin.ModelAdmin):
 
 class EmailAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
+    list_filter = ('created_at', 'campaign')
+    list_display = ('from_email', 'to_addresses', 'created_at',
+                    'is_sent', 'is_moderated')
 
 
 admin.site.site_header = 'Contact Parliament administration'
