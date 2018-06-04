@@ -1,3 +1,6 @@
+import csv
+
+from django.http import HttpResponse
 from django.contrib import admin
 
 from .models import (
@@ -25,9 +28,26 @@ class ContactDetailAdmin(admin.ModelAdmin):
 
 class EmailAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
-    list_filter = ('created_at', 'campaign')
+    list_filter = ('created_at', 'campaign', 'is_endorsed')
     list_display = ('from_email', 'to_addresses', 'created_at',
-                    'is_sent', 'is_moderated')
+                    'is_sent', 'is_moderated', 'is_endorsed')
+    actions = ['export_as_csv']
+
+    def export_as_csv(self, request, queryset):
+        meta = self.model._meta
+        field_names = [field.name for field in meta.fields]
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        writer = csv.writer(response)
+
+        writer.writerow(field_names)
+        for obj in queryset:
+            row = writer.writerow([getattr(obj, field) for field in field_names])
+
+        return response
+    export_as_csv.short_description = 'Export as csv'
+
 
 
 admin.site.site_header = 'Contact Parliament administration'
