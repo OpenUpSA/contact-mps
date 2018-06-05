@@ -1,4 +1,5 @@
 import csv
+import xlwt
 
 from django.http import HttpResponse
 from django.contrib import admin
@@ -37,13 +38,21 @@ class EmailAdmin(admin.ModelAdmin):
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
 
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
-        writer = csv.writer(response)
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="emails.xls"'
+        work_book = xlwt.Workbook(encoding='utf-8')
+        work_sheet = work_book.add_sheet("Emails Submissions")
+        row_num = 0
+        for col_num in range(len(field_names)):
+            work_sheet.write(row_num, col_num, field_names[col_num])
 
-        writer.writerow(field_names)
-        for obj in queryset:
-            row = writer.writerow([getattr(obj, field).encode("utf-8") for field in field_names])
+        for obj in queryset.values_list():
+            row_num += 1
+            for col_num in range(len(obj)):
+                work_sheet.write(row_num,
+                                 col_num,
+                                 str(obj[col_num]))
+        work_book.save(response)
 
         return response
     export_as_csv.short_description = 'Export as csv'
