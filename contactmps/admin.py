@@ -1,5 +1,5 @@
-import csv
 import xlwt
+import datetime
 
 from django.http import HttpResponse
 from django.contrib import admin
@@ -49,9 +49,18 @@ class EmailAdmin(admin.ModelAdmin):
         for obj in queryset.values_list():
             row_num += 1
             for col_num in range(len(obj)):
-                work_sheet.write(row_num,
-                                 col_num,
-                                 unicode(str(obj[col_num]), 'utf8'))
+                if isinstance(obj[col_num], datetime.datetime):
+                    work_sheet.write(row_num,
+                                     col_num,
+                                     str(obj[col_num]))
+                elif isinstance(obj[col_num], dict):
+                    work_sheet.write(row_num,
+                                     col_num,
+                                     str(obj[col_num]))
+                else:
+                    work_sheet.write(row_num,
+                                     col_num,
+                                     obj[col_num])
         work_book.save(response)
 
         return response
