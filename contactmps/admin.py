@@ -51,7 +51,7 @@ class EmailAdmin(admin.ModelAdmin):
             for col_num in range(len(obj)):
                 work_sheet.write(row_num,
                                  col_num,
-                                 str(obj[col_num]).encode('utf-8'))
+                                 unicode(str(obj[col_num]), 'utf8'))
         work_book.save(response)
 
         return response
