@@ -32,9 +32,9 @@ class EmailAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'campaign', 'moderation_passed')
     list_display = ('from_email', 'to_addresses', 'created_at',
                     'is_sent', 'is_moderated', 'moderation_passed')
-    actions = ['export_as_csv']
+    actions = ['export_as_excel']
 
-    def export_as_csv(self, request, queryset):
+    def export_as_excel(self, request, queryset):
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
 
@@ -64,7 +64,7 @@ class EmailAdmin(admin.ModelAdmin):
         work_book.save(response)
 
         return response
-    export_as_csv.short_description = 'Export as csv'
+    export_as_excel.short_description = 'Export as excel'
 
 
 
