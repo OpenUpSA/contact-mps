@@ -44,7 +44,9 @@ class SenderQAQuestionFilter(admin.SimpleListFilter):
 
 class SenderQAAdmin(admin.ModelAdmin):
     readonly_fields = ['question', 'question']
-    list_filter = ('email__campaign', SenderQAQuestionFilter)
+    list_filter = ('email__campaign',
+                   'email__moderation_passed',
+                   SenderQAQuestionFilter)
     list_display = ('from_email', 'from_name', 'question', 'answer')
     list_select_related = ('email', )
     actions = ['export_as_excel']
