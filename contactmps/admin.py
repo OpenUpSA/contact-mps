@@ -3,6 +3,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from .models import (
     Campaign,
@@ -27,9 +28,23 @@ class ContactDetailAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
 
 
+class SenderQAQuestionFilter(admin.SimpleListFilter):
+    title = _('Question')
+    parameter_name = 'question'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('make_contact', _('Can be Contacted')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'make_contact':
+            return queryset.filter(answer='Yes')
+
+
 class SenderQAAdmin(admin.ModelAdmin):
     readonly_fields = ['question', 'question']
-    list_filter = ('email__campaign', )
+    list_filter = ('email__campaign', SenderQAQuestionFilter)
     list_display = ('from_email', 'from_name', 'question', 'answer')
     list_select_related = ('email', )
     actions = ['export_as_excel']
