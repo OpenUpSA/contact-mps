@@ -3,6 +3,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from .models import (
     Campaign,
@@ -27,6 +28,55 @@ class ContactDetailAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
 
 
+class SenderQAQuestionFilter(admin.SimpleListFilter):
+    title = _('Question')
+    parameter_name = 'question'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('make_contact', _('Can be Contacted')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'make_contact':
+            return queryset.filter(answer='Yes')
+
+
+class SenderQAAdmin(admin.ModelAdmin):
+    readonly_fields = ['question', 'question']
+    list_filter = ('email__campaign', SenderQAQuestionFilter)
+    list_display = ('from_email', 'from_name', 'question', 'answer')
+    list_select_related = ('email', )
+    actions = ['export_as_excel']
+
+    def from_email(self, obj):
+        return obj.email.from_email
+
+    def from_name(self, obj):
+        return obj.email.from_name
+
+    def export_as_excel(self, request, queryset):
+        field_names = ['Email', 'Name', 'Question', 'Answer']
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="emails.xls"'
+        work_book = xlwt.Workbook(encoding='utf-8')
+        work_sheet = work_book.add_sheet("Extra Submission Answers")
+        row_num = 0
+        for col_num in range(len(field_names)):
+            work_sheet.write(row_num, col_num, field_names[col_num])
+
+        for obj in queryset.select_related('email'):
+            row_num += 1
+            work_sheet.write(row_num, 0, obj.email.from_email)
+            work_sheet.write(row_num, 1, obj.email.from_name)
+            work_sheet.write(row_num, 2, obj.question)
+            work_sheet.write(row_num, 3, obj.answer)
+        work_book.save(response)
+        return response
+
+    export_as_excel.short_description = 'Export as Excel'
+
+
 class EmailAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     list_filter = ('created_at', 'campaign', 'moderation_passed',
@@ -38,7 +88,6 @@ class EmailAdmin(admin.ModelAdmin):
     def export_as_excel(self, request, queryset):
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
-
         response = HttpResponse(content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="emails.xls"'
         work_book = xlwt.Workbook(encoding='utf-8')
@@ -69,6 +118,7 @@ class EmailAdmin(admin.ModelAdmin):
 
 
 
+
 admin.site.site_header = 'Contact Parliament administration'
 
 admin.site.register(Campaign)
@@ -76,4 +126,4 @@ admin.site.register(Committee, admin.ModelAdmin)
 admin.site.register(ContactDetail, ContactDetailAdmin)
 admin.site.register(Email, EmailAdmin)
 admin.site.register(Entity, EntityAdmin)
-admin.site.register(SenderQA)
+admin.site.register(SenderQA, SenderQAAdmin)
