@@ -39,7 +39,8 @@ class SenderQAQuestionFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == 'make_contact':
-            return queryset.filter(answer='Yes')
+            return queryset.filter(answer='Yes',
+                                   question='Are you willing to be contacted by a journalist to elaborate on your answers?')
 
 
 class SenderQAAdmin(admin.ModelAdmin):
