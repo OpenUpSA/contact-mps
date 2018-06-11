@@ -285,7 +285,7 @@ def robots(request):
     ]
     lines = []
     for ua in user_agents:
-        lines.extend(["", "User-agent: %s" % ua, "Disallow: /"])
+        lines.extend(["", "User-agent: %s" % ua, "Disallow: /email/"])
     lines.extend([
         "", "User-agent: *", "Allow: /",
         "", "User-agent: Twitterbot", "Disallow:",
