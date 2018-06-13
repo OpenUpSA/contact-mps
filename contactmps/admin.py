@@ -81,6 +81,20 @@ class SenderQAAdmin(admin.ModelAdmin):
 
 
 class EmailAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('subject', 'body_txt', 'is_moderated',
+                       'moderation_passed')
+        }),
+        ('Advanced options', {
+            'classes': ('collapse',),
+            'fields': ('to_entity', 'to_addresses', 'remote_ip',
+                       'user_agent', 'from_name', 'from_email',
+                       'created_at', 'updated_at', 'secure_id',
+                       'sender_secret', 'any_data', 'campaign',
+                       'is_sent')
+        })
+    )
     readonly_fields = ['created_at', 'updated_at']
     list_filter = ('created_at', 'campaign', 'moderation_passed',
                    'is_moderated')
