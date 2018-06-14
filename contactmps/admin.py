@@ -1,5 +1,6 @@
 import xlwt
 import datetime
+from django.contrib.sites.shortcuts import get_current_site
 
 from django.http import HttpResponse
 from django.contrib import admin
@@ -100,7 +101,16 @@ class EmailAdmin(admin.ModelAdmin):
                    'is_moderated')
     list_display = ('from_email', 'to_addresses', 'created_at',
                     'is_sent', 'is_moderated', 'moderation_passed')
-    actions = ['export_as_excel']
+    actions = ['export_as_excel', 'send_email']
+
+    def send_email(self, request, queryset):
+        """
+        Send all the emails
+        """
+        site = get_current_site(request)
+        for obj in queryset.filter(is_sent=False):
+            obj.send(site)
+    send_email.short_description = 'Send Emails'
 
     def export_as_excel(self, request, queryset):
         meta = self.model._meta
@@ -129,7 +139,6 @@ class EmailAdmin(admin.ModelAdmin):
                                      col_num,
                                      obj[col_num])
         work_book.save(response)
-
         return response
     export_as_excel.short_description = 'Export as excel'
 
