@@ -451,3 +451,14 @@ ul.choose-one {
     margin-bottom: 30px;
   }
 }
+
+.more-openup {
+  img {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    &:hover {
+      box-shadow: $shadow;
+    }
+  }
+}
