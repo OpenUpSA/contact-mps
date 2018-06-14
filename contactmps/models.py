@@ -211,21 +211,22 @@ class Email(models.Model):
                     reverse('email-detail', kwargs={'secure_id': self.secure_id}),
                 )
                 body_txt = "%s\n\nThis message can also be viewed at %s" % (self.body_txt, url)
-                body_html = "%s<br><br>This message can also be viewed at <a href=\"%s\">%s</a>" % (
-                    self.body_html, url, url)
+                # body_html = "%s<br><br>This message can also be viewed at <a href=\"%s\">%s</a>" % (
+                #     self.body_html, url, url)
             else:
                 body_txt = self.body_txt
-                body_html = self.body_html
+                # body_html = self.body_html
 
+            body_no_tags_txt = re.sub('\\<\w+\\>|\\</\w+\\>', '', body_txt)
             email = EmailMultiAlternatives(
                 self.subject,
-                body_txt,
+                body_no_tags_txt,
                 sender,
                 recipients,
                 cc=[sender],
             )
-            email.attach_alternative(body_html, "text/html")
-            email.content_subtype = 'html'
+            # email.attach_alternative(body_html, "text/html")
+            # we are just sending plain text for now.
             email.send()
         self.to_addresses = ", ".join(recipients)
         self.is_sent = True
