@@ -225,6 +225,7 @@ class Email(models.Model):
                 cc=[sender],
             )
             email.attach_alternative(body_html, "text/html")
+            email.content_subtype = 'html'
             email.send()
         self.to_addresses = ", ".join(recipients)
         self.is_sent = True
