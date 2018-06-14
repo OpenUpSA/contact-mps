@@ -451,3 +451,23 @@ ul.choose-one {
     margin-bottom: 30px;
   }
 }
+
+.more-openup {
+  img {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    &:hover {
+      box-shadow: $shadow;
+    }
+  }
+  .single-more-openup {
+    max-width: 135px;
+  }
+  @media (max-width: 300px) {
+    .single-more-openup {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}
