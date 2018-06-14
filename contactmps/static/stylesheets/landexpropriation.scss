@@ -461,4 +461,13 @@ ul.choose-one {
       box-shadow: $shadow;
     }
   }
+  .single-more-openup {
+    max-width: 135px;
+  }
+  @media (max-width: 300px) {
+    .single-more-openup {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
 }
