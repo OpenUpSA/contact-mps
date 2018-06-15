@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% load strip_qs pipeline staticfiles %}
 
-{% block title %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
-{% block og_title %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
-{% block tweet %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
+{% block title %}{{ email.from_name }} wrote {{ email.to_entity.name }} to comment on land expropriation without compensation{% endblock %}
+{% block og_title %}{{ email.from_name }} wrote {{ email.to_entity.name }} to comment on land expropriation without compensation{% endblock %}
+{% block tweet %}{{ email.from_name }} wrote {{ email.to_entity.name }} to comment on land expropriation without compensation{% endblock %}
 
 {% block head-css %}
   {{ block.super }}
@@ -28,7 +28,7 @@
         <td>{{ email.subject }}</td>
       </tr>
     </table>
-    <div>{{ email.body_html|safe }}</div>
+    <div id="sent-email-text">{{ email.body_html|safe }}</div>
   </div>
   {% endblock content %}
 
@@ -40,6 +40,13 @@
   {% javascript "js-landexpropriation" %}
   {% endblock %}
 
+  {% block attribution_heading %}
+  {% endblock attribution_heading %}
+
   {% block attribution %}
+  <section class="attribution">
+    <a target="_blank" href="https://openup.org.za"><img src="/static/images/openup-logo-light.svg"></a>
+    <a target="_blank" href="https://pmg.org.za"><img src="/static/images/pmg-logo.png"></a>
+  </section>
   {% endblock attribution %}
 </div>
