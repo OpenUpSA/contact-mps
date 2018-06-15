@@ -98,7 +98,7 @@ class EmailAdmin(admin.ModelAdmin):
     )
     readonly_fields = ['created_at', 'updated_at']
     list_filter = ('created_at', 'campaign', 'moderation_passed',
-                   'is_moderated')
+                   'is_moderated', 'is_sent')
     list_display = ('from_email', 'to_addresses', 'created_at',
                     'is_sent', 'is_moderated', 'moderation_passed')
     actions = ['export_as_excel', 'send_email']
