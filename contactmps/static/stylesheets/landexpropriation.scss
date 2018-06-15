@@ -138,6 +138,7 @@ textarea, input {
 }
 
 #landexpropriation-build-message {
+  display: none;
   padding-bottom: 40px;
   .landexpropriation-page {
     background-color: #fff;
@@ -479,4 +480,9 @@ ul.choose-one {
       padding-right: 15px;
     }
   }
+}
+
+#submissions-closed {
+  text-align: center;
+  margin-bottom: 70px;
 }
