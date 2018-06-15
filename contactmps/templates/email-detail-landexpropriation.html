@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% load strip_qs pipeline staticfiles %}
 
-{% block title %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
-{% block og_title %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
-{% block tweet %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
+{% block title %}{{ email.from_name }} wrote an open letter to {{ email.to_entity.name }}{% endblock %}
+{% block og_title %}{{ email.from_name }} wrote an open letter to {{ email.to_entity.name }}{% endblock %}
+{% block tweet %}{{ email.from_name }} wrote an open letter to {{ email.to_entity.name }}{% endblock %}
 
 {% block head-css %}
   {{ block.super }}
@@ -32,20 +32,8 @@
   </div>
   {% endblock content %}
 
-  {% block social_sharing %}
-  <div class="social-sharing">
-    {% if is_mobile %}
-    <a href="whatsapp://send?text={% block whatsapp_msg %}{{ SITE_DESCRIPTION|urlencode }}%20{{ BASE_URL|urlencode }}{{ request.path|urlencode }}wa/{% endblock whatsapp_msg %}" data-action="share/whatsapp/share"><img src="{% static 'images/whatsapp-logo.png' %}" alt="WhatsApp" height="32"></a>
-    {% endif %}
-  </div>
-  {% endblock social_sharing %}
-
   {% block js %}
   {{ block.super }}
   {% javascript "js-landexpropriation" %}
   {% endblock %}
-
-  {% block attribution %}
-  {% include '_attribution_landexpropriation.html' %}
-  {% endblock attribution %}
 </div>
