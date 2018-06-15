@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% load strip_qs pipeline staticfiles %}
 
-{% block title %}{{ email.from_name }} wrote an open letter to {{ email.to_entity.name }}{% endblock %}
-{% block og_title %}{{ email.from_name }} wrote an open letter to {{ email.to_entity.name }}{% endblock %}
-{% block tweet %}{{ email.from_name }} wrote an open letter to {{ email.to_entity.name }}{% endblock %}
+{% block title %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
+{% block og_title %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
+{% block tweet %}{{ email.from_name }} wrote an open letter to Hon. Member {{ email.to_entity.name }} in Parliament{% endblock %}
 
 {% block head-css %}
   {{ block.super }}
@@ -32,8 +32,14 @@
   </div>
   {% endblock content %}
 
+  {% block social_sharing %}
+  {% endblock social_sharing %}
+
   {% block js %}
   {{ block.super }}
   {% javascript "js-landexpropriation" %}
   {% endblock %}
+
+  {% block attribution %}
+  {% endblock attribution %}
 </div>
