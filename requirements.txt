@@ -8,7 +8,7 @@ enum34==1.0.4
 futures==3.0.2
 gevent==1.2.1
 greenlet==0.4.12
-gunicorn==19.2.1
+gunicorn==19.5.0
 idna==2.5
 pathlib==1.0.1
 psycopg2==2.7.3.2
